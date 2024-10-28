@@ -44,11 +44,11 @@ export default function LoginScreen({ navigation }) {
 
             {/* <View style={styles.contentFrame}> */}
 
-            {/* <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
+            <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
                 style={styles.transparentButton}
                 onPress={() => navigation.navigate('QrCodeScanner')} >
                 <Text style={styles.inputText}>Je scanne un QR Code</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
             <View style={styles.inputContainer}>
                 <TextInput //champ d'input email
