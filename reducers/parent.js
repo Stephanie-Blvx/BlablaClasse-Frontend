@@ -11,10 +11,13 @@ export const parentSlice = createSlice({
     login: (state, action) => {
       state.value.token = action.payload.token;
       state.value.email = action.payload.email;
+      state.value.kidsinfo = action.payload.kids;
     },
     logout: (state) => {
       state.value.token = null;
       state.value.email = null;
+      state.value.kidsinfo = [];
+
     },
   },
 });
