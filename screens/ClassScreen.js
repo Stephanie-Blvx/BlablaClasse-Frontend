@@ -1,49 +1,65 @@
-import { Image, KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity, ScrollView} from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {CheckBox} from 'react-native';
+import { globalStyles } from '../styles/globalStyles';
+
 
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     const [isChecked, setIsChecked] = useState(post.isRead); 
+
 
     const handleCheckboxChange = (newValue) => {
         setIsChecked(newValue); // Mettre à jour l’état local de la checkbox
         onToggleReadStatus(postId, newValue); // Appeler la fonction pour mettre à jour dans la DB
     };
 
+    //Mapping pour rendu temporaire des images en fonction du post. Prévoir de mettre les images sur Cloudinary.
+    const imageMapping = {
+        "assets/photos/sortie-vélo.jpg": require('../assets/photos/sortie-vélo.jpg'),
+        "assets/photos/sortie-piscine.jpg": require('../assets/photos/sortie-piscine.jpg'),
+        "assets/photos/sortie-louvre.jpg": require('../assets/photos/sortie-louvre.jpg'),
+        "assets/photos/journée-dodo.jpg": require('../assets/photos/journée-dodo.jpg'),
+    };
+
     return (
-        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#d1e7dd' : '#f9f9f9' }]}>
+        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#8DBFA9' : '#F9F2D9' }]}>
             <Image
                 source={'/assets/avatar-1.jpg'}
                 style={styles.avatar}
             />
             <View style={styles.messageContentContainer}>
-            <Text>{post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}</Text>
+                <Text styles={styles.messageInfos}>{post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}</Text>
+                <Text styles={styles.title2}>{post.title}</Text>
                 <Text style={styles.messageContent}>{post.content}</Text>
+                {post.images.map((imagePath, index) => (
+                    <Image key={index} source={imageMapping[imagePath]} style={styles.image} />
+                ))}
+            </View>
                 <CheckBox
                     value={isChecked}
                     onValueChange={handleCheckboxChange}
                     style={styles.checkbox}
                 />
-            </View>
         </View>
     );
 };
 
 export default function ClassScreen() {
     const [posts, setPosts] = useState([]);
-    const [childName, setChildName] = useState('Lucas'); // A CORRIGER POUR METTRE EN DYNAMIQUE
+    const parent = useSelector((state) => state.parent.value);
+    const childName = parent.kids[0].firstname;
+
+    
 
     // Fetch des posts dans la db
     const fetchPosts = () => {
-        fetch('http://localhost:3000/posts')
+        fetch('http://localhost/posts')
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
-                   
-
-                    console.log(data.posts)
-                    setPosts(data.posts); 
-
+                    const sortedPosts = data.posts.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+                    setPosts(sortedPosts); 
                 } else {
                     console.error(data.error);
                 }
@@ -53,22 +69,6 @@ export default function ClassScreen() {
     // appeler fetchPosts dès le premier rendu de la page
     useEffect(() => {
         fetchPosts();
-    }, []);
-
-    const fetchTeacher = () => {
-        fetch('http://localhost:3000/posts')
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.result) {
-                res.json({ Teacher: data}) 
-            } else {
-                console.error(data.error);
-            }
-        });
-        
-    }
-    useEffect(() => {
-        fetchTeacher();
     }, []);
 
     // Mise à jour de isRead dans la db
@@ -88,10 +88,11 @@ export default function ClassScreen() {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View>
-                <Text style={styles.header}>Classe de {childName}</Text>
+                <Text style={globalStyles.title}>Classe de {childName}</Text>
             </View>
+            <ScrollView>
             <View>
                 {posts.map((post) => (
                     <MessageWithCheckbox
@@ -102,6 +103,7 @@ export default function ClassScreen() {
                     />
                 ))}
             </View>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 }
@@ -121,6 +123,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center', 
         padding: 10,
+        marginHorizontal: 10,
         marginVertical: 5,
         backgroundColor: '#f9f9f9',
         borderRadius: 5,
@@ -139,7 +142,17 @@ const styles = StyleSheet.create({
     messageContent: {
         fontSize: 14,
     },
+    checkboxContainer: {
+        justifyContent: 'center', 
+        paddingHorizontal: 8,
+    },
     checkbox: {
         alignSelf: 'center',
+    },
+    image: {
+        width: '80%', 
+        height: 200, 
+        resizeMode: 'cover', 
+        borderRadius: 5,
     },
 });
