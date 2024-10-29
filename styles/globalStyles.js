@@ -29,4 +29,22 @@ title: {
     marginBottom: 20, // Espacement sous le titre
     textAlign: 'center', // Centre le texte du titre
 },
+dividerContainer: {
+  flexDirection: 'row', 
+  alignItems: 'center', 
+  marginVertical: 20,
+},
+line: {
+  flex: 1,
+  height: 1,
+  backgroundColor: '#000',
+  marginHorizontal: 10, 
+},
+orText: {
+  textAlign: 'center',
+  marginVertical: 10,
+  fontSize: 16,
+  color: '#000',
+},
+
 });
