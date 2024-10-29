@@ -39,12 +39,7 @@ export default function ClassScreen() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
-<<<<<<< HEAD
                     setPosts(data.posts);
-=======
-                    console.log(data.posts)
-                    setPosts(data.posts); 
->>>>>>> StagingFrontGabriel
                 } else {
                     console.error(data.error);
                 }
