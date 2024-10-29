@@ -22,7 +22,7 @@ export default function LoginScreen({ navigation }) {
         if (!emailRegex.test(email)) { setIsValidEmail(false); return; }
         fetch (`${BACKEND_ADDRESS}/parents/signin`,  // fetch route parents/signin
 
-          {method:"POST",  
+          {method:"POST",   
           headers:{'Content-Type':'application/json'}, 
           body: JSON.stringify({ 
             email: email,
