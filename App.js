@@ -16,14 +16,16 @@ import TchatScreen from './screens/TchatScreen';
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import event from './reducers/event';
 import parent from './reducers/parent';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const store = configureStore({
-  reducer: {
-    parent,
+  reducer: { event,
+    parent
   },
 });
 
