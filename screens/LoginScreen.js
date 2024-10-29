@@ -1,5 +1,13 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, RegExp, TouchableOpacity} from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity} from 'react-native';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from '../reducers/parent.js';
+
+const BACKEND_ADDRESS = 'http://192.168.5.28:3000'; //-------> url Backend
+
+
+// email Regex
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default function LoginScreen({ navigation }) {
 
@@ -7,25 +15,30 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('');
     const [isValidEmail, setIsValidEmail] = useState(true);
 
-
+    const dispatch = useDispatch();
+    const parent = useSelector((state) => state.parent.value);
+      
     function handleConnexion() {
-        fetch ("http:.../signin",  // fetch route login
+        if (!emailRegex.test(email)) { setIsValidEmail(false); return; }
+        fetch (`${BACKEND_ADDRESS}/parents/signin`,  // fetch route parents/signin
 
-          {method:"POST",  
+          {method:"POST",   
           headers:{'Content-Type':'application/json'}, 
           body: JSON.stringify({ 
             email: email,
-            password : 'A COMPLETER', // compléter password
+            password : password, 
           })
         })
           .then (response=>response.json()) 
-          .then (dbData=>{  console.log("dbData",dbData) ; 
-
-                            if (dbData) {navigation.navigate("TabNavigator")}; // à affiner
-          });
-        
-    };
-
+          .then (dbData=>{  console.log("dbData",dbData) ; // afficher la réponse de la route / dataBase
+                            if (!dbData.result){setIsValidEmail(false)} //si result : false, message erreur email
+                            
+                            else {console.log(dbData);
+                                dispatch(login({token:dbData.token, email:dbData.email})); //si result = OK, MàJ reducer "parent" avec token et firstname
+                                navigation.navigate('TabNavigator')}
+                            })
+        };
+        console.log("parent",parent);
     //-------------------------------------------------JSX------------------------------------------
     return (
         // contenu de la page = mainContainer
@@ -39,12 +52,12 @@ export default function LoginScreen({ navigation }) {
             </View>
 
             {/* contenu sous le titre = contentFrame */}
-
             {/* <View style={styles.contentFrame}> */}
 
             <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
                 style={styles.transparentButton}
-                onPress={() => navigation.navigate('QrCodeScanner')} >
+                // onPress={() => navigation.navigate('QRCodeScanner')} //naviguer vers page QRCodeScanner lorsqu'on l'aura
+                >
                 <Text style={styles.inputText}>Je scanne un QR Code</Text>
             </TouchableOpacity>
 
@@ -61,7 +74,7 @@ export default function LoginScreen({ navigation }) {
                 />
             </View>
 
-            {!isValidEmail && <Text style={styles.error}>Invalid email address</Text>}
+            {!isValidEmail && <Text style={styles.error}>Invalid email address or password</Text>}
 
             <View style={styles.inputContainer}>
                 <TextInput //champ d'input password
@@ -95,7 +108,7 @@ const styles = StyleSheet.create({
     titleFrame: {
         flex: 0.2,
         fontSize: 30,
-        fontWeight: '200', // Le poids de la police doit être une chaîne
+        fontWeight: '200',
         borderBottomWidth: 1,
         borderBottomColor: 'dimgrey',
         margin: 50,
@@ -106,7 +119,7 @@ const styles = StyleSheet.create({
     transparentButton: {
         width: '90%',
         backgroundColor: 'white',
-        borderWidth: 1, // Corrigé de "borderwidth" à "borderWidth"
+        borderWidth: 1, 
         borderColor: "#696969",
         paddingHorizontal: 50,
         alignItems: 'center',
@@ -116,11 +129,7 @@ const styles = StyleSheet.create({
         color: 'red',
     },
     inputText: {
-        borderWidth: 1,
-        borderColor: '#696969',
-        height: 40,
-        width: 350,
-        padding: 10,
+                padding: 10,
     },
     inputContainer: {
         borderWidth: 1,
@@ -131,18 +140,13 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         paddingTop: 8,
-        width: '20%',
+        width: '80%',
         margin: 30,
         backgroundColor: '#69AFAC',
         borderRadius: 5,
+        color: 'white'
     },
 });
 
-
-    // texteAccueil: {
-    //     width: '80%',
-    //     fontSize: 50,
-    //     textAlign: 'center',
-    // },
 
 
