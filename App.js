@@ -9,6 +9,8 @@ import ClassScreen from './screens/ClassScreen';
 import LoginScreen from './screens/LoginScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import TchatScreen from './screens/TchatScreen';
+// import QRreaderScreen from '../../QRreaderScreen.js'
+
 import parent from './reducers/parent.js'
 
 import { Provider } from 'react-redux';
@@ -59,9 +61,10 @@ export default function App() {
 <Provider store={store}> 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
-      </Stack.Navigator>
+        {/* <Stack.Screen name="QRreader" component={QRreaderScreen} /> */}
+        </Stack.Navigator>
     </NavigationContainer>
     </Provider> 
   );

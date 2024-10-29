@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }) {
                             if (!dbData.result){setIsValidEmail(false)} //si result : false, message erreur email
                             
                             else {console.log(dbData);
-                                dispatch(login({token:dbData.token, email:dbData.email})); //si result = OK, MàJ reducer "parent" avec token et firstname
+                                dispatch(login({token:dbData.token, email:dbData.email, kids:dbData.kids})); //si result = OK, MàJ reducer "parent" avec token et email
                                 navigation.navigate('TabNavigator')}
                             })
         };
@@ -85,7 +85,7 @@ export default function LoginScreen({ navigation }) {
                 />
             </View>
 
-            <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
+            <TouchableOpacity //champ cliquable validation connexion
                 style={styles.button}
                 onPress={() => handleConnexion()} >
                 <Text style={styles.inputText}>Connexion</Text>
