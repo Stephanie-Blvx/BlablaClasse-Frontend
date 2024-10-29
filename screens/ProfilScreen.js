@@ -7,9 +7,9 @@ import { logout } from '../reducers/parent.js';
 
 
 // Composant principal pour l'écran de profil
-export default function ProfilScreen() {
+export default function ProfilScreen({navigation}) {
 
-
+    const dispatch = useDispatch(); // 
   // Fonction de validation du formulaire
   const handleValidation = () => {
     // Logique de validation ou envoi des données
