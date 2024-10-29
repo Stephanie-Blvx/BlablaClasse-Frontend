@@ -66,7 +66,7 @@ export default function LoginScreen({ navigation }) {
         } //si result : false, message erreur email
         else {
           console.log(dbData);
-          dispatch(login({ token: dbData.token, email: dbData.email, kids: dbData.kids})); //si result = OK, MàJ reducer "parent" avec token et email et kids
+          dispatch(login({ token: dbData.token, email: dbData.email, firstname: dbData.firstname, lastname: dbData.lastname, kids: dbData.kids})); //si result = OK, MàJ reducer "parent" avec token et email et kids
           navigation.navigate("TabNavigator");
         }
       });
@@ -131,6 +131,7 @@ export default function LoginScreen({ navigation }) {
                 onChangeText={(value) => setPassword(value)}
                 value={password}
                 placeholderTextColor="#5e5e5e8a"
+                secureTextEntry={true}
               />
               <TouchableOpacity>
                 <Text style={buttonStyles.forgotPassword}>
