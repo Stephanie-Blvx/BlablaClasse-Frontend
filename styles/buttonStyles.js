@@ -27,6 +27,25 @@ export const buttonStyles = StyleSheet.create({
     marginTop: 20,
     width: "100%",
   },
+  QRbuttonContainer: {
+    display: "flex",
+		flexDirection: "column",
+		justifyContent: "right",
+		width: "75%",
+	},
+  QRbutton: {
+		
+		padding: 20,
+		borderRadius: 10,
+		display: "flex",
+		alignItems: "center",
+		
+		margin: 10,
+    backgroundColor: "#69AFAC",
+    paddingVertical: 15,
+    borderRadius: 8,
+    
+	},
   button: {
     backgroundColor: "#69AFAC",
     paddingVertical: 15,

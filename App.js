@@ -9,9 +9,7 @@ import ClassScreen from './screens/ClassScreen';
 import LoginScreen from './screens/LoginScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import TchatScreen from './screens/TchatScreen';
-// import QRreaderScreen from '../../QRreaderScreen.js'
-
-import parent from './reducers/parent.js'
+import QRreaderScreen from './screens/QRreaderScreen.js';
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -21,13 +19,8 @@ const store = configureStore({
   reducer: { parent }, 
  }); 
 
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const store = configureStore({
-  reducer: { parent },
-});
 
 const TabNavigator = () => {
   return (
@@ -63,24 +56,15 @@ const TabNavigator = () => {
 
 export default function App() {
   return (
-<<<<<<< HEAD
 <Provider store={store}> 
-=======
-    <Provider store={store}>
->>>>>>> f3ead3bd0a8da5bdbaadcfd48e7aca156756a43f
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
-        {/* <Stack.Screen name="QRreader" component={QRreaderScreen} /> */}
+        <Stack.Screen name="QRreader" component={QRreaderScreen} />
         </Stack.Navigator>
     </NavigationContainer>
-<<<<<<< HEAD
     </Provider> 
-=======
-    </Provider>
-
->>>>>>> f3ead3bd0a8da5bdbaadcfd48e7aca156756a43f
   );
 }
 

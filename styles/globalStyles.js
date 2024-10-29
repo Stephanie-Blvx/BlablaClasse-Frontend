@@ -46,5 +46,18 @@ orText: {
   fontSize: 16,
   color: '#000',
 },
+QRtext: {
+  padding: 10,
+},
+QRbuttonContainer:  {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  width: "75%",
+},
+QRContainer: {
+  display: "flex",
+  alignItems: "center",
+},
 
 });

@@ -83,7 +83,7 @@ export default function LoginScreen({ navigation }) {
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
                 style={buttonStyles.transparentButton}
-                // onPress={() => navigation.navigate('QRCodeScanner')} //naviguer vers page QRCodeScanner lorsqu'on l'aura
+                onPress={() => navigation.navigate('QRreader')} //naviguer vers page QRCodeScanner
               >
                 <Text style={buttonStyles.input}>Je scanne un QR Code</Text>
               </TouchableOpacity>
