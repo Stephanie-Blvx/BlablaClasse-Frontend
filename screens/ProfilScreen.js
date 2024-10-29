@@ -31,29 +31,40 @@ export default function ProfilScreen({ navigation }) {
                                 console.log("parent déconnecté");
     };
 
-    return (
-        <SafeAreaView style={globalStyles.safeArea}>
-            {/* Modifier la couleur de la barre d'état */}
-            <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+  return (
+    <SafeAreaView style={globalStyles.safeArea}>
+      {/* Modifier la couleur de la barre d'état */}
+      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
 
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={40}>
-                <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
-                    <View style={globalStyles.container}>
-                        <Text style={globalStyles.title}>Profil</Text>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={40}
+      >
+        <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+          <View style={globalStyles.container}>
+            <Text style={globalStyles.title}>Profil</Text>
 
-                        {/* Bouton de validation du formulaire */}
-                        <View style={buttonStyles.buttonContainer}>
-                            <TouchableOpacity style={buttonStyles.button} onPress={handleValidation}>
-                                <Text style={buttonStyles.buttonText}>Profil Parent</Text>
-                            </TouchableOpacity>
-                        </View>
+            {/* Bouton de validation du formulaire */}
+            <View style={buttonStyles.buttonContainer}>
+              <TouchableOpacity
+                style={buttonStyles.button}
+                onPress={handleValidation}
+                activeOpacity={.8}
+              >
+                <Text style={buttonStyles.buttonText}>Profil Parent</Text>
+              </TouchableOpacity>
+            </View>
 
-                        <View style={buttonStyles.buttonContainer}>
-                            <TouchableOpacity style={buttonStyles.button} onPress={handleValidation}>
-                                <Text style={buttonStyles.buttonText}>Profil Enfant</Text>
-                            </TouchableOpacity>
-                        </View>
-
+            <View style={buttonStyles.buttonContainer}>
+              <TouchableOpacity
+                style={buttonStyles.button}
+                onPress={handleValidation}
+                activeOpacity={.8}
+              >
+                <Text style={buttonStyles.buttonText}>Profil Enfant</Text>
+              </TouchableOpacity>
+            </View>
 
                         <View style={buttonStyles.buttonContainer}>
                             <TouchableOpacity style={buttonStyles.button} onPress={() => handleLogout()}>

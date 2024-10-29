@@ -41,4 +41,13 @@ export const buttonStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
   },
+  forgotPassword: {
+    fontSize: 11,
+    textAlign: 'right',
+    marginBottom: 30,
+    color: '#666',
+  },
+  error: {
+    color: "red",
+  }
 });

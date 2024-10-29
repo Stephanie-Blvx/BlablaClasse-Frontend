@@ -15,6 +15,7 @@ import parent from './reducers/parent.js'
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import parent from './reducers/parent';
 
 const store = configureStore({ 
   reducer: { parent }, 
@@ -23,6 +24,10 @@ const store = configureStore({
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const store = configureStore({
+  reducer: { parent },
+});
 
 const TabNavigator = () => {
   return (
@@ -58,7 +63,11 @@ const TabNavigator = () => {
 
 export default function App() {
   return (
+<<<<<<< HEAD
 <Provider store={store}> 
+=======
+    <Provider store={store}>
+>>>>>>> f3ead3bd0a8da5bdbaadcfd48e7aca156756a43f
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
@@ -66,7 +75,12 @@ export default function App() {
         {/* <Stack.Screen name="QRreader" component={QRreaderScreen} /> */}
         </Stack.Navigator>
     </NavigationContainer>
+<<<<<<< HEAD
     </Provider> 
+=======
+    </Provider>
+
+>>>>>>> f3ead3bd0a8da5bdbaadcfd48e7aca156756a43f
   );
 }
 
