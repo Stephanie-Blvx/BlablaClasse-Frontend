@@ -1,28 +1,26 @@
-import React, { useState } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  Platform,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  StatusBar,
-} from "react-native";
-import { buttonStyles } from "../styles/buttonStyles";
-import { globalStyles } from "../styles/globalStyles";
+import React, { useState } from 'react';
+import { Text, View, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, TouchableOpacity, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import { buttonStyles } from '../styles/buttonStyles';
+import { globalStyles } from '../styles/globalStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../reducers/parent.js';
+
 
 // Composant principal pour l'écran de profil
-export default function ProfilScreen({navigation}) {
-  // États pour gérer les valeurs des champs de formulaire
+export default function ProfilScreen() {
+
 
   // Fonction de validation du formulaire
-  const handleLogOut = () => {
+  const handleValidation = () => {
     // Logique de validation ou envoi des données
-    console.log("Déconnexion");
+    console.log("Formulaire validé");
   };
+
+     // Fonction de déconnexion 
+     const handleLogout = () => {dispatch(logout());
+                                navigation.navigate('Login');
+                                console.log("parent déconnecté");
+    };
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
@@ -59,18 +57,15 @@ export default function ProfilScreen({navigation}) {
               </TouchableOpacity>
             </View>
 
-            <View style={buttonStyles.buttonContainer}>
-              <TouchableOpacity
-                style={buttonStyles.button}
-                onPress={handleLogOut}
-                activeOpacity={.8}
-              >
-                <Text style={buttonStyles.buttonText}>Deconnexion</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  );
+                        <View style={buttonStyles.buttonContainer}>
+                            <TouchableOpacity style={buttonStyles.button} onPress={() => handleLogout()}>
+                                <Text style={buttonStyles.buttonText}>Deconnexion</Text>
+                            </TouchableOpacity>
+                        </View>
+                        
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
+    );
 }

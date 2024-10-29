@@ -39,8 +39,11 @@ export default function ClassScreen() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
+                   
+
                     console.log(data.posts)
                     setPosts(data.posts); 
+
                 } else {
                     console.error(data.error);
                 }

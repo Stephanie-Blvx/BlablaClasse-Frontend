@@ -66,7 +66,7 @@ export default function LoginScreen({ navigation }) {
         } //si result : false, message erreur email
         else {
           console.log(dbData);
-          dispatch(login({ token: dbData.token, email: dbData.email })); //si result = OK, MàJ reducer "parent" avec token et firstname
+          dispatch(login({ token: dbData.token, email: dbData.email, kids: dbData.kids})); //si result = OK, MàJ reducer "parent" avec token et email et kids
           navigation.navigate("TabNavigator");
         }
       });
