@@ -19,6 +19,7 @@ export const buttonStyles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 16,
     backgroundColor: "#FFFFFF",
+    width: "100%",
   },
   inputDisabled: {
     backgroundColor: "#F0F0F0",
@@ -41,4 +42,20 @@ export const buttonStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
   },
+  forgotPassword: {
+    fontSize: 11,
+    textAlign: 'right',
+    marginBottom: 30,
+    color: '#666',
+  },
+  error: {
+    color: "red",
+  },
+  cancelButtonText: {
+    color: "#69AFAC",
+    fontSize: 11,
+    fontWeight: "600",
+    textAlign: 'center',
+    marginTop: 10,
+  }
 });
