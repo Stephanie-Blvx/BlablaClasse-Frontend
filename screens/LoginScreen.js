@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }) {
                             if (!dbData.result){setIsValidEmail(false)} //si result : false, message erreur email
                             
                             else {console.log(dbData);
-                                dispatch(login({token:dbData.token, email:dbData.email})); //si result = OK, MàJ reducer "parent" avec token et firstname
+                                dispatch(login({token:dbData.token, email:dbData.email, children: dbData.children})); //si result = OK, MàJ reducer "parent" avec token et firstname
                                 navigation.navigate('TabNavigator')}
                             })
         };
