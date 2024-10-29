@@ -1,8 +1,9 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity} from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity, ScrollView} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {CheckBox} from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
+
 
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     const [isChecked, setIsChecked] = useState(post.isRead); 
@@ -13,6 +14,14 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
         onToggleReadStatus(postId, newValue); // Appeler la fonction pour mettre à jour dans la DB
     };
 
+    //Mapping pour rendu temporaire des images en fonction du post. Prévoir de mettre les images sur Cloudinary.
+    const imageMapping = {
+        "assets/photos/sortie-vélo.jpg": require('../assets/photos/sortie-vélo.jpg'),
+        "assets/photos/sortie-piscine.jpg": require('../assets/photos/sortie-piscine.jpg'),
+        "assets/photos/sortie-louvre.jpg": require('../assets/photos/sortie-louvre.jpg'),
+        "assets/photos/journée-dodo.jpg": require('../assets/photos/journée-dodo.jpg'),
+    };
+
     return (
         <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#8DBFA9' : '#F9F2D9' }]}>
             <Image
@@ -20,8 +29,12 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
                 style={styles.avatar}
             />
             <View style={styles.messageContentContainer}>
-                <Text>{post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}</Text>
+                <Text styles={styles.messageInfos}>{post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}</Text>
+                <Text styles={styles.title2}>{post.title}</Text>
                 <Text style={styles.messageContent}>{post.content}</Text>
+                {post.images.map((imagePath, index) => (
+                    <Image key={index} source={imageMapping[imagePath]} style={styles.image} />
+                ))}
             </View>
                 <CheckBox
                     value={isChecked}
@@ -35,11 +48,13 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
 export default function ClassScreen() {
     const [posts, setPosts] = useState([]);
     const parent = useSelector((state) => state.parent.value);
-    const childName = parent.kids.firstname;
+    const childName = parent.kids[0].firstname;
+
+    
 
     // Fetch des posts dans la db
     const fetchPosts = () => {
-        fetch('http://192.168.1.184:3000/posts')
+        fetch('http://localhost/posts')
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -59,7 +74,7 @@ export default function ClassScreen() {
     // Mise à jour de isRead dans la db
     const handleToggleReadStatus = (postId, isRead) => {
         console.log(`Updating postId: ${postId} to isRead: ${isRead}`);
-        fetch(`http://192.168.1.184:3000/posts/${postId}`, {
+        fetch(`http://localhost:3000/posts/${postId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ isRead }),
@@ -77,6 +92,7 @@ export default function ClassScreen() {
             <View>
                 <Text style={globalStyles.title}>Classe de {childName}</Text>
             </View>
+            <ScrollView>
             <View>
                 {posts.map((post) => (
                     <MessageWithCheckbox
@@ -87,6 +103,7 @@ export default function ClassScreen() {
                     />
                 ))}
             </View>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 }
@@ -131,5 +148,11 @@ const styles = StyleSheet.create({
     },
     checkbox: {
         alignSelf: 'center',
+    },
+    image: {
+        width: '80%', 
+        height: 200, 
+        resizeMode: 'cover', 
+        borderRadius: 5,
     },
 });
