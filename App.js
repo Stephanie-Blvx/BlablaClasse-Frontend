@@ -4,23 +4,30 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
-import HomeScreen from './screens/HomeScreen';
+import HomeScreen from './screens/HomeScreen.js';
 import ClassScreen from './screens/ClassScreen';
 import LoginScreen from './screens/LoginScreen';
 import ProfilScreen from './screens/ProfilScreen';
+import ProfilKidScreen from './screens/ProfilKidScreen';
+import ProfilParentScreen from './screens/ProfilParentScreen';
 import TchatScreen from './screens/TchatScreen';
+// import QRreaderScreen from '../../QRreaderScreen.js'
+
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import event from './reducers/event';
-
-const store = configureStore({
-  reducer: { event },
-});
+import parent from './reducers/parent';
 
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const store = configureStore({
+  reducer: { event,
+    parent
+  },
+});
 
 const TabNavigator = () => {
   return (
@@ -56,14 +63,16 @@ const TabNavigator = () => {
 
 export default function App() {
   return (
-    <Provider store={store}>
+<Provider store={store}> 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
+        <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-    </Provider>
+    </Provider> 
   );
 }
 
