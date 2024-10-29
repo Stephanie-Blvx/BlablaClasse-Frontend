@@ -79,14 +79,6 @@ export default function LoginScreen({ navigation }) {
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
             <Text style={globalStyles.title}>Profil</Text>
-            {/* contenu du titre = titleFrame*/}
-            {/* 
-            <View style={styles.titleFrame}>
-              <Text style={styles.screenTitle}>Se connecter</Text>
-            </View> */}
-
-            {/* contenu sous le titre = contentFrame */}
-            {/* <View style={styles.contentFrame}> */}
 
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
@@ -122,8 +114,6 @@ export default function LoginScreen({ navigation }) {
               />
             </View>
 
-            
-
             <View style={buttonStyles.inputContainer}>
               <TextInput //champ d'input password
                 style={[buttonStyles.input, !isValidEmail && { borderColor: "red", borderWidth: 1 }]}
@@ -139,7 +129,6 @@ export default function LoginScreen({ navigation }) {
               </TouchableOpacity>
             </View>
             
-
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
                 style={buttonStyles.button}
@@ -157,54 +146,3 @@ export default function LoginScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   mainContainer: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "space-between",
-//     marginHorizontal: 40,
-//     // marginBottom: 50,
-//   },
-//   titleFrame: {
-//     flex: 0.2,
-//     fontSize: 30,
-//     fontWeight: "200",
-//     borderBottomWidth: 1,
-//     borderBottomColor: "dimgrey",
-//     margin: 50,
-//   },
-//   screenTitle: {
-//     fontSize: 30,
-//   },
-//   transparentButton: {
-//     width: "90%",
-//     backgroundColor: "white",
-//     borderWidth: 1,
-//     borderColor: "#696969",
-//     paddingHorizontal: 50,
-//     alignItems: "center",
-//   },
-//   error: {
-//     marginTop: 10,
-//     color: "red",
-//   },
-//   inputText: {
-//     padding: 10,
-//   },
-//   inputContainer: {
-//     borderWidth: 1,
-//     borderColor: "#696969",
-//     height: 40,
-//     width: 350,
-//   },
-//   button: {
-//     alignItems: "center",
-//     paddingTop: 8,
-//     width: "80%",
-//     margin: 30,
-//     backgroundColor: "#69AFAC",
-//     borderRadius: 5,
-//     color: "white",
-//   },
-// });
