@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -15,21 +15,17 @@ import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
 // Composant principal pour l'écran de profil
-export default function ProfilChildScreen() {
-  // États pour gérer les valeurs des champs de formulaire
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [allergies, setAllergies] = useState("");
-  const [habits, setHabits] = useState("");
-  const [additionalInfo, setAdditionalInfo] = useState("");
+export default function ProfilKidScreen({route}) {
 
-  // Fonction de validation du formulaire
-  const handleValidation = () => {
-    // Logique de validation ou envoi des données
-    console.log("Formulaire validé");
-  };
 
+    // États pour gérer les valeurs des champs de formulaire
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [birthdate, setBirthdate] = useState("");
+    const [allergies, setAllergies] = useState("");
+    const [habits, setHabits] = useState("");
+    const [additionalInfo, setAdditionalInfo] = useState("");
+    
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}

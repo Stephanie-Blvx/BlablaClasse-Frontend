@@ -8,25 +8,25 @@ import {
   Platform,
   TouchableOpacity,
   ScrollView,
-  StyleSheet,
   StatusBar,
+  Modal,
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
 // Composant principal pour l'écran de profil
 export default function ProfilParentScreen() {
-  // États pour gérer les valeurs des champs de formulaire
+  // États pour gérer les valeurs des champs de formulaire et modales
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [allergies, setAllergies] = useState("");
-  const [habits, setHabits] = useState("");
-  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [emailModalVisible, setEmailModalVisible] = useState(false);
+  const [passwordModalVisible, setPasswordModalVisible] = useState(false);
+  const [newEmail, setNewEmail] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   // Fonction de validation du formulaire
   const handleValidation = () => {
-    // Logique de validation ou envoi des données
     console.log("Formulaire validé");
   };
 
@@ -44,11 +44,10 @@ export default function ProfilParentScreen() {
           <View style={globalStyles.container}>
             <Text style={globalStyles.title}>Profil parent</Text>
 
-            {/* Champ de saisie pour le prénom de l'enfant */}
             <View style={buttonStyles.inputContainer}>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
-                placeholder="Nom du prénom"
+                placeholder="Prénom du parent"
                 value={firstname}
                 onChangeText={setFirstname}
                 editable={false}
@@ -56,7 +55,6 @@ export default function ProfilParentScreen() {
               />
             </View>
 
-            {/* Champ de saisie pour le nom de l'enfant */}
             <View style={buttonStyles.inputContainer}>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
@@ -68,61 +66,116 @@ export default function ProfilParentScreen() {
               />
             </View>
 
-            {/* Champ de saisie pour la date de naissance */}
-            <View style={buttonStyles.inputContainer}>
-              <TextInput
-                style={[buttonStyles.input, buttonStyles.inputDisabled]}
-                placeholder="Date de naissance"
-                value={birthdate}
-                onChangeText={setBirthdate}
-                editable={false}
-                placeholderTextColor="#5e5e5e8a"
-              />
-            </View>
-
-            {/* Champ de saisie pour les allergies */}
-            <View style={buttonStyles.inputContainer}>
-              <TextInput
-                style={buttonStyles.input}
-                placeholder="Allergies"
-                value={allergies}
-                onChangeText={setAllergies}
-                placeholderTextColor="#5e5e5e8a"
-              />
-            </View>
-
-            {/* Champ de saisie pour les habitudes */}
-            <View style={buttonStyles.inputContainer}>
-              <TextInput
-                style={buttonStyles.input}
-                placeholder="Habitudes"
-                value={habits}
-                onChangeText={setHabits}
-                placeholderTextColor="#5e5e5e8a"
-              />
-            </View>
-
-            {/* Champ de saisie pour les informations supplémentaires */}
-            <View style={buttonStyles.inputContainer}>
-              <TextInput
-                style={buttonStyles.input}
-                placeholder="Informations diverses"
-                value={additionalInfo}
-                onChangeText={setAdditionalInfo}
-                placeholderTextColor="#5e5e5e8a"
-              />
-            </View>
-
-            {/* Bouton de validation du formulaire */}
+            {/* Bouton pour changer l'email */}
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity
                 style={buttonStyles.button}
-                onPress={handleValidation}
-                activeOpacity={.8}
+                onPress={() => setEmailModalVisible(true)}
+                activeOpacity={0.8}
               >
-                <Text style={buttonStyles.buttonText}>VALIDER</Text>
+                <Text style={buttonStyles.buttonText}>Changer son email</Text>
               </TouchableOpacity>
             </View>
+
+            {/* Modal pour changer l'email */}
+            <Modal
+              transparent={true}
+              visible={emailModalVisible}
+              onRequestClose={() => setEmailModalVisible(false)}
+              animationType="slide"
+            >
+              <View style={globalStyles.modalContainer}>
+                <View style={globalStyles.modalContent}>
+                  {/* <Text style={globalStyles.modalTitle}>Changer l'email</Text> */}
+                  <TextInput
+                    style={buttonStyles.input}
+                    placeholder="Nouveau email"
+                    value={newEmail}
+                    onChangeText={setNewEmail}
+                    placeholderTextColor="#5e5e5e8a"
+                  />
+                  <View style={buttonStyles.buttonContainer}>
+                    <TouchableOpacity
+                      style={buttonStyles.button}
+                      onPress={() => {
+                        handleValidation();
+                        setEmailModalVisible(false);
+                      }}
+                    >
+                      <Text style={buttonStyles.buttonText}>Valider</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={buttonStyles.cancelButton}
+                      onPress={() => setEmailModalVisible(false)}
+                    >
+                      <Text style={buttonStyles.cancelButtonText}>Annuler</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+
+            {/* Bouton pour changer le mot de passe */}
+            <View style={buttonStyles.buttonContainer}>
+              <TouchableOpacity
+                style={buttonStyles.button}
+                onPress={() => setPasswordModalVisible(true)}
+                activeOpacity={0.8}
+              >
+                <Text style={buttonStyles.buttonText}>Changer son mot de passe</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Modal pour changer le mot de passe */}
+            <Modal
+              transparent={true}
+              visible={passwordModalVisible}
+              onRequestClose={() => setPasswordModalVisible(false)}
+              animationType="slide"
+            >
+              <View style={globalStyles.modalContainer}>
+                <View style={globalStyles.modalContent}>
+                  <Text style={globalStyles.modalTitle}>Changer le mot de passe</Text>
+                  <View style={buttonStyles.buttonContainer}>
+                  <TextInput
+                    style={buttonStyles.input}
+                    placeholder="Mot de passe actuel"
+                    value={currentPassword}
+                    onChangeText={setCurrentPassword}
+                    secureTextEntry={true}
+                    placeholderTextColor="#5e5e5e8a"
+                  />
+                  </View>
+                   <View style={buttonStyles.buttonContainer}>
+                  <TextInput
+                    style={buttonStyles.input}
+                    placeholder="Nouveau mot de passe"
+                    value={newPassword}
+                    onChangeText={setNewPassword}
+                    secureTextEntry={true}
+                    placeholderTextColor="#5e5e5e8a"
+                  />
+                  </View>
+                  <View style={buttonStyles.buttonContainer}>
+                    <TouchableOpacity
+                      style={buttonStyles.button}
+                      onPress={() => {
+                        handleValidation();
+                        setPasswordModalVisible(false);
+                      }}
+                    >
+                      <Text style={buttonStyles.buttonText}>Valider</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={buttonStyles.cancelButton}
+                      onPress={() => setPasswordModalVisible(false)}
+                    >
+                      <Text style={buttonStyles.cancelButtonText}>Annuler</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

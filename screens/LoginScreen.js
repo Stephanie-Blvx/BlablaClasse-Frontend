@@ -17,7 +17,8 @@ import { login, logout } from "../reducers/parent.js";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
-const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+// const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -27,14 +28,23 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const parent = useSelector((state) => state.parent.value);
 
   function handleConnexion() {
-    if (!emailRegex.test(email)) {
-      setIsValidEmail(false);
-      return;
+    // if (!emailRegex.test(email)) {
+    //   setIsValidEmail(false);
+    //   return;
+    // }
+    if (!isLoading) {
+      setIsLoading(true);
+      if (!emailRegex.test(email)) {
+        setIsValidEmail(false);
+        setIsLoading(false);
+        return;
+      }
     }
     fetch(
       `${BACKEND_ADDRESS}/parents/signin`, // fetch route parents/signin
@@ -135,7 +145,7 @@ export default function LoginScreen({ navigation }) {
                 onPress={() => handleConnexion()}
                 activeOpacity={.8}
               >
-                <Text style={buttonStyles.buttonText}>Connexion</Text>
+                <Text style={buttonStyles.buttonText}>{isLoading ? 'Chargement...' : 'Connexion'}</Text>
               </TouchableOpacity>
             </View>
 

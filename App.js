@@ -8,6 +8,8 @@ import HomeScreen from './screens/HomeScreen';
 import ClassScreen from './screens/ClassScreen';
 import LoginScreen from './screens/LoginScreen';
 import ProfilScreen from './screens/ProfilScreen';
+import ProfilKidScreen from './screens/ProfilKidScreen';
+import ProfilParentScreen from './screens/ProfilParentScreen';
 import TchatScreen from './screens/TchatScreen';
 
 import { Provider } from 'react-redux';
@@ -18,7 +20,9 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const store = configureStore({
-  reducer: { parent },
+  reducer: {
+    parent,
+  },
 });
 
 const TabNavigator = () => {
@@ -58,8 +62,10 @@ export default function App() {
     <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
+        <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
