@@ -39,7 +39,7 @@ export default function ClassScreen() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
-                    setPosts(data.posts); // Corrigé de setMessages à setPosts
+                    setPosts(data.posts);
                 } else {
                     console.error(data.error);
                 }
