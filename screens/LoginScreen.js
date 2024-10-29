@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, RegExp, TouchableOpacity} from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity} from 'react-native';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../reducers/parent.js';
