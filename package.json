@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
-    "@react-native-community/checkbox": "^0.5.17",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@react-native-community/checkbox": "^0.5.17",
     "@react-navigation/bottom-tabs": "6",
     "@react-navigation/native": "6",
     "@react-navigation/native-stack": "6",

@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, RegExp, TouchableOpacity} from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity} from 'react-native';
 import React, { useState } from 'react';
 
 export default function LoginScreen({ navigation }) {
@@ -14,7 +14,7 @@ export default function LoginScreen({ navigation }) {
         fetch ("http:.../signin",  // fetch route login
 
           {method:"POST",  
-          headers:{'content-type':'application/json'}, 
+          headers:{'Content-type':'application/json'}, 
           body: JSON.stringify({ 
             email: email,
             password : 'A COMPLETER', // compléter password
