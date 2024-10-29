@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, RegExp, TouchableOpacity} from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity} from 'react-native';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../reducers/parent.js';
@@ -22,7 +22,7 @@ export default function LoginScreen({ navigation }) {
         if (!emailRegex.test(email)) { setIsValidEmail(false); return; }
         fetch (`${BACKEND_ADDRESS}/parents/signin`,  // fetch route parents/signin
 
-          {method:"POST",  
+          {method:"POST",   
           headers:{'Content-Type':'application/json'}, 
           body: JSON.stringify({ 
             email: email,

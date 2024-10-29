@@ -1,18 +1,29 @@
-import { Button, StyleSheet, Text, View, } from 'react-native';
-import React, { useState } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
 
-
-
-
+} from 'react-native'
 
 
 export default function TchatScreen() {
 
-    
+
+
     return (
-        
-        <View>
-            <Text>TCHATSCREEN</Text>
+        <View style={styles.container}>
+            <Text> TCHAT PAGE</Text>
         </View>
-    );
-};
+    )
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+
+});
