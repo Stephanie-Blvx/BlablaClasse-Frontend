@@ -11,13 +11,13 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     };
 
     return (
-        <View style={styles.messageContainer}>
+        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#d1e7dd' : '#f9f9f9' }]}>
             <Image
                 source={'/assets/avatar-1.jpg'}
                 style={styles.avatar}
             />
             <View style={styles.messageContentContainer}>
-                <Text>{post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}</Text>
+            <Text>{post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}</Text>
                 <Text style={styles.messageContent}>{post.content}</Text>
                 <CheckBox
                     value={isChecked}
@@ -39,7 +39,8 @@ export default function ClassScreen() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
-                    setPosts(data.posts); // Corrigé de setMessages à setPosts
+                    console.log(data.posts)
+                    setPosts(data.posts); 
                 } else {
                     console.error(data.error);
                 }
@@ -49,6 +50,22 @@ export default function ClassScreen() {
     // appeler fetchPosts dès le premier rendu de la page
     useEffect(() => {
         fetchPosts();
+    }, []);
+
+    const fetchTeacher = () => {
+        fetch('http://localhost:3000/posts')
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.result) {
+                res.json({ Teacher: data}) 
+            } else {
+                console.error(data.error);
+            }
+        });
+        
+    }
+    useEffect(() => {
+        fetchTeacher();
     }, []);
 
     // Mise à jour de isRead dans la db

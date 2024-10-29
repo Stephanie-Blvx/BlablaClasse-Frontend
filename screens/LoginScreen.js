@@ -7,14 +7,12 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('');
     const [isValidEmail, setIsValidEmail] = useState(true);
 
-    // email Regex
-    const emailRegex= new RegExp ( /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
     function handleConnexion() {
-        if (!emailRegex.test(email)) { setIsValidEmail(false); return; }
         fetch ("http:.../signin",  // fetch route login
 
           {method:"POST",  
-          headers:{'content-type':'application/json'}, 
+          headers:{'Content-Type':'application/json'}, 
           body: JSON.stringify({ 
             email: email,
             password : 'A COMPLETER', // compléter password
