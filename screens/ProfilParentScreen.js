@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
-const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 import { useDispatch, useSelector } from "react-redux";
 import { updatePassword, updateEmail } from "../reducers/parent.js";
 import bcrypt from "react-native-bcrypt";

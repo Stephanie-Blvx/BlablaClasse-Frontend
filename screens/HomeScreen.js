@@ -5,6 +5,7 @@ import { addEvent, removeEvent } from '../reducers/event';
 import { useDispatch, useSelector } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker'
+import DocumentPicker from 'react-native-document-picker';
 
 const BACK_URL = 'http://192.168.3.174:3000';
 
@@ -153,6 +154,52 @@ const transformEventsToMarkedDates = (events) => {
   };
   /// TO DO >>> Bouton pour DL menu cantine
 
+  const uploadMenu = async () => {
+    try {
+      // Sélectionner le fichier PDF
+      const result = await DocumentPicker.getDocumentAsync({
+        type: 'application/pdf', // On accepte uniquement les fichiers PDF
+      });
+  
+      if (result.type === 'success') {
+        const formData = new FormData();
+        console.log("PDF URI:", result.uri);
+  
+        // Ajouter le PDF dans formData avec les bonnes informations
+        formData.append('menu', {
+          uri: result.uri,
+          name: 'menu.pdf',
+          type: 'application/pdf',
+        });
+  
+        // Envoyer le fichier vers votre serveur
+        const response = await fetch( `${BACK_URL}/menus`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+  
+        const data = await response.json();
+  
+        if (data.result) {
+          Alert.alert('Succès', 'PDF uploadé avec succès');
+          
+        } else {
+          Alert.alert('Erreur', 'Upload du PDF échoué');
+        }
+      } else {
+        Alert.alert('Annulé', 'Aucun fichier sélectionné');
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'upload du PDF:', error);
+      Alert.alert('Erreur', 'Impossible d\'uploader le fichier');
+    }
+  };
+
+
+
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <Calendar
@@ -227,6 +274,11 @@ const transformEventsToMarkedDates = (events) => {
           </View>
         </View>
       </Modal>
+       {/* UPLOAD MENU CANTINE*/}
+       <TouchableOpacity onPress={() => uploadMenu()} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>Ajouter le nouveau menu </Text>
+      </TouchableOpacity>
+
     </View>
   );
 }
