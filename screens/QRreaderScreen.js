@@ -31,7 +31,6 @@ export default function QRreaderScreen({ navigation }) {
 		console.log('scannedInfo', scannedInfo);
 	}
 
-
 	const dispatch = useDispatch();
 	const parent = useSelector((state) => state.parent.value);
 
@@ -45,11 +44,9 @@ export default function QRreaderScreen({ navigation }) {
 		console.log('token', token);
 		console.log('email', email);
 
-		fetch(
-			`${BACKEND_ADDRESS}/parents/signintoken`, // fetch route parents/signintoken
+		fetch(`${BACKEND_ADDRESS}/parents/signintoken`, // fetch route parents/signintoken
 
-			{
-				method: "POST",
+			{	method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email, token }),
 			} // info attendue : {email: email parent, token : token parent}
@@ -95,11 +92,11 @@ export default function QRreaderScreen({ navigation }) {
 				<Text style={{ color: "#69AFAC", fontWeight: '300', marginTop: 10 }}>Accès camera autorisé</Text>
 				<Text style={globalStyles.QRtext}>{isValidInfo ? 'QR Code correctement scanné' : 'Données incorrectes, veuillez réessayer'}</Text>
 				<View style={globalStyles.QRbuttonContainer}>
-					<TouchableOpacity onPress={() => handleConnexion()} style={buttonStyles.QRbutton}>
-						<Text style={globalStyles.buttonText}>Se connecter</Text>
-					</TouchableOpacity>
 					<TouchableOpacity onPress={() => handleReset()} style={buttonStyles.QRbutton}>
 						<Text style={globalStyles.buttonText}>Nouveau scan</Text>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={() => handleConnexion()} style={buttonStyles.QRbutton}>
+						<Text style={globalStyles.buttonText}>Se connecter</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
