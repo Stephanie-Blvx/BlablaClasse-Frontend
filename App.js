@@ -12,19 +12,22 @@ import ProfilKidScreen from './screens/ProfilKidScreen';
 import ProfilParentScreen from './screens/ProfilParentScreen';
 import TchatScreen from './screens/TchatScreen';
 import QRreaderScreen from './screens/QRreaderScreen.js';
+import TeacherClassScreen from './screens/TeacherClassScreen'
+import LoginTeacherScreen from './screens/LoginTeacherScreen.js';
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import event from './reducers/event';
 import parent from './reducers/parent';
-
+import teacher from './reducers/teacher.js'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const store = configureStore({
   reducer: { event,
-    parent
+    parent, 
+    teacher,
   },
 });
 
@@ -53,7 +56,7 @@ const TabNavigator = () => {
       tabBarStyle: { backgroundColor: '#67AFAC' }
     })}>
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Class" component={ClassScreen} />
+      <Tab.Screen name="Class" component={TeacherClassScreen} />
       <Tab.Screen name="Tchat" component={TchatScreen} />
       <Tab.Screen name="Profil" component={ProfilScreen} />
     </Tab.Navigator>
@@ -65,7 +68,7 @@ export default function App() {
 <Provider store={store}> 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Login" component={LoginTeacherScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
         <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
