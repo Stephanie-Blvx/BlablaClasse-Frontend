@@ -1,57 +1,70 @@
 import { StyleSheet } from "react-native";
 
 export const buttonStyles = StyleSheet.create({
-  title: {
+  title: { // Titre de la page
     fontSize: 28,
-    fontWeight: "bold",
+    fontFamily: 'Montserrat_800ExtraBold',
     marginVertical: 20,
     textAlign: "center",
   },
-  inputContainer: {
+  inputContainer: { // Conteneur des champs de saisie
     width: "100%",
     marginBottom: 15,
   },
-  input: {
+  input: { // Champ de saisie
     borderWidth: 1,
     borderColor: "#B0B0B0",
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 15,
-    fontSize: 16,
+    fontFamily: 'OpenSans_400Regular',
+    fontSize: 14,
     backgroundColor: "#FFFFFF",
     width: "100%",
   },
-  inputDisabled: {
+  inputDisabled: { // Champ de saisie désactivé
     backgroundColor: "#F0F0F0",
   },
-  buttonContainer: {
+  buttonContainer: { // Conteneur des boutons
     marginTop: 20,
     width: "100%",
   },
-  button: {
+  buttonContainerlogout: { // Conteneur du bouton de déconnexion
+    marginTop: 20,
+  },
+  button: { // Bouton
     backgroundColor: "#69AFAC",
     paddingVertical: 15,
     borderRadius: 8,
     alignItems: "center",
   },
-  pressedButton: {
+  pressedButton: { // Bouton pressé
     opacity: 0.8
   },
-  buttonText: {
+  buttonText: { // Texte du bouton
+    fontFamily: 'Montserrat_800ExtraBold',
     color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "600",
   },
-  forgotPassword: {
+  buttonTextLogout: { // Texte du bouton de déconnexion
+    fontFamily: 'OpenSans_700Bold',
+    color: "#FFFFFF",
+    fontSize: 18,
+  },
+  forgotPassword: { // Lien pour mot de passe oublié
+    fontFamily: 'OpenSans_300Light',
     fontSize: 11,
     textAlign: 'right',
     marginBottom: 30,
     color: '#666',
   },
-  error: {
+  error: { // Message d'erreur
+    fontFamily: 'OpenSans_300Light',
     color: "red",
   },
-  cancelButtonText: {
+  cancelButtonText: { // Texte du bouton d'annulation
+    fontFamily: 'OpenSans_300Light',
     color: "#69AFAC",
     fontSize: 11,
     fontWeight: "600",
