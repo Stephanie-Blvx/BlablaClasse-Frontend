@@ -1,52 +1,30 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FontAwesome from "react-native-vector-icons/FontAwesome6";
-import HomeScreen from "./screens/HomeScreen.js";
-import ClassScreen from "./screens/ClassScreen";
-import IdentificationScreen from "./screens/IdentificationScreen";
-import LoginParentScreen from "./screens/LoginParentScreen";
-// import LoginTeacherScreen from './screens/LoginTeacherScreen';
-import ProfilScreen from "./screens/ProfilScreen";
-import ProfilKidScreen from "./screens/ProfilKidScreen";
-import ProfilParentScreen from "./screens/ProfilParentScreen";
-import TchatScreen from "./screens/TchatScreen";
-// import QRreaderScreen from '../../QRreaderScreen.js'
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import FontAwesome from 'react-native-vector-icons/FontAwesome6';
+import HomeScreen from './screens/HomeScreen.js';
+import ClassScreen from './screens/ClassScreen';
+import LoginParentScreen from './screens/LoginParentScreen';
+import ProfilScreen from './screens/ProfilScreen';
+import ProfilKidScreen from './screens/ProfilKidScreen';
+import ProfilParentScreen from './screens/ProfilParentScreen';
+import TchatScreen from './screens/TchatScreen';
+import QRreaderScreen from '../../QRreaderScreen.js'
 
-import {
-  useFonts,
-  Montserrat_100Thin,
-  Montserrat_200ExtraLight,
-  Montserrat_300Light,
-  Montserrat_400Regular,
-  Montserrat_500Medium,
-  Montserrat_600SemiBold,
-  Montserrat_700Bold,
-  Montserrat_800ExtraBold,
-  Montserrat_900Black,
-} from "@expo-google-fonts/montserrat";
-import {
-  OpenSans_300Light,
-  OpenSans_400Regular,
-  OpenSans_600SemiBold,
-  OpenSans_700Bold,
-  OpenSans_800ExtraBold,
-} from "@expo-google-fonts/open-sans";
 
-import AppLoading from "expo-app-loading"; // Composant pour attendre le chargement des polices
-
-import { Provider, useSelector } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
-import parent from "./reducers/parent";
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import parent from './reducers/parent';
+import event from './reducers/event';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const store = configureStore({
-  reducer: {
-    parent,
+  reducer: { event,
+    parent
   },
 });
 
@@ -113,20 +91,16 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen
-            name="Identification"
-            component={IdentificationScreen}
-          />
-          <Stack.Screen name="LoginParent" component={LoginParentScreen} />
-          {/* <Stack.Screen name="LoginTeacher" component={LoginTeacherScreen} /> */}
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
-          <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
-          <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+<Provider store={store}> 
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="LoginParent" component={LoginParentScreen} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
+        <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
+        <Stack.Screen name="QRreader" component={QRreaderScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    </Provider> 
   );
 }
