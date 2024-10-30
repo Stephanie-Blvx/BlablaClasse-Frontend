@@ -19,6 +19,7 @@ export const buttonStyles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 16,
     backgroundColor: "#FFFFFF",
+    width: "100%",
   },
   inputDisabled: {
     backgroundColor: "#F0F0F0",
@@ -27,6 +28,25 @@ export const buttonStyles = StyleSheet.create({
     marginTop: 20,
     width: "100%",
   },
+  QRbuttonContainer: {
+    display: "flex",
+		flexDirection: "column",
+		justifyContent: "right",
+		width: "75%",
+	},
+  QRbutton: {
+		
+		padding: 20,
+		borderRadius: 10,
+		display: "flex",
+		alignItems: "center",
+		
+		margin: 10,
+    backgroundColor: "#69AFAC",
+    paddingVertical: 15,
+    borderRadius: 8,
+    
+	},
   button: {
     backgroundColor: "#69AFAC",
     paddingVertical: 15,
@@ -49,5 +69,12 @@ export const buttonStyles = StyleSheet.create({
   },
   error: {
     color: "red",
+  },
+  cancelButtonText: {
+    color: "#69AFAC",
+    fontSize: 11,
+    fontWeight: "600",
+    textAlign: 'center',
+    marginTop: 10,
   }
 });
