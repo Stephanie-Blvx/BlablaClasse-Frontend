@@ -6376,11 +6376,7 @@ prompts@^2.0.1, prompts@^2.2.1, prompts@^2.3.2, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-<<<<<<< HEAD
-prop-types@15.8.1, prop-types@^15.5.10, prop-types@^15.8.1:
-=======
 prop-types@15.8.1, prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.8.1:
->>>>>>> d2f0bd365c4c664753af1d1a2e2ca4a7e3a2d865
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7378,11 +7374,7 @@ string_decoder@~1.1.1:
   dependencies:
     ansi-regex "^5.0.1"
 
-<<<<<<< HEAD
-strip-ansi@^5.0.0, strip-ansi@^5.2.0:
-=======
 strip-ansi@^5.0.0, strip-ansi@^5.1.0, strip-ansi@^5.2.0:
->>>>>>> d2f0bd365c4c664753af1d1a2e2ca4a7e3a2d865
   version "5.2.0"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-5.2.0.tgz"
   integrity sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==
