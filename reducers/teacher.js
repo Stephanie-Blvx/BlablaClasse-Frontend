@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   value: { token: null, email: null, firstname: null, lastname: null, username: null, classes: [], id: null, isAdmin: null},
+  value: { token: null, email: null, firstname: null, lastname: null, username: null, classes: [], id: null, userType: null,  },
 };
 
 export const teacherSlice = createSlice({
@@ -26,9 +27,9 @@ export const teacherSlice = createSlice({
         state.value.username= null;
         state.value.classes= [];
     },
-    updatePassword: (state, action) => {
-      state.value.hashedPassword = action.payload; // Mettez à jour le mot de passe haché
-      console.log("Mot de passe haché mis à jour dans l'état Redux");
+    setUserType: (state, action) => {
+      console.log('Updating user type:', action.payload); 
+      state.value.userType = action.payload;
     },
     updateEmail: (state, action) => {
       state.value.email = action.payload; // Mettre à jour l'email dans l'état
@@ -36,5 +37,5 @@ export const teacherSlice = createSlice({
   },
 });
 
-export const { login, logout, updatePassword, updateEmail } = teacherSlice.actions;
+export const { login, logout, updateEmail, setUserType } = teacherSlice.actions;
 export default teacherSlice.reducer;

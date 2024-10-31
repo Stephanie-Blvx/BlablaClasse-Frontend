@@ -40,6 +40,15 @@ line: { // Style de la ligne de division
   backgroundColor: '#000',
   marginHorizontal: 10, 
 },
+lineTitle: { // Style de la ligne de division
+  width: '80%',
+  textAlign: 'center',
+  height: 1,
+  backgroundColor: '#C6D3B7',
+  marginTop: -20,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+},
 orText: { // Style du texte "OU"
   fontFamily: 'OpenSans_400Regular',
   textAlign: 'center',

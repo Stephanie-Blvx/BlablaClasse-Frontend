@@ -7,9 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../reducers/parent.js";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const BACKEND_ADDRESS = "http://192.168.5.28:3000" //===> URL à adapter
+const BACKEND_ADDRESS = "http://192.168.1.30:3000" //===> URL à adapter
 
 export default function QRreaderScreen({ navigation }) {
+	
 	const [hasPermission, setHasPermission] = useState(false);
 	const [scannedInfo, setScannedInfo] = useState(null);
 	const [isValidInfo, setIsValidInfo] = useState(true);
@@ -48,15 +49,15 @@ export default function QRreaderScreen({ navigation }) {
 
 			{	method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, token }),
-			} // info attendue : {email: email parent, token : token parent}
+				body: JSON.stringify({ email, token }), // info attendue : {email: email parent, token : token parent}
+			} 
 		)
 			.then((response) => response.json())
 			.then((dbData) => {
 				console.log("dbData", dbData); // console.log la réponse de la route / dataBase
 				if (!dbData.result) {
-					setIsValidInfo(false);
-				} //si result : false, setIsValidInfo à false pour message d'erreur 
+					setIsValidInfo(false); //si result : false, setIsValidInfo à false pour message d'erreur 
+				} 
 				else {
 					console.log('dbDataOK');
 					dispatch(login({ token: dbData.token, email: dbData.email, firstname: dbData.firstname, lastname: dbData.lastname, kids: dbData.kids })); //si result = OK, MàJ reducer "parent" avec infos DB
