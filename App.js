@@ -14,7 +14,6 @@ import menu from './reducers/menu';
 // --------------------------------- Importation des screens ---------------------------------
 import IdentificationScreen from './screens/IdentificationScreen';
 import ParentHomeScreen from './screens/ParentHomeScreen';
-import TeacherHomeScreen from './screens/TeacherHomeScreen';
 import LoginParentScreen from './screens/LoginParentScreen';
 import LoginTeacherScreen from './screens/LoginTeacherScreen';
 import ParentClassScreen from './screens/ParentClassScreen';
@@ -23,38 +22,8 @@ import TchatScreen from './screens/TchatScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import ProfilKidScreen from './screens/ProfilKidScreen';
 import ProfilParentScreen from './screens/ProfilParentScreen';
-<<<<<<< HEAD
-import TchatScreen from './screens/TchatScreen';
 import QRreaderScreen from './screens/QRreaderScreen';
-import TeacherClassScreen from './screens/TeacherClassScreen'
-import LoginTeacherScreen from './screens/LoginTeacherScreen';
 import TeacherHomeScreen from './screens/TeacherHomeScreen';
-=======
-import ProfilTeacherScreen from './screens/ProfilTeacherScreen';
-import QRreaderScreen from './screens/QRreaderScreen';
-// --------------------------------- Importation des icônes ---------------------------------
-import FontAwesome from 'react-native-vector-icons/FontAwesome6';
-// --------------------------------- Importation des polices ---------------------------------
-import AppLoading from 'expo-app-loading';
-import { useFonts } from 'expo-font';
-import {
-  Montserrat_100Thin,
-  Montserrat_200ExtraLight,
-  Montserrat_300Light,
-  Montserrat_400Regular,
-  Montserrat_500Medium,
-  Montserrat_600SemiBold,
-  Montserrat_800ExtraBold,
-  Montserrat_900Black,
-} from '@expo-google-fonts/montserrat';
-import {
-  OpenSans_300Light,
-  OpenSans_400Regular,
-  OpenSans_600SemiBold,
-  OpenSans_700Bold,
-  OpenSans_800ExtraBold,
-} from '@expo-google-fonts/open-sans';
->>>>>>> c59630e34c670972a6362e0e5c521eb104c35dd0
 
 const Stack = createNativeStackNavigator(); // Création d'un StackNavigator pour gérer la navigation entre les écrans
 const Tab = createBottomTabNavigator(); // Création d'un TabNavigator pour gérer la navigation entre les onglets
@@ -203,32 +172,6 @@ const AppNavigator = () => {
 };
 
 export default function App() {
-<<<<<<< HEAD
-//   // Charger les polices
-//   const [fontsLoaded] = useFonts({
-//     // Montserrat Variations
-//     Montserrat_100Thin,
-//     Montserrat_200ExtraLight,
-//     Montserrat_300Light,
-//     Montserrat_400Regular,
-//     Montserrat_500Medium,
-//     Montserrat_600SemiBold,
-//     Montserrat_800ExtraBold,
-//     Montserrat_900Black,
-
-//     // Open Sans Variations
-//     OpenSans_300Light,
-//     OpenSans_400Regular,
-//     OpenSans_600SemiBold,
-//     OpenSans_700Bold,
-//     OpenSans_800ExtraBold,
-//   });
-
-//   // Attendre le chargement des polices avant de rendre l'application
-//   if (!fontsLoaded) {
-   // return <AppLoading />;
- //  }
-=======
   const [fontsLoaded] = useFonts({
     Montserrat_100Thin,
     Montserrat_200ExtraLight,
@@ -248,7 +191,6 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />; 
   }
->>>>>>> c59630e34c670972a6362e0e5c521eb104c35dd0
 
   return (
     
