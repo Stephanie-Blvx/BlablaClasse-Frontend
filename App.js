@@ -14,7 +14,6 @@ import TchatScreen from './screens/TchatScreen';
 import QRreaderScreen from './screens/QRreaderScreen.js';
 import TeacherClassScreen from './screens/TeacherClassScreen'
 import LoginTeacherScreen from './screens/LoginTeacherScreen.js';
-import QRreaderScreen from '../../QRreaderScreen.js'
 
 
 import { Provider } from 'react-redux';
@@ -23,6 +22,26 @@ import parent from './reducers/parent';
 import teacher from './reducers/teacher.js'
 import event from './reducers/event';import menu from './reducers/menu'
 
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
+import {
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+} from '@expo-google-fonts/montserrat';
+import {
+  OpenSans_300Light,
+  OpenSans_400Regular,
+  OpenSans_600SemiBold,
+  OpenSans_700Bold,
+  OpenSans_800ExtraBold,
+} from '@expo-google-fonts/open-sans';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -30,8 +49,8 @@ const store = configureStore({
   reducer: { event,
     parent, 
     teacher,
+    menu
   },
-  reducer: { event, parent, menu },
 });
 
 const TabNavigator = () => {
@@ -100,7 +119,7 @@ export default function App() {
 <Provider store={store}> 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="LoginParent" component={LoginParentScreen} />
+        <Stack.Screen name="LoginParent" component={LoginTeacherScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
         <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />

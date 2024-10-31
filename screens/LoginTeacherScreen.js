@@ -55,13 +55,13 @@ import { globalStyles } from "../styles/globalStyles.js";
           } //si result : false, message erreur email
           else {
             console.log(dbData);
-            dispatch(login({ token: dbData.token, email: dbData.email, firstname: dbData.firstname, lastname: dbData.lastname, username: dbData.username, classes: dbData.classes, id: dbData._id})); //si result = OK, MàJ reducer "parent" avec token et email et kids
+            dispatch(login({ token: dbData.token, email: dbData.email, firstname: dbData.firstname, lastname: dbData.lastname, username: dbData.username, classes: dbData.classes, id: dbData.id})); //si result = OK, MàJ reducer "parent" avec token et email et kids
             navigation.navigate("TabNavigator");
           }
         });
     }
   
-    
+    console.log(teacher)
     //-------------------------------------------------JSX------------------------------------------
     return (
         <SafeAreaView style={globalStyles.safeArea}>

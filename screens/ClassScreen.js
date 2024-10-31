@@ -1,12 +1,12 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity, ScrollView} from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {CheckBox} from 'react-native';
+import { CheckBox } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 
 
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
-    const [isChecked, setIsChecked] = useState(post.isRead); 
+    const [isChecked, setIsChecked] = useState(post.isRead);
 
 
     const handleCheckboxChange = (newValue) => {
@@ -23,24 +23,25 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     };
 
     return (
-        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#8DBFA9' : '#F9F2D9' }]}>
-            <Image
-                source={'/assets/avatar-1.jpg'}
-                style={styles.avatar}
-            />
+        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#69AFAC' : '#8DBFA9' },]}>
+            <View style={styles.headerContainer}>
+                <Image source={require('../assets/avatar-1.jpg')} style={styles.avatar} />
+                <View style={styles.authorInfo}>
+                    <Text style={styles.messageInfos}>
+                        {post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}
+                    </Text>
+                </View>
+                <TouchableOpacity>
+                    <CheckBox value={isChecked} onValueChange={handleCheckboxChange} style={styles.checkbox} />
+                </TouchableOpacity>
+            </View>
             <View style={styles.messageContentContainer}>
-                <Text styles={styles.messageInfos}>{post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}</Text>
-                <Text styles={styles.title2}>{post.title}</Text>
+                <Text style={styles.title2}>{post.title}</Text>
                 <Text style={styles.messageContent}>{post.content}</Text>
                 {post.images.map((imagePath, index) => (
                     <Image key={index} source={imageMapping[imagePath]} style={styles.image} />
                 ))}
             </View>
-                <CheckBox
-                    value={isChecked}
-                    onValueChange={handleCheckboxChange}
-                    style={styles.checkbox}
-                />
         </View>
     );
 };
@@ -50,16 +51,16 @@ export default function ClassScreen() {
     const parent = useSelector((state) => state.parent.value);
     const childName = parent.kids[0].firstname;
 
-    
+
 
     // Fetch des posts dans la db
     const fetchPosts = () => {
-        fetch('http://localhost/posts')
+        fetch('http://localhost:3000/posts')
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
                     const sortedPosts = data.posts.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
-                    setPosts(sortedPosts); 
+                    setPosts(sortedPosts);
                 } else {
                     console.error(data.error);
                 }
@@ -90,45 +91,39 @@ export default function ClassScreen() {
     return (
         <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View>
-                <Text style={globalStyles.title}>Classe de {childName}</Text>
+                <Text style={styles.titleClass}>Classe de {childName}</Text>
             </View>
             <ScrollView>
-            <View>
-                {posts.map((post) => (
-                    <MessageWithCheckbox
-                        key={post._id}
-                        post={post}
-                        postId={post._id}
-                        onToggleReadStatus={handleToggleReadStatus}
-                    />
-                ))}
-            </View>
+                <View>
+                    {posts.map((post) => (
+                        <MessageWithCheckbox
+                            key={post._id}
+                            post={post}
+                            postId={post._id}
+                            onToggleReadStatus={handleToggleReadStatus}
+                        />
+                    ))}
+                </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-        backgroundColor: '#fff',
-    },
-    header: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 20,
-    },
     messageContainer: {
-        flexDirection: 'row',
-        alignItems: 'center', 
         padding: 10,
         marginHorizontal: 10,
         marginVertical: 5,
-        backgroundColor: '#f9f9f9',
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#ddd',
+        borderRadius: 20,
+        backgroundColor: 'white',
+        borderWidth: 2,
+        borderColor: '#67AFAC',
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 5,
     },
     avatar: {
         width: 40,
@@ -136,23 +131,45 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginRight: 10,
     },
+    messageInfos: {
+        fontSize: 14,
+        color: 'black',
+    },
+    contentRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        marginTop: 5,
+    },
     messageContentContainer: {
         flex: 1,
     },
+    titleClass:{
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 20,
+        color:'#69AFAC',
+        textAlign: 'center',
+      },
+    title2: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#69AFAC',
+    },
     messageContent: {
         fontSize: 14,
+        color: '#69AFAC',
     },
-    checkboxContainer: {
-        justifyContent: 'center', 
-        paddingHorizontal: 8,
+    image: {
+        width: '100%',
+        height: 200,
+        resizeMode: 'cover',
+        borderRadius: 20,
+        marginTop: 5,
     },
     checkbox: {
         alignSelf: 'center',
-    },
-    image: {
-        width: '80%', 
-        height: 200, 
-        resizeMode: 'cover', 
-        borderRadius: 5,
+        marginLeft: 5,
+
     },
 });

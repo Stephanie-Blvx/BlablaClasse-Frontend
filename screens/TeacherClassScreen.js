@@ -1,11 +1,15 @@
 import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 import { globalStyles } from '../styles/globalStyles';
 
-const Message = ({ post, postId, onDeletePost }) => {
+const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState(post.title);
+    const [editedContent, setEditedContent] = useState(post.content);
 
     const handleDeletePress = () => setModalVisible(true);
     const handleConfirmDelete = () => {
@@ -14,11 +18,10 @@ const Message = ({ post, postId, onDeletePost }) => {
     };
     const handleCancelDelete = () => setModalVisible(false);
 
-    const imageMapping = {
-        "assets/photos/sortie-vélo.jpg": require('../assets/photos/sortie-vélo.jpg'),
-        "assets/photos/sortie-piscine.jpg": require('../assets/photos/sortie-piscine.jpg'),
-        "assets/photos/sortie-louvre.jpg": require('../assets/photos/sortie-louvre.jpg'),
-        "assets/photos/journée-dodo.jpg": require('../assets/photos/journée-dodo.jpg'),
+    const handleEditPress = () => setIsEditing(true);
+    const handleConfirmEdit = () => {
+        onUpdatePost(postId, editedTitle, editedContent);
+        setIsEditing(false);
     };
 
     return (
@@ -30,17 +33,23 @@ const Message = ({ post, postId, onDeletePost }) => {
                         {post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}
                     </Text>
                 </View>
-                <TouchableOpacity onPress={handleDeletePress} style={styles.deleteIcon}>
-                    <FontAwesome name="trash" size={24} color="#4A7B59" />
-                </TouchableOpacity>
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={handleEditPress} style={styles.editIcon}>
+                        <FontAwesome name="edit" size={24} color="#4A7B59" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleDeletePress} style={styles.deleteIcon}>
+                        <FontAwesome name="trash" size={24} color="#4A7B59" />
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={styles.messageContentContainer}>
                 <Text style={styles.title2}>{post.title}</Text>
                 <Text style={styles.messageContent}>{post.content}</Text>
                 {post.images.map((imagePath, index) => (
-                    <Image key={index} source={imageMapping[imagePath]} style={styles.image} />
+                    <Image key={index} source={{ uri: imagePath }} style={styles.image} />
                 ))}
             </View>
+
             <Modal visible={modalVisible} animationType="fade" transparent={true}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
@@ -53,6 +62,29 @@ const Message = ({ post, postId, onDeletePost }) => {
                     </View>
                 </View>
             </Modal>
+
+            <Modal visible={isEditing} animationType="slide" transparent={true}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Modifier le Post</Text>
+                        <TextInput
+                            placeholder="Titre"
+                            value={editedTitle}
+                            onChangeText={setEditedTitle}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            placeholder="Contenu"
+                            value={editedContent}
+                            onChangeText={setEditedContent}
+                            style={styles.input}
+                            multiline
+                        />
+                        <Button title="Sauvegarder" color="#67AFAC" onPress={handleConfirmEdit} />
+                        <Button title="Annuler" color="#67AFAC" onPress={() => setIsEditing(false)} />
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -62,8 +94,8 @@ export default function ClassScreen() {
     const [modalVisible, setModalVisible] = useState(false);
     const [newTitle, setNewTitle] = useState('');
     const [newContent, setNewContent] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
     const teacher = useSelector((state) => state.teacher.value);
-    console.log(teacher)
 
     const fetchPosts = () => {
         fetch('http://localhost:3000/posts')
@@ -83,9 +115,7 @@ export default function ClassScreen() {
     }, []);
 
     const handleDeletePost = (postId) => {
-        fetch(`http://localhost:3000/posts/${postId}`, {
-            method: 'DELETE',
-        })
+        fetch(`http://localhost:3000/posts/${postId}`, { method: 'DELETE' })
             .then((response) => response.json())
             .then((result) => {
                 if (result.success) {
@@ -96,22 +126,41 @@ export default function ClassScreen() {
             });
     };
 
+    const handleUpdatePost = (postId, newTitle, newContent) => {
+        fetch(`http://localhost:3000/posts/${postId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: newTitle, content: newContent }),
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.success) {
+                    setPosts(posts.map(post => post._id === postId ? result.post : post));
+                } else {
+                    console.error("Erreur de mise à jour :", result.error);
+                }
+            });
+    };
+
     const handleAddPost = () => {
+        if (newTitle.length > 40 || newContent.length > 180) {
+            alert("Le titre et le contenu doivent chacun être limités à 180 caractères.");
+            return;
+        }
+
         const newPost = {
             title: newTitle,
             content: newContent,
-            images: [], 
+            images: selectedImage ? [selectedImage] : [],
             creationDate: new Date(),
-            author: { 
-                id: teacher.token, 
+            author: {
+                id: teacher.id,
                 username: teacher.username,
                 firstname: teacher.firstname,
             },
-            classes: [], 
-            isRead: false, 
+            classes: [],
+            isRead: false,
         };
-        console.log(newPost);
-        
 
         fetch('http://localhost:3000/posts', {
             method: 'POST',
@@ -125,22 +174,63 @@ export default function ClassScreen() {
                     setModalVisible(false);
                     setNewTitle('');
                     setNewContent('');
+                    setSelectedImage(null);
                 } else {
                     console.error("Erreur d'ajout :", result.error);
                 }
             });
     };
 
+    const pickImage = async () => {
+        // Request permission to access media library
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (!permissionResult.granted) {
+            alert("Permission to access media library is required!");
+            return;
+        }
+
+        // Open image picker
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.cancelled) {
+            setSelectedImage(result.uri);  // Set selected image URI
+        }
+    };
+
+    // Fonction pour prendre une photo avec la caméra
+    const takePhoto = async () => {
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+        if (!permissionResult.granted) {
+            alert("Permission d'accès à la caméra requise !");
+            return;
+        }
+
+        const result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setSelectedImage(result.assets[0].uri);  // Définir l'URI de l'image capturée
+        }
+    };
+
     return (
         <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View>
-                <Text style={globalStyles.title}>Classe</Text>
+                <Text style={styles.titleClass}>Classe</Text>
                 <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.addButton}>
                     <Text style={styles.textButton}>Ajouter un Post</Text>
                 </TouchableOpacity>
             </View>
 
-            <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+            <ScrollView contentContainerStyle={{ paddingBottom: 15 }}>
                 <View>
                     {posts.map((post) => (
                         <Message
@@ -148,6 +238,7 @@ export default function ClassScreen() {
                             post={post}
                             postId={post._id}
                             onDeletePost={handleDeletePost}
+                            onUpdatePost={handleUpdatePost}
                         />
                     ))}
                 </View>
@@ -163,6 +254,8 @@ export default function ClassScreen() {
                             onChangeText={setNewTitle}
                             style={styles.input}
                         />
+                        <Text style={styles.charCount}>{40 - newTitle.length} caractères restants</Text>
+
                         <TextInput
                             placeholder="Contenu"
                             value={newContent}
@@ -170,9 +263,16 @@ export default function ClassScreen() {
                             style={styles.input}
                             multiline
                         />
-                        <TouchableOpacity style={styles.attachmentIcon}>
-                            <FontAwesome name="paperclip" size={24} color="#000" />
-                        </TouchableOpacity>
+                        <Text style={styles.charCount}>{180 - newContent.length} caractères restants</Text>
+                        <View style={styles.iconContainer}>
+                            <TouchableOpacity onPress={pickImage} style={styles.attachmentIcon}>
+                                <FontAwesome name="paperclip" size={24} color="white" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={takePhoto} style={styles.attachmentIcon}>
+                                <FontAwesome name="camera" size={24} color="white" />
+                            </TouchableOpacity>
+                        </View>
+                        {selectedImage && <Image source={{ uri: selectedImage }} style={styles.imagePreview} />}
                         <Button title="Ajouter" color="#67AFAC" onPress={handleAddPost} />
                         <Button title="Annuler" color="#67AFAC" onPress={() => setModalVisible(false)} />
                     </View>
@@ -187,10 +287,10 @@ const styles = StyleSheet.create({
         padding: 10,
         marginHorizontal: 10,
         marginVertical: 5,
-        backgroundColor: '#67AFAC',
         borderRadius: 20,
-        borderWidth: 1,
-        borderColor: '#ddd',
+        backgroundColor: 'white',
+        borderWidth: 2,
+        borderColor: '#67AFAC',
     },
     headerContainer: {
         flexDirection: 'row',
@@ -211,18 +311,18 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     messageInfos: {
-        fontSize: 14,
-        color: '#F9F2D9',
+        color: 'black',
+        fontSize: 12,
     },
     title2: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: 'white',
+        color: '#69AFAC',
     },
     messageContent: {
         fontSize: 14,
         marginVertical: 5,
-        color: 'white',
+        color: '#69AFAC',
     },
     image: {
         width: '100%',
@@ -280,5 +380,29 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         marginBottom: 10,
+        color: 'white',
+    },
+    titleClass: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 20,
+        color: '#69AFAC',
+        textAlign: 'center',
+    },
+    imagePreview: {
+        width: '100%',
+        height: 200,
+        resizeMode: 'cover',
+        borderRadius: 10,
+        marginTop: 10,
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 10,
+    },
+    attachmentIcon: {
+        padding: 10,
     },
 });
