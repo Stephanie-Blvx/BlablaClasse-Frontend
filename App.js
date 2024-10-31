@@ -11,7 +11,7 @@ import ProfilScreen from './screens/ProfilScreen';
 import ProfilKidScreen from './screens/ProfilKidScreen';
 import ProfilParentScreen from './screens/ProfilParentScreen';
 import TchatScreen from './screens/TchatScreen';
-import QRreaderScreen from '../../QRreaderScreen.js'
+import QRreaderScreen from './screens/QRreaderScreen.js'
 
 
 import { Provider } from 'react-redux';
