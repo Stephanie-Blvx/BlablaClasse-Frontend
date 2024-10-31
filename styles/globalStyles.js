@@ -1,61 +1,75 @@
 import { StyleSheet } from "react-native";
 
 export const globalStyles = StyleSheet.create({
-  safeArea: {
+  safeArea: { // Zone de sécurité pour les appareils avec encoche
     flex: 1,
-    backgroundColor: '#fff', // Ou une autre couleur que vous souhaitez
+    backgroundColor: '#fff', 
 },
-  mainContainer: {
+  mainContainer: { // Conteneur principal
     flex: 1,
-    backgroundColor: '#fff', // ou la couleur que vous souhaitez
-    justifyContent: 'center', // Centre le contenu verticalement
-},
-container: {
+    backgroundColor: '#fff', 
+    justifyContent: 'center',
+}, 
+container: { // Conteneur principal
   alignItems: 'center',
   width: '100%',
 },
-scrollContainer: {
+scrollContainer: { // Conteneur pour le défilement
     flexGrow: 1,
-    justifyContent: 'center', // Centre le contenu verticalement
-    alignItems: 'center', // Centre le contenu horizontalement
-    padding: 16, // Optionnel : pour un espacement autour du contenu
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 16,
 },
 container: {
     width: '100%', // Assurez-vous que le contenu utilise toute la largeur
 },
-title: {
-    fontSize: 52,
-    fontWeight: 'bold',
-    marginBottom: 20, // Espacement sous le titre
-    textAlign: 'center', // Centre le texte du titre
+title: { // Style du titre
+  fontFamily: 'Montserrat_800ExtraBold',
+    fontSize: 40,
+    marginBottom: 20, 
+    textAlign: 'center', 
 },
-dividerContainer: {
+dividerContainer: { // Conteneur pour la ligne de division
   flexDirection: 'row', 
   alignItems: 'center', 
   marginVertical: 20,
 },
-line: {
+line: { // Style de la ligne de division
   flex: 1,
   height: 1,
   backgroundColor: '#000',
   marginHorizontal: 10, 
 },
-orText: {
+orText: { // Style du texte "OU"
+  fontFamily: 'OpenSans_400Regular',
   textAlign: 'center',
   marginVertical: 10,
   fontSize: 16,
   color: '#000',
 },
-modalContainer: {
+QRtext: {
+  padding: 10,
+},
+QRbuttonContainer:  {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  width: "75%",
+},
+QRContainer: {
+  display: "flex",
+  alignItems: "center",
+},
+modalContainer: { // Conteneur de la modale
   flex: 1,
   justifyContent: "center",
   alignItems: "center",
   backgroundColor: "rgba(0, 0, 0, 0.6)", // Couleur de fond semi-transparente pour assombrir l'arrière-plan
 },
-modalContent: {
-  width: "80%", // Largeur de la modale
+modalContent: { // Contenu de la modale
+  width: "80%", 
   padding: 20,
-  backgroundColor: "#fff", // Couleur de fond de la modale
+  backgroundColor: "#fff", 
   borderRadius: 10,
   alignItems: "center",
   elevation: 5, // Pour une ombre légère sur Android
@@ -64,10 +78,17 @@ modalContent: {
   shadowOpacity: 0.25,
   shadowRadius: 4,
 },
-modalTitle: {
+modalTitle: { // Titre de la modale
   fontSize: 18,
   fontWeight: "bold",
   marginBottom: 10,
 },
+successMessage: { // Message de succès
+  fontFamily: 'OpenSans_300Light',
+  fontSize: 11,
+  color: "green", 
+  marginBottom: 15, 
+  textAlign: "center", 
+}
 
 });
