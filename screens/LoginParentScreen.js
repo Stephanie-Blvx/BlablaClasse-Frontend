@@ -66,7 +66,7 @@ export default function LoginParentScreen({ navigation }) {
           setIsValidEmail(false);
         } else {
           // si result : true
-          console.log(dbData); //afficher les données de la base
+          console.log('dbData',dbData); //afficher les données de la base
           dispatch(
             login({
               //dispatch de l'action login
@@ -83,7 +83,7 @@ export default function LoginParentScreen({ navigation }) {
         }
       });
   }
-  console.log("parent", parent); //afficher les données de la base
+  console.log("parent", parent); //afficher les données du store
 
   //-------------------------------------------------JSX------------------------------------------
   return (
