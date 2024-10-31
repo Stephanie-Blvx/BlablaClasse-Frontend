@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert} from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { addEvent, removeEvent } from '../reducers/event';
-import { addMenu } from '../reducers/menu';
+
 import { useDispatch, useSelector } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker'
 //import DocumentPicker from 'react-native-document-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import {shareAsync} from 'expo-sharing';
+import { shareAsync } from 'expo-sharing';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 
@@ -23,34 +22,34 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
   //USESELECTOR MENU
   const menu = useSelector((state) => state.menu.value.menus);
-  console.log("MENU USESELECTOR",menu)
+  console.log("MENU USESELECTOR", menu)
 
 
   // Transformer les événements en dates marquées
-const transformEventsToMarkedDates = (events) => {
-  const dates = {};
+  const transformEventsToMarkedDates = (events) => {
+    const dates = {};
 
 
-  events.forEach(event => {
-    const date = new Date(event.date).toISOString().split('T')[0];
-    
+    events.forEach(event => {
+      const date = new Date(event.date).toISOString().split('T')[0];
 
 
-    // Création d'un dot pour la classe associée à l'événement
-    const dot = event.classe && event.classe.color ? { color: event.classe.color } : { color: 'blue' };
-    
-    // Initialiser la date si elle n'existe pas encore dans `dates`
-    if (!dates[date]) {
-      dates[date] = { marked: true, dots: [], events: [] };
-    }
-    
-    // Ajouter le dot et l'événement
-    dates[date].dots.push(dot);
-    dates[date].events.push(event);
-  });
 
-  return dates;
-};
+      // Création d'un dot pour la classe associée à l'événement
+      const dot = event.classe && event.classe.color ? { color: event.classe.color } : { color: 'blue' };
+
+      // Initialiser la date si elle n'existe pas encore dans `dates`
+      if (!dates[date]) {
+        dates[date] = { marked: true, dots: [], events: [] };
+      }
+
+      // Ajouter le dot et l'événement
+      dates[date].dots.push(dot);
+      dates[date].events.push(event);
+    });
+
+    return dates;
+  };
   //Route get : all events à afficher 
   useEffect(() => {
     fetch(`${BACK_URL}/events`)
@@ -59,7 +58,7 @@ const transformEventsToMarkedDates = (events) => {
         console.log("------data-----", data)
         const dates = transformEventsToMarkedDates(data.events);
         setMarkedDates(dates);
-       
+
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des événements :", error);
@@ -75,43 +74,38 @@ const transformEventsToMarkedDates = (events) => {
 
   const selectedDateEvents = markedDates[selectedDate]?.events || [];
 
- 
 
 
+  // PERMISSION GESTIONNAIRE FICHIERS
+  useEffect(() => {
+    (async () => {
+      const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);;
+      if (result) {
+        setHasPermission(result.status === "granted");
+      }
+    })();
+  }, []);
 
-  
-
-// PERMISSION GESTIONNAIRE FICHIERS
-useEffect(() => {
-  (async () => {
-    const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);;
-    if (result) {
-      setHasPermission(result.status === "granted");
-    }
-  })();
-}, []);
-
-
-  /// Fonction pour UPLOAD menu cantine
-
- 
 
   /// Fonction pour DOWNLOAD menu cantine
- 
+
   const downloadMenu = async () => {
     try {
-      const lastMenuUrl = menu[menu.length - 1]; 
+      const now = new Date();
+    const formattedDate = now.toISOString().replace(/[-:]/g, '').split('.')[0]; // Format: YYYYMMDDTHHmmss
+
+      const lastMenuUrl = menu[menu.length - 1];
       console.log("URL du dernier menu :", lastMenuUrl);
-  
-      const filename = "menu.jpg";
+
+      const filename = `menu_${formattedDate}.jpg`;
       const fileUri = FileSystem.documentDirectory + filename;
-  
+
       // Télécharger le fichier
       const result = await FileSystem.downloadAsync(lastMenuUrl, fileUri);
       console.log("Fichier téléchargé avec succès :", result.uri);
-  
+
       // Demander la permission d'accéder à la galerie
-      const { status } = await MediaLibrary.requestPermissionsAsync();"uploadMenu"
+      const { status } = await MediaLibrary.requestPermissionsAsync(); "uploadMenu"
       if (status === 'granted') {
         // Enregistrer le fichier dans la galerie
         const asset = await MediaLibrary.createAssetAsync(result.uri);
@@ -124,9 +118,12 @@ useEffect(() => {
       Alert.alert('Erreur', 'Une erreur est survenue lors du téléchargement du fichier.');
     }
   };
-   
+
   return (
     <View style={{ flex: 1, padding: 20 }}>
+      
+        <Text style={styles.titleHome}> Quoi de neuf dans notre école ? </Text>
+      
       <Calendar
         onDayPress={onDayPress}
         markedDates={markedDates}
@@ -161,14 +158,11 @@ useEffect(() => {
             <Text style={{ color: '#67AFAC' }}>Fermer</Text>
           </TouchableOpacity>
         </View>
-        </Modal> 
-         {/* Télécharger le menu cantine > PARENT < */}
-        <TouchableOpacity onPress={() => downloadMenu()} style={styles.button} activeOpacity={0.8}>
+      </Modal>
+      {/* Télécharger le menu cantine > PARENT < */}
+      <TouchableOpacity onPress={() => downloadMenu()} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}> Menu de la cantine </Text>
       </TouchableOpacity>
-
-        
-     
 
     </View>
   );
@@ -190,6 +184,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+
+  titleHome:{
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 20,
+    color:'#69AFAC',
+    alignItems:'center',
+    justifyContent:'center',
   },
   input: {
     width: 200,

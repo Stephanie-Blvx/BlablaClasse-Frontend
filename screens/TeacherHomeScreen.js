@@ -26,7 +26,7 @@ export default function TeacherHomeScreen() {
   const [newDate, setNewDate] = useState('');
   const [classe, setClasse] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [classes, setClasses] = useState([]); // État pour stocker les classes
+  const [classes, setClasses] = useState([]); 
   const [hasPermission, setHasPermission] = useState(false);
 
   const dispatch = useDispatch();
