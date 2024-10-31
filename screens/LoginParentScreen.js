@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../reducers/parent.js";
+import { login, logout } from "../reducers/parent";
 
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
@@ -66,7 +66,7 @@ export default function LoginParentScreen({ navigation }) {
           setIsValidEmail(false);
         } else {
           // si result : true
-          console.log(dbData); //afficher les données de la base
+          console.log('dbData',dbData); //afficher les données de la base
           dispatch(
             login({
               //dispatch de l'action login
@@ -79,11 +79,11 @@ export default function LoginParentScreen({ navigation }) {
               userType: dbData.userType,
             })
           ); //si result = OK, MàJ reducer "parent" avec token et email et kids
-          navigation.navigate("TabNavigator");
+          navigation.navigate("ParentTabNavigator");
         }
       });
   }
-  console.log("parent", parent); //afficher les données de la base
+  console.log("parent", parent); //afficher les données du store
 
   //-------------------------------------------------JSX------------------------------------------
   return (
@@ -99,7 +99,7 @@ export default function LoginParentScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter</Text>
+            <Text style={globalStyles.title}>Se connecter parent</Text>
 
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity //champ cliquable renvoi vers QRCode scanner

@@ -12,9 +12,13 @@ import { shareAsync } from 'expo-sharing';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 
+<<<<<<< HEAD:screens/HomeScreen.js
 const BACK_URL = 'http://localhost:3000';
+=======
+const BACK_URL = 'http://192.168.1.30:3000';
+>>>>>>> c59630e34c670972a6362e0e5c521eb104c35dd0:screens/ParentHomeScreen.js
 
-export default function HomeScreen() {
+export default function ParentHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
