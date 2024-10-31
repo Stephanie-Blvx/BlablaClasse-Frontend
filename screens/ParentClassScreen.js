@@ -45,7 +45,7 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     );
 };
 
-export default function ClassScreen() {
+export default function ParentClassScreen() {
     const [posts, setPosts] = useState([]);
     const parent = useSelector((state) => state.parent.value);
     const childName = parent.kids[0].firstname;

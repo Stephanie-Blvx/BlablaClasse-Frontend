@@ -14,7 +14,7 @@ import {
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { updateEmail } from "../reducers/parent.js";
+import { updateEmail, logout } from "../reducers/teacher";
 
 const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
@@ -22,10 +22,10 @@ const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // Composant principal pour l'écran de profil
-export default function ProfilParentScreen() {
+export default function ProfilTeacherScreen({ navigation }) {
   // États pour gérer les valeurs des champs de formulaire et modales
-  const [firstname, setFirstname] = useState(""); // Ajouter un état pour le prénom du parent
-  const [lastname, setLastname] = useState(""); //    Ajouter un état pour le nom du parent
+  const [firstname, setFirstname] = useState(""); // Ajouter un état pour le prénom du teacher
+  const [lastname, setLastname] = useState(""); //    Ajouter un état pour le nom du teacher
   const [emailModalVisible, setEmailModalVisible] = useState(false); // Ajouter un état pour le modal de l'email
   const [passwordModalVisible, setPasswordModalVisible] = useState(false); // Ajouter un état pour le modal du mot de passe
   const [newEmail, setNewEmail] = useState(""); //  Ajouter un état pour le nouvel email
@@ -33,26 +33,34 @@ export default function ProfilParentScreen() {
   const [newPassword, setNewPassword] = useState(""); // Ajouter un état pour le nouveau mot de passe
   const [emailError, setEmailError] = useState(""); // Ajouter un état pour le message d'erreur de l'email
 
-  // Accéder aux informations du parent connecté depuis le Redux store
-  const parent = useSelector((state) => state.parent.value); // Récupère les informations du parent
-  console.log(parent); // Affiche les informations du parent
+  // Accéder aux informations du teacher connecté depuis le Redux store
+  const teacher = useSelector((state) => state.teacher.value); // Récupère les informations du teacher
+  console.log(teacher); // Affiche les informations du teacher
 
-  const dispatch = useDispatch(); // Dispatch pour mettre à jour les informations du parent
+  const dispatch = useDispatch(); // Dispatch pour mettre à jour les informations du teacher
+
+
+    // Fonction de déconnexion
+    const handleLogout = () => {
+      dispatch(logout()); // Appel de la fonction logout du reducer parent
+      navigation.navigate("Identification"); // Naviguer vers l'écran de connexion
+      console.log("teacher déconnecté"); //    Pour le débogage
+    };
 
   //---------------------- Fonction pour changer le mot de passe ------------------------------------------------------------------
   const handleChangePassword = () => {
-    const token = parent.token; // Assurez-vous que le token est présent
+    const token = teacher.token; // Assurez-vous que le token est présent
     if (!token) {
       // Vérifiez si le token est présent
       console.error("Token is undefined"); // Pour le débogage
       return; // Ou montrez un message d'erreur à l'utilisateur
     }
 
-    const parentId = parent.id; // Récupérez l'ID du parent depuis le Redux store
-    console.log("Parent ID:", parentId); // Pour le débogage
+    const teacherId = teacher.id; // Récupérez l'ID du teacher depuis le Redux store
+    console.log("teacher ID:", teacherId); // Pour le débogage
 
     const payload = {
-      parentId: parentId, // ID du parent récupéré
+      teacherId: teacherId, // ID du teacher récupéré
       currentPassword: currentPassword, // Le mot de passe actuel
       newPassword: newPassword, // Le nouveau mot de passe
     };
@@ -69,7 +77,7 @@ export default function ProfilParentScreen() {
       body: JSON.stringify(payload), // Convertit l'objet en chaîne JSON
     };
 
-    fetch(`${BACKEND_ADDRESS}/parents/change-password`, requestOptions) // Appel de l'API
+    fetch(`${BACKEND_ADDRESS}/teachers/change-password`, requestOptions) // Appel de l'API
       .then((response) => response.json()) // Convertit la réponse en JSON
       .then((data) => {
         // Récupère les données
@@ -106,17 +114,17 @@ export default function ProfilParentScreen() {
       setEmailError(""); // Réinitialise le message d'erreur si l'email est valide
     }
 
-    const token = parent.token; // Assurez-vous que le token est présent
+    const token = teacher.token; // Assurez-vous que le token est présent
     if (!token) {
       console.error("Token is undefined"); // Pour le débogage
       return; // Ou montrez un message d'erreur à l'utilisateur
     }
 
-    const parentId = parent.id; // Récupérez l'ID du parent depuis le Redux store
-    console.log("Parent ID:", parentId);
+    const teacherId = teacher.id; // Récupérez l'ID du teacher depuis le Redux store
+    console.log("Teacher ID:", teacherId);
 
     const payload = {
-      parentId: parent.id, // ID du parent récupéré
+      teacherId: teacher.id, // ID du teacher récupéré
       newEmail: newEmail, // Le nouvel email
     };
 
@@ -131,7 +139,7 @@ export default function ProfilParentScreen() {
       body: JSON.stringify(payload), // Convertit l'objet en chaîne JSON
     };
 
-    fetch(`${BACKEND_ADDRESS}/parents/change-email`, requestOptions) // Appel de l'API
+    fetch(`${BACKEND_ADDRESS}/teachers/change-email`, requestOptions) // Appel de l'API
       .then((response) => response.json()) // Convertit la réponse en JSON
       .then((data) => {
         console.log("Réponse du serveur:", data); // Affiche la réponse complète
@@ -161,13 +169,14 @@ export default function ProfilParentScreen() {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Profil parent</Text>
+            <Text style={globalStyles.title}>Profil Enseignant</Text>
+            {/* <View style={globalStyles.lineTitle} /> */}
 
             <View style={buttonStyles.inputContainer}>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
-                placeholder="Prénom du parent"
-                value={parent.firstname || ""}
+                placeholder="Prénom de l'enseignant"
+                value={teacher.firstname || ""}
                 onChangeText={setFirstname}
                 editable={false}
                 placeholderTextColor="#5e5e5e8a"
@@ -177,8 +186,8 @@ export default function ProfilParentScreen() {
             <View style={buttonStyles.inputContainer}>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
-                placeholder="Nom du parent"
-                value={parent.lastname || ""}
+                placeholder="Nom de l'enseignant"
+                value={teacher.lastname || ""}
                 onChangeText={setLastname}
                 editable={false}
                 placeholderTextColor="#5e5e5e8a"
@@ -188,8 +197,8 @@ export default function ProfilParentScreen() {
             <View style={buttonStyles.inputContainer}>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
-                placeholder="Email du parent"
-                value={parent.email || ""}
+                placeholder="Email de l'enseignant"
+                value={teacher.email || ""}
                 onChangeText={setNewEmail}
                 editable={false}
                 placeholderTextColor="#5e5e5e8a"
@@ -316,6 +325,26 @@ export default function ProfilParentScreen() {
                 </View>
               </View>
             </Modal>
+            <View
+              style={[
+                buttonStyles.buttonContainer,
+                buttonStyles.buttonContainerlogout,
+              ]}
+            >
+              <TouchableOpacity
+                style={buttonStyles.button}
+                onPress={() => handleLogout()} // Appeler la fonction de déconnexion
+              >
+                <Text
+                  style={[
+                    buttonStyles.buttonText,
+                    buttonStyles.buttonTextLogout,
+                  ]}
+                >
+                  Deconnexion
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
