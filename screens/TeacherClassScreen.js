@@ -198,7 +198,7 @@ export default function ClassScreen() {
         });
 
         if (!result.cancelled) {
-            setSelectedImage(result.uri);  // Set selected image URI
+            setSelectedImage(result.uri); 
         }
     };
 
