@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, KeyboardAvoidingView, TextInput, SafeAreaView, Platform, TouchableOpacity, ScrollView, Button, StatusBar, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, FlatList, KeyboardAvoidingView, TextInput, SafeAreaView, Platform, TouchableOpacity, ScrollView, Button, StatusBar } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
@@ -24,7 +24,6 @@ export default function TchatScreen() {
       };
       setMessages([...messages, message]);
       setNewMessage('');
-      Keyboard.dismiss();
     }
   };
 
@@ -38,54 +37,62 @@ export default function TchatScreen() {
       </View>
     </View>
   );
+  const renderInput = () => (
+  <View style={[styles.messageContainer, styles.parentMessage, ]}>
+  <TextInput
+    value={newMessage}
+    multiline={true}
+    onChangeText={setNewMessage}
+    placeholder="Écrire un message..."
+    onSubmitEditing={sendMessage} // Optionnel pour envoyer avec la touche "Entrée"
+  />
+  <FontAwesome name="send" onPress={sendMessage} size={14} color="#4a7b59" style={styles.seenIcon} />
+</View>);
 
   return (
 
-    <SafeAreaView style={[globalStyles.safeArea, ]}>
+    <SafeAreaView style={globalStyles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
       <KeyboardAvoidingView
         style={{ flex: 1, margin: 10 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={70}
       >
-        <ScrollView contentContainerStyle={[styles.scrollContainer, ]}>
+        
           <View style={globalStyles.container}>
             <Text style={globalStyles.title}>Messagerie</Text>
             <FlatList
               data={messages}
               renderItem={renderMessage}
+              ListFooterComponent={renderInput} // Ajoute le champ de saisie à la fin
               keyExtractor={(item, index) => index.toString()}
+              contentContainerStyle={styles.scrollContainer}
             />
-          </View>
-          </ScrollView>
-          <View style={[styles.messageContainer, styles.parentMessage, 
-            // { position: 'absolute',  bottom: 0,  right: 0,  }
-            ]}>
-            <TextInput
-              value={newMessage}
-              multiline={true}
-              onChangeText={setNewMessage}
-              placeholder="Écrire un message..."
-              onSubmitEditing={sendMessage} // Optionnel pour envoyer avec la touche "Entrée"
-            />
-            <FontAwesome name="send" onPress={sendMessage} size={14} color="#4a7b59" style={styles.seenIcon} />
           </View>
         
+      
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
- 
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+  },
   scrollContainer: {
-    flexGrow: 0.9,
-      },
+    paddingBottom: 60,
+    padding: 10,
+  },
   messageContainer: {
     padding: 10,
     borderRadius: 10,
     marginVertical: 5,
     maxWidth: '75%',
+    borderWidth: 1,
+    borderColor: "red",
   },
   parentMessage: {
     width: 400,

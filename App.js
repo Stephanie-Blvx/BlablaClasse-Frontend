@@ -31,7 +31,7 @@ import LoginParentScreen from './screens/LoginParentScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import ProfilKidScreen from './screens/ProfilKidScreen';
 import ProfilParentScreen from './screens/ProfilParentScreen';
-import TchatScreen from './screens/TchatScreen';
+import TchatScreen from './screens/TchatScreen.js';
 import QRreaderScreen from './screens/QRreaderScreen.js';
 import TeacherClassScreen from './screens/TeacherClassScreen'
 import LoginTeacherScreen from './screens/LoginTeacherScreen.js';
@@ -122,7 +122,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="LoginParent" component={LoginParentScreen} />
+          <Stack.Screen name="LoginParent" component={LoginParentScreen} /> 
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
           <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
