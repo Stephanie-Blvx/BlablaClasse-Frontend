@@ -23,6 +23,9 @@ export const parentSlice = createSlice({
       state.value.email = null; //    Mettre à jour l'email
       state.value.kids = []; // Mettre à jour les enfants
       state.value.userType = null; // Mettre à jour le type d'utilisateur
+      state.value.firstname = null; // Mettre à jour le prénom
+      state.value.lastname = null; //  Mettre à jour le nom
+      state.value.id = null; //  Mettre à jour l'id
     },
     // updatePassword: (state, action) => {
     //   state.value.hashedPassword = action.payload; // Mettez à jour le mot de passe haché
