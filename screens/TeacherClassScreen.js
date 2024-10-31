@@ -100,15 +100,15 @@ export default function ClassScreen() {
         const newPost = {
             title: newTitle,
             content: newContent,
-            images: [], // Si vous avez des images, ajoutez-les ici
+            images: [], 
             creationDate: new Date(),
-            author: { // Correction de la structure de l'auteur
-                id: teacher.token, // Assurez-vous que le token est l'ObjectId de l'auteur
+            author: { 
+                id: teacher.token, 
                 username: teacher.username,
                 firstname: teacher.firstname,
             },
-            classes: [], // Ajoutez des classes si nécessaire
-            isRead: false, // Mettez la valeur par défaut à false
+            classes: [], 
+            isRead: false, 
         };
         console.log(newPost);
         
