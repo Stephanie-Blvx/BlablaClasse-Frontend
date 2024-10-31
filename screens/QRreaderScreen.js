@@ -62,7 +62,7 @@ export default function QRreaderScreen({ navigation }) {
 				else {
 					console.log('dbDataOK');
 					dispatch(login({ token: dbData.token, email: dbData.email, firstname: dbData.firstname, lastname: dbData.lastname, kids: dbData.kids })); //si result = OK, MàJ reducer "parent" avec infos DB
-					navigation.navigate("TabNavigator");
+					navigation.navigate("ParentTabNavigator");
 				}
 			});
 	}
