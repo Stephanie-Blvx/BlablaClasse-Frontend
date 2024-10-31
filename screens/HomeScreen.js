@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { addEvent, removeEvent } from '../reducers/event';
+
 import { useDispatch, useSelector } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker'
+//import DocumentPicker from 'react-native-document-picker';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
+import { shareAsync } from 'expo-sharing';
+import * as Permissions from 'expo-permissions';
+import * as MediaLibrary from 'expo-media-library';
 
 const BACK_URL = 'http://192.168.3.174:3000';
 
@@ -13,42 +19,37 @@ export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // Teacher View
-  const [modalEventVisible, setModalEventVisible] = useState(false);
-  const [newEvent, setNewEvent] = useState('');
-  const [newDate, setNewDate] = useState('');
-  const [classe, setClasse] = useState('');
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [classes, setClasses] = useState([]); // État pour stocker les classes
-
   const dispatch = useDispatch();
-  const event = useSelector((state) => state.event.value);
+  //USESELECTOR MENU
+  const menu = useSelector((state) => state.menu.value.menus);
+  console.log("MENU USESELECTOR", menu)
+
 
   // Transformer les événements en dates marquées
-const transformEventsToMarkedDates = (events) => {
-  const dates = {};
+  const transformEventsToMarkedDates = (events) => {
+    const dates = {};
 
 
-  events.forEach(event => {
-    const date = new Date(event.date).toISOString().split('T')[0];
-    
+    events.forEach(event => {
+      const date = new Date(event.date).toISOString().split('T')[0];
 
 
-    // Création d'un dot pour la classe associée à l'événement
-    const dot = event.classe && event.classe.color ? { color: event.classe.color } : { color: 'blue' };
-    
-    // Initialiser la date si elle n'existe pas encore dans `dates`
-    if (!dates[date]) {
-      dates[date] = { marked: true, dots: [], events: [] };
-    }
-    
-    // Ajouter le dot et l'événement
-    dates[date].dots.push(dot);
-    dates[date].events.push(event);
-  });
 
-  return dates;
-};
+      // Création d'un dot pour la classe associée à l'événement
+      const dot = event.classe && event.classe.color ? { color: event.classe.color } : { color: 'blue' };
+
+      // Initialiser la date si elle n'existe pas encore dans `dates`
+      if (!dates[date]) {
+        dates[date] = { marked: true, dots: [], events: [] };
+      }
+
+      // Ajouter le dot et l'événement
+      dates[date].dots.push(dot);
+      dates[date].events.push(event);
+    });
+
+    return dates;
+  };
   //Route get : all events à afficher 
   useEffect(() => {
     fetch(`${BACK_URL}/events`)
@@ -57,25 +58,13 @@ const transformEventsToMarkedDates = (events) => {
         console.log("------data-----", data)
         const dates = transformEventsToMarkedDates(data.events);
         setMarkedDates(dates);
-        console.log("Marked Dates:", dates);
+
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des événements :", error);
       });
   }, []);
 
-  //Route get : recupère les classes pour que teacher puisse create new event
-  useEffect(() => {
-    fetch(`${BACK_URL}/classes`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("classes", data)
-        setClasses(data.classes);
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la récupération des classes :", error);
-      });
-  }, []);
 
 
   const onDayPress = (day) => {
@@ -85,76 +74,56 @@ const transformEventsToMarkedDates = (events) => {
 
   const selectedDateEvents = markedDates[selectedDate]?.events || [];
 
-  // Ouvre le modal 
-  const handleOpenModal = () => {
-    setModalEventVisible(true);
-  };
 
-  // Ferme le modal 
-  const handleClose = () => {
-    setModalEventVisible(false);
-    setNewEvent('');
-    setClasse('');
-    setNewDate('');
-  };
 
-  // Route POST Ajoute un nouvel événement en BDD
-  const handleNewEvent = () => {
-    fetch(`${BACK_URL}/events`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ classe: classe, date: newDate, description: newEvent }) // Assurez-vous que classe est l'ID de la classe
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result) {
-        // Ici, vous devez également récupérer la classe correspondante
-        const selectedClass = classes.find(item => item._id === classe); // Récupérer l'objet classe
-        const newEventData = {
-          classe: selectedClass, // Incluez l'objet classe complet
-          date: newDate,
-          description: newEvent
-        };
-  
-        // Dispatch de l'événement dans Redux
-        dispatch(addEvent(newEventData));
-  
-        // Mettre à jour les markedDates
-        const updatedMarkedDates = {
-          ...markedDates,
-          ...transformEventsToMarkedDates([newEventData]) // Ajouter le nouvel événement pour le marquer
-        };
-        setMarkedDates(updatedMarkedDates);
-  
-        // Réinitialiser les champs du modal
-        setModalEventVisible(false);
-        setNewEvent('');
-        setClasse('');
-        setNewDate('');
+  // PERMISSION GESTIONNAIRE FICHIERS
+  useEffect(() => {
+    (async () => {
+      const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);;
+      if (result) {
+        setHasPermission(result.status === "granted");
       }
-    })
-    .catch(error => {
-      console.error("Erreur lors de l'ajout de l'événement :", error);
-    });
-  };
+    })();
+  }, []);
 
-  // Ouvre le DateTimePicker
-  const openDatePicker = () => {
-    setShowDatePicker(true);
-  };
 
-  // Gestion de la sélection de date dans le DateTimePicker
-  const onDateChange = (event, selected) => {
-    setShowDatePicker(false);
-    if (selected) {
-      const formattedDate = selected.toISOString().split('T')[0];
-      setNewDate(formattedDate);
+  /// Fonction pour DOWNLOAD menu cantine
+
+  const downloadMenu = async () => {
+    try {
+      const now = new Date();
+    const formattedDate = now.toISOString().replace(/[-:]/g, '').split('.')[0]; // Format: YYYYMMDDTHHmmss
+
+      const lastMenuUrl = menu[menu.length - 1];
+      console.log("URL du dernier menu :", lastMenuUrl);
+
+      const filename = `menu_${formattedDate}.jpg`;
+      const fileUri = FileSystem.documentDirectory + filename;
+
+      // Télécharger le fichier
+      const result = await FileSystem.downloadAsync(lastMenuUrl, fileUri);
+      console.log("Fichier téléchargé avec succès :", result.uri);
+
+      // Demander la permission d'accéder à la galerie
+      const { status } = await MediaLibrary.requestPermissionsAsync(); "uploadMenu"
+      if (status === 'granted') {
+        // Enregistrer le fichier dans la galerie
+        const asset = await MediaLibrary.createAssetAsync(result.uri);
+        Alert.alert('Téléchargement terminé', `Le fichier a été enregistré dans la galerie : ${asset.uri}`);
+      } else {
+        Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la galerie pour enregistrer le fichier.');
+      }
+    } catch (error) {
+      console.error("Erreur lors du téléchargement du fichier :", error);
+      Alert.alert('Erreur', 'Une erreur est survenue lors du téléchargement du fichier.');
     }
   };
-  /// TO DO >>> Bouton pour DL menu cantine
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
+      
+        <Text style={styles.titleHome}> Quoi de neuf dans notre école ? </Text>
+      
       <Calendar
         onDayPress={onDayPress}
         markedDates={markedDates}
@@ -190,43 +159,11 @@ const transformEventsToMarkedDates = (events) => {
           </TouchableOpacity>
         </View>
       </Modal>
-
-      {/* Modal pour nouvel événement */}
-      <TouchableOpacity onPress={() => handleOpenModal()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Nouvel évenement</Text>
+      {/* Télécharger le menu cantine > PARENT < */}
+      <TouchableOpacity onPress={() => downloadMenu()} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}> Menu de la cantine </Text>
       </TouchableOpacity>
 
-      <Modal visible={modalEventVisible} animationType="fade" transparent>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={{ marginBottom: 10 }}>Nouvel évenement :</Text>
-            <Picker selectedValue={classe} onValueChange={(itemValue) => setClasse(itemValue)} style={styles.input}>
-              <Picker.Item label="Classe" value="" />
-              {classes.map((classe) => (
-                <Picker.Item key={classe._id} label={classe.name} value={classe._id} />
-              ))}
-            </Picker>
-            <TouchableOpacity onPress={openDatePicker} style={styles.input}>
-              <Text style={{ color: newDate ? '#000' : '#888' }}>{newDate || "Sélectionner une date"}</Text>
-            </TouchableOpacity>
-            {showDatePicker && (
-              <DateTimePicker
-                value={new Date()}
-                mode="date"
-                display="default"
-                onChange={onDateChange}
-              />
-            )}
-            <TextInput placeholder="Description de l'événement" onChangeText={(value) => setNewEvent(value)} value={newEvent} style={styles.input} />
-            <TouchableOpacity onPress={() => handleNewEvent()} style={styles.button} activeOpacity={0.8}>
-              <Text style={styles.textButton}>   Ajouter   </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
-              <Text style={styles.textButton}>   Fermer   </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -247,6 +184,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+
+  titleHome:{
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 20,
+    color:'#69AFAC',
+    alignItems:'center',
+    justifyContent:'center',
   },
   input: {
     width: 200,

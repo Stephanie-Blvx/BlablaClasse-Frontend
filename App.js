@@ -17,15 +17,13 @@ import QRreaderScreen from '../../QRreaderScreen.js'
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import parent from './reducers/parent';
-import event from './reducers/event';
+import event from './reducers/event';import menu from './reducers/menu'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const store = configureStore({
-  reducer: { event,
-    parent
-  },
+  reducer: { event, parent, menu },
 });
 
 const TabNavigator = () => {
