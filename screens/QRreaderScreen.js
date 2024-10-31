@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../reducers/parent.js";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const BACKEND_ADDRESS = "http://192.168.5.28:3000" //===> URL à adapter
+const BACKEND_ADDRESS = "http://192.168.1.30:3000" //===> URL à adapter
 
 export default function QRreaderScreen({ navigation }) {
 	

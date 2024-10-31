@@ -10,6 +10,7 @@ export const buttonStyles = StyleSheet.create({
   inputContainer: { // Conteneur des champs de saisie
     width: "100%",
     marginBottom: 15,
+    // marginTop: 20,
   },
   input: { // Champ de saisie
     borderWidth: 1,

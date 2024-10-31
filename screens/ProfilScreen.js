@@ -23,7 +23,7 @@ export default function ProfilScreen({ navigation }) {
   // Fonction de déconnexion
   const handleLogout = () => {
     dispatch(logout()); // Appel de la fonction logout du reducer parent
-    navigation.navigate("LoginParent"); // Naviguer vers l'écran de connexion
+    navigation.navigate("Identification"); // Naviguer vers l'écran de connexion
     console.log("parent déconnecté"); //    Pour le débogage
   };
 
