@@ -11,18 +11,26 @@ import ProfilScreen from './screens/ProfilScreen';
 import ProfilKidScreen from './screens/ProfilKidScreen';
 import ProfilParentScreen from './screens/ProfilParentScreen';
 import TchatScreen from './screens/TchatScreen';
-import QRreaderScreen from './screens/QRreaderScreen.js'
+import QRreaderScreen from './screens/QRreaderScreen.js';
+import TeacherClassScreen from './screens/TeacherClassScreen'
+import LoginTeacherScreen from './screens/LoginTeacherScreen.js';
+
 
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import parent from './reducers/parent';
+import teacher from './reducers/teacher.js'
 import event from './reducers/event';import menu from './reducers/menu'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const store = configureStore({
+  reducer: { event,
+    parent, 
+    teacher,
+  },
   reducer: { event, parent, menu },
 });
 
@@ -55,7 +63,7 @@ const TabNavigator = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Class" component={ClassScreen} />
+      <Tab.Screen name="Class" component={TeacherClassScreen} />
       <Tab.Screen name="Tchat" component={TchatScreen} />
       <Tab.Screen name="Profil" component={ProfilScreen} />
     </Tab.Navigator>
