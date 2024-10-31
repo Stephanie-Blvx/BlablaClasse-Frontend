@@ -11,10 +11,10 @@ import ProfilScreen from './screens/ProfilScreen';
 import ProfilKidScreen from './screens/ProfilKidScreen';
 import ProfilParentScreen from './screens/ProfilParentScreen';
 import TchatScreen from './screens/TchatScreen';
-import QRreaderScreen from './screens/QRreaderScreen.js';
+import QRreaderScreen from './screens/QRreaderScreen';
 import TeacherClassScreen from './screens/TeacherClassScreen'
-import LoginTeacherScreen from './screens/LoginTeacherScreen.js';
-
+import LoginTeacherScreen from './screens/LoginTeacherScreen';
+import TeacherHomeScreen from './screens/TeacherHomeScreen';
 
 
 import { Provider } from 'react-redux';
@@ -71,30 +71,30 @@ const TabNavigator = () => {
 };
 
 export default function App() {
-  // Charger les polices
-  const [fontsLoaded] = useFonts({
-    // Montserrat Variations
-    Montserrat_100Thin,
-    Montserrat_200ExtraLight,
-    Montserrat_300Light,
-    Montserrat_400Regular,
-    Montserrat_500Medium,
-    Montserrat_600SemiBold,
-    Montserrat_800ExtraBold,
-    Montserrat_900Black,
+//   // Charger les polices
+//   const [fontsLoaded] = useFonts({
+//     // Montserrat Variations
+//     Montserrat_100Thin,
+//     Montserrat_200ExtraLight,
+//     Montserrat_300Light,
+//     Montserrat_400Regular,
+//     Montserrat_500Medium,
+//     Montserrat_600SemiBold,
+//     Montserrat_800ExtraBold,
+//     Montserrat_900Black,
 
-    // Open Sans Variations
-    OpenSans_300Light,
-    OpenSans_400Regular,
-    OpenSans_600SemiBold,
-    OpenSans_700Bold,
-    OpenSans_800ExtraBold,
-  });
+//     // Open Sans Variations
+//     OpenSans_300Light,
+//     OpenSans_400Regular,
+//     OpenSans_600SemiBold,
+//     OpenSans_700Bold,
+//     OpenSans_800ExtraBold,
+//   });
 
-  // Attendre le chargement des polices avant de rendre l'application
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+//   // Attendre le chargement des polices avant de rendre l'application
+//   if (!fontsLoaded) {
+   // return <AppLoading />;
+ //  }
 
   return (
 <Provider store={store}> 
