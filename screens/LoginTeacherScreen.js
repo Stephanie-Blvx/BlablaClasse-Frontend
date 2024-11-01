@@ -72,7 +72,7 @@ export default function LoginTeacherScreen({ navigation }) {
               id: dbData.id,
               userType: dbData.userType,
             })
-          ); //si result = OK, MàJ reducer "parent" avec token et email et kids
+          ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");
         }
       });
