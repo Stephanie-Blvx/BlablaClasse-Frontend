@@ -12,7 +12,7 @@ import { shareAsync } from 'expo-sharing';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 
-const BACK_URL = 'http://localhost:3000';
+const BACK_URL = 'http://192.168.1.30:3000';
 
 export default function ParentHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});
