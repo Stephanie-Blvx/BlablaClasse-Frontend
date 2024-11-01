@@ -333,7 +333,7 @@ export default function ProfilTeacherScreen({ navigation }) {
             >
               <TouchableOpacity
                 style={buttonStyles.button}
-                onPress={() => handleLogout()} // Appeler la fonction de déconnexion
+                onPress={() => handleLogout()} 
               >
                 <Text
                   style={[

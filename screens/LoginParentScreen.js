@@ -16,8 +16,10 @@ import { login, logout } from "../reducers/parent";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 // const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
-const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -46,7 +48,6 @@ export default function LoginParentScreen({ navigation }) {
     }
     fetch(
       `${BACKEND_ADDRESS}/parents/signin`, // requête POST vers la route /parents/signin
-
       {
         method: "POST", // méthode POST
         headers: { "Content-Type": "application/json" }, // type de contenu
@@ -57,7 +58,10 @@ export default function LoginParentScreen({ navigation }) {
         }),
       }
     )
-      .then((response) => response.json()) //récupérer la réponse en json
+      .then((response) => {
+        console.log("Réponse brute:", response); // Log de la réponse brute
+        return response.json();
+      }) // récupérer la réponse en json
       .then((dbData) => {
         // récupérer les données de la base
         console.log("dbData", dbData); // afficher la réponse de la route / dataBase
@@ -66,23 +70,49 @@ export default function LoginParentScreen({ navigation }) {
           setIsValidEmail(false);
         } else {
           // si result : true
-          console.log('dbData',dbData); //afficher les données de la base
-          dispatch(
-            login({
-              //dispatch de l'action login
-              token: dbData.token,
-              email: dbData.email,
-              firstname: dbData.firstname,
-              lastname: dbData.lastname,
-              kids: dbData.kids,
-              id: dbData.id,
-              userType: dbData.userType,
+          console.log('dbData', dbData); // afficher les données de la base
+          AsyncStorage.setItem('accessToken', dbData.accessToken)
+            .then(() => {
+              console.log('Token JWT stocké:', dbData.accessToken);
+              // return AsyncStorage.setItem('refreshToken', dbData.refreshToken);
             })
-          ); //si result = OK, MàJ reducer "parent" avec token et email et kids
-          navigation.navigate("ParentTabNavigator");
+            // .then(() => {
+            //   console.log('Token de rafraîchissement stocké:', dbData.refreshToken);
+            //   return AsyncStorage.setItem('dbToken', dbData.token); // Stocker le token existant de la BDD
+            // })
+            .then(() => {
+              console.log('Token de la BDD stocké:', dbData.token);
+              dispatch(
+                login({
+                  // dispatch de l'action login
+                  token: dbData.token, // Utiliser le token existant de la BDD
+                  email: dbData.email,
+                  firstname: dbData.firstname,
+                  lastname: dbData.lastname,
+                  kids: dbData.kids,
+                  id: dbData.id,
+                  userType: dbData.userType,
+                })
+              ); // si result = OK, MàJ reducer "parent" avec token et email et kids
+              console.log('Dispatch effectué');
+              navigation.navigate("ParentTabNavigator");
+              console.log('Navigation effectuée');
+            })
+            .catch((error) => {
+              console.error('Erreur lors du stockage des tokens:', error);
+              Alert.alert('Erreur', 'Une erreur est survenue. Veuillez réessayer.');
+            });
         }
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la connexion:', error);
+        Alert.alert('Erreur', 'Une erreur est survenue. Veuillez réessayer.');
+      })
+      .finally(() => {
+        setIsLoading(false); // arrêter le chargement
       });
   }
+
   console.log("parent", parent); //afficher les données du store
 
   //-------------------------------------------------JSX------------------------------------------
