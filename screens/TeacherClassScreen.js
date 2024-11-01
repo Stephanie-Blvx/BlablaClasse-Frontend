@@ -198,7 +198,7 @@ export default function ClassScreen() {
         });
 
         if (!result.cancelled) {
-            setSelectedImage(result.uri); 
+            setSelectedImage(result.uri);
         }
     };
 
@@ -265,16 +265,23 @@ export default function ClassScreen() {
                         />
                         <Text style={styles.charCount}>{180 - newContent.length} caractères restants</Text>
                         <View style={styles.iconContainer}>
+                        <TouchableOpacity onPress={takePhoto} style={styles.attachmentIcon}>
+                                <FontAwesome name="camera" size={24} color="#69AFAC" />
+                            </TouchableOpacity>
                             <TouchableOpacity onPress={pickImage} style={styles.attachmentIcon}>
-                                <FontAwesome name="paperclip" size={24} color="white" />
+                                <FontAwesome name="paperclip" size={24} color="#69AFAC" />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={takePhoto} style={styles.attachmentIcon}>
-                                <FontAwesome name="camera" size={24} color="white" />
-                            </TouchableOpacity>
+
                         </View>
                         {selectedImage && <Image source={{ uri: selectedImage }} style={styles.imagePreview} />}
-                        <Button title="Ajouter" color="#67AFAC" onPress={handleAddPost} />
-                        <Button title="Annuler" color="#67AFAC" onPress={() => setModalVisible(false)} />
+                        <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={handleAddPost}>
+                            <Text style={styles.buttonText}>Ajouter</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
+                            <Text style={styles.buttonText}>Annuler</Text>
+                        </TouchableOpacity >
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -317,12 +324,12 @@ const styles = StyleSheet.create({
     title2: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#69AFAC',
+        color: '#67AFAC',
     },
     messageContent: {
         fontSize: 14,
         marginVertical: 5,
-        color: '#69AFAC',
+        color: '#67AFAC',
     },
     image: {
         width: '100%',
@@ -343,7 +350,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        backgroundColor: '#67AFAC',
+        backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
         width: '80%',
@@ -353,7 +360,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
-        color: 'white',
+        color: '#69AFAC',
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -380,14 +387,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         marginBottom: 10,
-        color: 'white',
+        color: '#67AFAC',
     },
     titleClass: {
         fontSize: 25,
         fontWeight: 'bold',
         marginTop: 20,
         marginBottom: 20,
-        color: '#69AFAC',
+        color: '#67AFAC',
         textAlign: 'center',
     },
     imagePreview: {
@@ -405,4 +412,7 @@ const styles = StyleSheet.create({
     attachmentIcon: {
         padding: 10,
     },
+    buttonText: {
+        color: '#67AFAC',
+    }
 });
