@@ -23,21 +23,22 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     };
 
     return (
-        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#69AFAC' : '#8DBFA9' },]}>
+        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#69AFAC' : 'white' },]}>
             <View style={styles.headerContainer}>
                 <Image source={require('../assets/avatar-1.jpg')} style={styles.avatar} />
                 <View style={styles.authorInfo}>
                     <Text style={styles.messageInfos}>
-                        {post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}
+                        {post.author.firstname} @{post.author.username}   
                     </Text>
+                    <Text>{new Date(post.creationDate).toLocaleString()}</Text>
                 </View>
                 <TouchableOpacity>
                     <CheckBox value={isChecked} onValueChange={handleCheckboxChange} style={styles.checkbox} />
                 </TouchableOpacity>
             </View>
             <View style={styles.messageContentContainer}>
-                <Text style={styles.title2}>{post.title}</Text>
-                <Text style={styles.messageContent}>{post.content}</Text>
+                <Text style={[styles.title2, { color: isChecked ? 'black' : '#69AFAC' },]}>{post.title}</Text>
+                <Text style={[styles.messageContent, { color: isChecked ? 'black' : '#69AFAC' }]}>{post.content}</Text>
                 {post.images.map((imagePath, index) => (
                     <Image key={index} source={imageMapping[imagePath]} style={styles.image} />
                 ))}
@@ -119,12 +120,13 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#67AFAC',
     },
-    headerContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 5,
-    },
+        headerContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 5,
+        },
+
     avatar: {
         width: 40,
         height: 40,
