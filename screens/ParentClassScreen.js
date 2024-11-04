@@ -56,7 +56,7 @@ export default function ParentClassScreen() {
 
     // Fetch des posts dans la db
     const fetchPosts = () => {
-        fetch('http://localhost:3000/posts')
+        fetch(`${BACK_URL}/posts`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -76,7 +76,7 @@ export default function ParentClassScreen() {
     // Mise à jour de isRead dans la db
     const handleToggleReadStatus = (postId, isRead) => {
         console.log(`Updating postId: ${postId} to isRead: ${isRead}`);
-        fetch(`http://localhost:3000/posts/${postId}`, {
+        fetch(`${BACK_URL}/posts${postId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ isRead }),
