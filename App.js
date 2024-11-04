@@ -38,6 +38,7 @@ import {  Montserrat_100Thin,  Montserrat_200ExtraLight,
  Montserrat_800ExtraBold,  Montserrat_900Black,} from '@expo-google-fonts/montserrat';
 import {  OpenSans_300Light,  OpenSans_400Regular, 
  OpenSans_600SemiBold,  OpenSans_700Bold,  OpenSans_800ExtraBold,} from '@expo-google-fonts/open-sans';
+
  
 const Stack = createNativeStackNavigator(); // Création d'un StackNavigator pour gérer la navigation entre les écrans
 const Tab = createBottomTabNavigator(); // Création d'un TabNavigator pour gérer la navigation entre les onglets

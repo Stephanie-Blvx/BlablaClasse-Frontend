@@ -72,6 +72,7 @@ export default function LoginTeacherScreen({ navigation }) {
               isAdmin: dbData.isAdmin,
               id: dbData.id,
               userType: dbData.userType,
+              isAdmin: dbData.isAdmin,
             })
           ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");

@@ -93,6 +93,7 @@ export default function LoginParentScreen({ navigation }) {
                   username: dbData.username,
                   id: dbData.id,
                   userType: dbData.userType,
+                  
                 })
               ); // si result = OK, MàJ reducer "parent" avec token et email et kids
               console.log('Dispatch effectué');
