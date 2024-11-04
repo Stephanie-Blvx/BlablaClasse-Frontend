@@ -128,7 +128,7 @@ export default function ProfilKidScreen({ navigation }) {
   //-------------------------------------------------JSX------------------------------------------
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}

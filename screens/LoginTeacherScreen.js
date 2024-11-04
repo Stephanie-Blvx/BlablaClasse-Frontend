@@ -18,7 +18,7 @@ import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
 const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -70,8 +70,10 @@ export default function LoginTeacherScreen({ navigation }) {
               lastname: dbData.lastname,
               username: dbData.username,
               classes: dbData.classes,
+              isAdmin: dbData.isAdmin,
               id: dbData.id,
               userType: dbData.userType,
+              isAdmin: dbData.isAdmin,
             })
           ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");
@@ -82,7 +84,7 @@ export default function LoginTeacherScreen({ navigation }) {
   //-------------------------------------------------JSX------------------------------------------
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -91,7 +93,7 @@ export default function LoginTeacherScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter teacher</Text>
+            <Text style={globalStyles.title}>Se connecter</Text>
 
  {/* //-----------Lien QR Reader tranféré vers IdentificationScreen------------------------- */}
             {/* <View style={buttonStyles.buttonContainer}>

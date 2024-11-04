@@ -3,20 +3,15 @@ import { StyleSheet } from "react-native";
 export const classeStyles = StyleSheet.create({
   messageContainer: {
     padding: 10,
-    marginHorizontal: 10,
+    //marginHorizontal: 10,
     marginVertical: 5,
-    // borderRadius: 20,
-    // backgroundColor: 'white',
-    // borderWidth: 2,
-    // borderColor: '#67AFAC',
-    backgroundColor: "white",
-    borderRadius: 12,
-    padding: 15,
-    marginVertical: 10,
     shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 1 },
     shadowRadius: 5,
+    elevation: 1, // pour Android
+    backgroundColor: "white",
+    borderRadius: 8
   },
   headerContainer: {
     flexDirection: "row",

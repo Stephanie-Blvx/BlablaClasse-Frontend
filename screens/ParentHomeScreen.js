@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import { useDispatch, useSelector } from 'react-redux';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker'
-import * as DocumentPicker from 'expo-document-picker';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Image, Alert, StatusBar, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, } from 'react-native';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
+import { globalStyles } from "../styles/globalStyles";
+const BACK_URL = 'http://192.168.1.30:3000';
 
 const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 //Lien pour dl menu
 const fileUri = `${FileSystem.documentDirectory}menu.jpg`
+
+
 
 export default function ParentHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});
@@ -23,6 +23,23 @@ export default function ParentHomeScreen() {
   const [menu, setMenu] = useState('')
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
 
+// Configuration Calendar en FR
+LocaleConfig.locales['fr'] = {
+  monthNames: [
+    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+  ],
+  monthNamesShort: [
+    'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
+    'Jul', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'
+  ],
+  dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+  dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+  today: 'Aujourd\'hui',
+};
+
+// Définir la locale actuelle
+LocaleConfig.defaultLocale = 'fr';
 
   //------------CALENDAR---------------------//
   // Transformer les événements en dates marquées
@@ -68,7 +85,20 @@ export default function ParentHomeScreen() {
     setModalVisible(true);
   };
 
+  // DATES EN JJ-MM-AA
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+    return `${day}-${month}-${year}`;
+  };
+
+
+
   const selectedDateEvents = markedDates[selectedDate]?.events || [];
+
+
 
   // ----------------ROUTE GET DERNIèRE ACTU A AFFICHER-----------
   // Fetch des posts dans la db
@@ -107,30 +137,30 @@ export default function ParentHomeScreen() {
   ///----- Fonction pour DOWNLOAD menu cantine------
 
   const downloadMenu = async () => {
-//utiiser await 
-const response = await fetch(`${BACK_URL}/menus`);
-const data = await response.json();
+    //utiiser await 
+    const response = await fetch(`${BACK_URL}/menus`);
+    const data = await response.json();
 
-if (data.result) {
-  console.log("LAST MENU URL", data);
-  const lastMenuUrl = data;
-  setMenu(lastMenuUrl);
-  console.log("LAST MENU", menu.menu.url);
-} else {
-  console.error(data.error);
-}
- // Demander la permission d'accéder à la galerie
- const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (data.result) {
+      console.log("LAST MENU URL", data);
+      const lastMenuUrl = data;
+      setMenu(lastMenuUrl);
+      console.log("LAST MENU", menu.menu.url);
+    } else {
+      console.error(data.error);
+    }
+    // Demander la permission d'accéder à la galerie
+    const { status } = await MediaLibrary.requestPermissionsAsync();
 
- if (status === 'granted') {
-  console.log('WHAT', menu.menu.url)
+    if (status === 'granted') {
+      console.log('WHAT', menu.menu.url)
 
-    // ---Télécharger le fichier---
-    const result = await FileSystem.downloadAsync(menu.menu.url, fileUri);
-    console.log('RESULT', result)
-    console.log("Fichier téléchargé avec succès :", result.uri);
+      // ---Télécharger le fichier---
+      const result = await FileSystem.downloadAsync(menu.menu.url, fileUri);
+      console.log('RESULT', result)
+      console.log("Fichier téléchargé avec succès :", result.uri);
 
-   
+
       // Enregistrer le fichier dans la galerie
       const asset = await MediaLibrary.createAssetAsync(result.uri);
       Alert.alert('Téléchargement terminé', `Le fichier a été enregistré dans la galerie : ${asset.uri}`);
@@ -142,13 +172,22 @@ if (data.result) {
   ///JSX///
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <View style={styles.header}>
+    <SafeAreaView style={[globalStyles.safeArea]}>
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={40}
+      >
+         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <View style={globalStyles.container}>
+      <View style={[styles.header, globalStyles.container]}>
         <Image style={styles.logo} source={require('../assets/logo.png')} />
-        <Text style={styles.titleHome}> Quoi de neuf dans notre école ? </Text>
+        <Text style={globalStyles.title}>Quoi de neuf ?</Text>
       </View>
 
       <Calendar
+        firstDay={1}
         onDayPress={onDayPress}
         current={currentDate}
         markedDates={markedDates}
@@ -158,7 +197,7 @@ if (data.result) {
           todayTextColor: '#67AFAC',
           arrowColor: '#67AFAC',
         }}
-       
+        locale={"fr"}
       />
 
       <Modal
@@ -168,7 +207,7 @@ if (data.result) {
       >
         <View style={{ flex: 1, padding: 20, justifyContent: 'center', alignItems: 'center' }}>
           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-            Événements du {selectedDate}
+            Événements du {formatDate(selectedDate)}
           </Text>
           {selectedDateEvents.length > 0 ? (
             selectedDateEvents.map((event, index) => (
@@ -198,6 +237,9 @@ if (data.result) {
       </View>
 
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -209,10 +251,10 @@ const styles = StyleSheet.create({
   },
   header: {
 
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+    // height: 60,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    //marginBottom: 20,
 
 
   },
@@ -228,7 +270,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 70,
     height: 70,
-    marginRight: 10,
+    //marginRight: 10,
   },
 
   modalView: {
@@ -253,10 +295,10 @@ const styles = StyleSheet.create({
   },
   buttonPlace: {
 
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 5,
-    marginTop: 60,
+    marginTop: 36,
     marginLeft: 30,
 
   },
@@ -275,7 +317,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   lastActuContainer: {
-    backgroundColor:"white",
+    backgroundColor: "white",
     borderWidth: 1.5,
     borderColor: "#69AFAC",
     borderRadius: 10,

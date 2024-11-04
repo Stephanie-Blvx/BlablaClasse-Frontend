@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateEmail, logout } from "../reducers/teacher";
 
 //const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
-const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -161,7 +161,7 @@ export default function ProfilTeacherScreen({ navigation }) {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
