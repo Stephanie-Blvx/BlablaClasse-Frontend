@@ -90,6 +90,7 @@ export default function LoginParentScreen({ navigation }) {
                   firstname: dbData.firstname,
                   lastname: dbData.lastname,
                   kids: dbData.kids,
+                  username: dbData.username,
                   id: dbData.id,
                   userType: dbData.userType,
                 })

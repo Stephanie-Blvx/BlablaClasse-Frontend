@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { CheckBox } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
-
+import { classeStyles } from '../styles/classeStyles';
 
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     const [isChecked, setIsChecked] = useState(post.isRead);
@@ -23,24 +23,24 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     };
 
     return (
-        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#69AFAC' : 'white' },]}>
-            <View style={styles.headerContainer}>
-                <Image source={require('../assets/avatar-1.jpg')} style={styles.avatar} />
-                <View style={styles.authorInfo}>
-                    <Text style={styles.messageInfos}>
+        <View style={[classeStyles.messageContainer, { backgroundColor: isChecked ? '#69AFAC' : 'white' },]}>
+            <View style={classeStyles.headerContainer}>
+                <Image source={require('../assets/avatar-1.jpg')} style={classeStyles.avatar} />
+                <View style={classeStyles.authorInfo}>
+                    <Text style={classeStyles.messageInfos}>
                         {post.author.firstname} @{post.author.username}   
                     </Text>
                     <Text>{new Date(post.creationDate).toLocaleString()}</Text>
                 </View>
                 <TouchableOpacity>
-                    <CheckBox value={isChecked} onValueChange={handleCheckboxChange} style={styles.checkbox} />
+                    <CheckBox value={isChecked} onValueChange={handleCheckboxChange} style={classeStyles.checkbox} />
                 </TouchableOpacity>
             </View>
-            <View style={styles.messageContentContainer}>
-                <Text style={[styles.title2, { color: isChecked ? 'black' : '#69AFAC' },]}>{post.title}</Text>
-                <Text style={[styles.messageContent, { color: isChecked ? 'black' : '#69AFAC' }]}>{post.content}</Text>
+            <View style={classeStyles.messageContentContainerParent}>
+                <Text style={[classeStyles.title2, { color: isChecked ? 'black' : '#69AFAC' },]}>{post.title}</Text>
+                <Text style={[classeStyles.messageContent, { color: isChecked ? 'black' : '#69AFAC' }]}>{post.content}</Text>
                 {post.images.map((imagePath, index) => (
-                    <Image key={index} source={imageMapping[imagePath]} style={styles.image} />
+                    <Image key={index} source={imageMapping[imagePath]} style={classeStyles.image} />
                 ))}
             </View>
         </View>
@@ -92,7 +92,7 @@ export default function ParentClassScreen() {
     return (
         <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View>
-                <Text style={styles.titleClass}>Classe de {childName}</Text>
+                <Text style={classeStyles.titleClass}>Classe de {childName}</Text>
             </View>
             <ScrollView>
                 <View>
@@ -110,68 +110,76 @@ export default function ParentClassScreen() {
     );
 }
 
-const styles = StyleSheet.create({
-    messageContainer: {
-        padding: 10,
-        marginHorizontal: 10,
-        marginVertical: 5,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        borderWidth: 2,
-        borderColor: '#67AFAC',
-    },
-        headerContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: 5,
-        },
+// const styles = StyleSheet.create({
+//     messageContainer: {
+//         padding: 10,
+//         marginHorizontal: 10,
+//         marginVertical: 5,
+//         // borderRadius: 20,
+//         // backgroundColor: 'white',
+//         // borderWidth: 2,
+//         // borderColor: '#67AFAC',
+//         backgroundColor: 'white',
+//         borderRadius: 12,
+//         padding: 15,
+//         marginVertical: 10,
+//         shadowColor: '#000',
+//         shadowOpacity: 0.1,
+//         shadowOffset: { width: 0, height: 1 },
+//         shadowRadius: 5,
+//     },
+//         headerContainer: {
+//             flexDirection: 'row',
+//             alignItems: 'center',
+//             justifyContent: 'space-between',
+//             marginBottom: 5,
+//         },
 
-    avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        marginRight: 10,
-    },
-    messageInfos: {
-        fontSize: 14,
-        color: 'black',
-    },
-    contentRow: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        marginTop: 5,
-    },
-    messageContentContainer: {
-        flex: 1,
-    },
-    titleClass:{
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 20,
-        color:'#69AFAC',
-        textAlign: 'center',
-      },
-    title2: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#69AFAC',
-    },
-    messageContent: {
-        fontSize: 14,
-        color: '#69AFAC',
-    },
-    image: {
-        width: '100%',
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 20,
-        marginTop: 5,
-    },
-    checkbox: {
-        alignSelf: 'center',
-        marginLeft: 5,
+//     avatar: {
+//         width: 40,
+//         height: 40,
+//         borderRadius: 20,
+//         marginRight: 10,
+//     },
+//     messageInfos: {
+//         fontSize: 14,
+//         color: 'black',
+//     },
+//     contentRow: {
+//         flexDirection: 'row',
+//         alignItems: 'flex-start',
+//         marginTop: 5,
+//     },
+//     messageContentContainer: {
+//         flex: 1,
+//     },
+//     titleClass:{
+//         fontSize: 25,
+//         fontWeight: 'bold',
+//         marginTop: 20,
+//         marginBottom: 20,
+//         color:'#69AFAC',
+//         textAlign: 'center',
+//       },
+//     title2: {
+//         fontWeight: 'bold',
+//         fontSize: 16,
+//         color: '#69AFAC',
+//     },
+//     messageContent: {
+//         fontSize: 14,
+//         color: '#69AFAC',
+//     },
+//     image: {
+//         width: '100%',
+//         height: 200,
+//         resizeMode: 'cover',
+//         borderRadius: 20,
+//         marginTop: 5,
+//     },
+//     checkbox: {
+//         alignSelf: 'center',
+//         marginLeft: 5,
 
-    },
-});
+//     },
+// });

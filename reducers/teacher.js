@@ -24,6 +24,7 @@ export const teacherSlice = createSlice({
         state.value.email = null;
         state.value.username= null;
         state.value.classes= [];
+        state.value.userType =null; // Mettre à jour le type d'utilisateur
     },
     setUserType: (state, action) => {
       console.log('Updating user type:', action.payload); 
