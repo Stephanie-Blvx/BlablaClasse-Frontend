@@ -15,9 +15,10 @@ import { globalStyles } from "../styles/globalStyles"; // Importation des styles
 const BACKEND_ADDRESS = "http://192.168.3.174:3000"; // URL Backend
 import { useDispatch, useSelector } from "react-redux";
 import { updateKidInfo } from "../reducers/parent"; // Assurez-vous d'importer l'action
+import FontAwesome from "react-native-vector-icons/FontAwesome6";
 
 // Composant principal pour l'écran de profil
-export default function ProfilKidScreen({ route }) {
+export default function ProfilKidScreen({ navigation }) {
   const parent = useSelector((state) => state.parent.value); // Récupère les données parent de Redux
   const dispatch = useDispatch(); // Pour dispatcher les actions Redux
   console.log(parent);
@@ -134,7 +135,15 @@ export default function ProfilKidScreen({ route }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Profil enfant</Text>{" "}
+            {/* Bouton de retour */}
+            <TouchableOpacity
+              
+              onPress={() => navigation.navigate("Profil")}
+            >
+              <FontAwesome name="arrow-left" size={20} color="#4A7B59" solid />
+            </TouchableOpacity>
+
+            <Text style={globalStyles.title}>Profil enfant</Text>
             {/* Titre de la page */}
             {/* Champ de saisie pour le prénom de l'enfant */}
             <View style={buttonStyles.inputContainer}>

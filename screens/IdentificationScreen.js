@@ -7,8 +7,8 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
+  Button
 } from "react-native";
-
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserType as setParentUserType } from '../reducers/parent';
 import { setUserType as setTeacherUserType } from '../reducers/teacher';
@@ -18,6 +18,7 @@ import { globalStyles } from "../styles/globalStyles";
 
 // Composant principal pour l'écran d'identification
 export default function IdentificationScreen({ navigation }) {
+
 
   const dispatch = useDispatch();
 
@@ -63,17 +64,17 @@ export default function IdentificationScreen({ navigation }) {
               <View style={buttonStyles.buttonContainer}>
                 <TouchableOpacity
                   style={buttonStyles.button}
-                  onPress={() => handleUserTypeSelect('parent')} //naviguer vers page ProfileParent
+                  onPress={() => handleUserTypeSelect('parent')} 
                   activeOpacity={0.8}
                 >
-                  <Text style={buttonStyles.buttonText}>Je suis Parent</Text>
+                  <Text style={buttonStyles.buttonText}>Je suis parent</Text>
                 </TouchableOpacity>
               </View>
               {/* Navigation vers la page de connexion enseignant */}
               <View style={buttonStyles.buttonContainer}>
                 <TouchableOpacity
                   style={buttonStyles.button}
-                  onPress={() => handleUserTypeSelect('teacher')} //naviguer vers page ProfileKid
+                  onPress={() => handleUserTypeSelect('teacher')} 
                   activeOpacity={0.8}
                 >
                   <Text style={buttonStyles.buttonText}>

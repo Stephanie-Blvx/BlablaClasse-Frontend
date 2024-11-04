@@ -1,12 +1,12 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform,  TouchableOpacity, ScrollView} from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {CheckBox} from 'react-native';
+import { CheckBox } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
-
+import { classeStyles } from '../styles/classeStyles';
 const BACK_URL = 'http://192.168.3.174:3000';
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
-    const [isChecked, setIsChecked] = useState(post.isRead); 
+    const [isChecked, setIsChecked] = useState(post.isRead);
 
 
     const handleCheckboxChange = (newValue) => {
@@ -23,24 +23,26 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     };
 
     return (
-        <View style={[styles.messageContainer, { backgroundColor: isChecked ? '#8DBFA9' : '#F9F2D9' }]}>
-            <Image
-                source={'/assets/avatar-1.jpg'}
-                style={styles.avatar}
-            />
-            <View style={styles.messageContentContainer}>
-                <Text styles={styles.messageInfos}>{post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}</Text>
-                <Text styles={styles.title2}>{post.title}</Text>
-                <Text style={styles.messageContent}>{post.content}</Text>
+        <View style={[classeStyles.messageContainer, { backgroundColor: isChecked ? '#69AFAC' : 'white' },]}>
+            <View style={classeStyles.headerContainer}>
+                <Image source={require('../assets/avatar-1.jpg')} style={classeStyles.avatar} />
+                <View style={classeStyles.authorInfo}>
+                    <Text style={classeStyles.messageInfos}>
+                        {post.author.firstname} @{post.author.username}   
+                    </Text>
+                    <Text>{new Date(post.creationDate).toLocaleString()}</Text>
+                </View>
+                <TouchableOpacity>
+                    <CheckBox value={isChecked} onValueChange={handleCheckboxChange} style={classeStyles.checkbox} />
+                </TouchableOpacity>
+            </View>
+            <View style={classeStyles.messageContentContainerParent}>
+                <Text style={[classeStyles.title2, { color: isChecked ? 'black' : '#69AFAC' },]}>{post.title}</Text>
+                <Text style={[classeStyles.messageContent, { color: isChecked ? 'black' : '#69AFAC' }]}>{post.content}</Text>
                 {post.images.map((imagePath, index) => (
-                    <Image key={index} source={imageMapping[imagePath]} style={styles.image} />
+                    <Image key={index} source={imageMapping[imagePath]} style={classeStyles.image} />
                 ))}
             </View>
-                <CheckBox
-                    value={isChecked}
-                    onValueChange={handleCheckboxChange}
-                    style={styles.checkbox}
-                />
         </View>
     );
 };
@@ -50,16 +52,16 @@ export default function ParentClassScreen() {
     const parent = useSelector((state) => state.parent.value);
     const childName = parent.kids[0].firstname;
 
-    
+
 
     // Fetch des posts dans la db
     const fetchPosts = () => {
-        fetch('http://localhost/posts')
+        fetch('http://localhost:3000/posts')
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
                     const sortedPosts = data.posts.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
-                    setPosts(sortedPosts); 
+                    setPosts(sortedPosts);
                 } else {
                     console.error(data.error);
                 }
@@ -90,69 +92,94 @@ export default function ParentClassScreen() {
     return (
         <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View>
-                <Text style={globalStyles.title}>Classe de {childName}</Text>
+                <Text style={classeStyles.titleClass}>Classe de {childName}</Text>
             </View>
             <ScrollView>
-            <View>
-                {posts.map((post) => (
-                    <MessageWithCheckbox
-                        key={post._id}
-                        post={post}
-                        postId={post._id}
-                        onToggleReadStatus={handleToggleReadStatus}
-                    />
-                ))}
-            </View>
+                <View>
+                    {posts.map((post) => (
+                        <MessageWithCheckbox
+                            key={post._id}
+                            post={post}
+                            postId={post._id}
+                            onToggleReadStatus={handleToggleReadStatus}
+                        />
+                    ))}
+                </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-        backgroundColor: '#fff',
-    },
-    header: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 20,
-    },
-    messageContainer: {
-        flexDirection: 'row',
-        alignItems: 'center', 
-        padding: 10,
-        marginHorizontal: 10,
-        marginVertical: 5,
-        backgroundColor: '#f9f9f9',
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#ddd',
-    },
-    avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        marginRight: 10,
-    },
-    messageContentContainer: {
-        flex: 1,
-    },
-    messageContent: {
-        fontSize: 14,
-    },
-    checkboxContainer: {
-        justifyContent: 'center', 
-        paddingHorizontal: 8,
-    },
-    checkbox: {
-        alignSelf: 'center',
-    },
-    image: {
-        width: '80%', 
-        height: 200, 
-        resizeMode: 'cover', 
-        borderRadius: 5,
-    },
-});
+// const styles = StyleSheet.create({
+//     messageContainer: {
+//         padding: 10,
+//         marginHorizontal: 10,
+//         marginVertical: 5,
+//         // borderRadius: 20,
+//         // backgroundColor: 'white',
+//         // borderWidth: 2,
+//         // borderColor: '#67AFAC',
+//         backgroundColor: 'white',
+//         borderRadius: 12,
+//         padding: 15,
+//         marginVertical: 10,
+//         shadowColor: '#000',
+//         shadowOpacity: 0.1,
+//         shadowOffset: { width: 0, height: 1 },
+//         shadowRadius: 5,
+//     },
+//         headerContainer: {
+//             flexDirection: 'row',
+//             alignItems: 'center',
+//             justifyContent: 'space-between',
+//             marginBottom: 5,
+//         },
+
+//     avatar: {
+//         width: 40,
+//         height: 40,
+//         borderRadius: 20,
+//         marginRight: 10,
+//     },
+//     messageInfos: {
+//         fontSize: 14,
+//         color: 'black',
+//     },
+//     contentRow: {
+//         flexDirection: 'row',
+//         alignItems: 'flex-start',
+//         marginTop: 5,
+//     },
+//     messageContentContainer: {
+//         flex: 1,
+//     },
+//     titleClass:{
+//         fontSize: 25,
+//         fontWeight: 'bold',
+//         marginTop: 20,
+//         marginBottom: 20,
+//         color:'#69AFAC',
+//         textAlign: 'center',
+//       },
+//     title2: {
+//         fontWeight: 'bold',
+//         fontSize: 16,
+//         color: '#69AFAC',
+//     },
+//     messageContent: {
+//         fontSize: 14,
+//         color: '#69AFAC',
+//     },
+//     image: {
+//         width: '100%',
+//         height: 200,
+//         resizeMode: 'cover',
+//         borderRadius: 20,
+//         marginTop: 5,
+//     },
+//     checkbox: {
+//         alignSelf: 'center',
+//         marginLeft: 5,
+
+//     },
+// });

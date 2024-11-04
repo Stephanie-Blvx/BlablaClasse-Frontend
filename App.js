@@ -27,8 +27,11 @@ import ProfilParentScreen from './screens/ProfilParentScreen';
 import QRreaderScreen from './screens/QRreaderScreen';
 import TeacherHomeScreen from './screens/TeacherHomeScreen';
 import ProfilTeacherScreen from './screens/ProfilTeacherScreen';
-
-// --------------------------------- Fonts ---------------------------------
+import QRreaderScreen from './screens/QRreaderScreen';
+import ChatScreen from './screens/ChatScreen';
+// --------------------------------- Importation des icônes ---------------------------------
+import FontAwesome from 'react-native-vector-icons/FontAwesome6';
+// --------------------------------- Importation des polices ---------------------------------
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import {  Montserrat_100Thin,  Montserrat_200ExtraLight, 
@@ -66,7 +69,7 @@ const ParentTabNavigator = () => {
             iconName = 'house';
           } else if (route.name === 'ParentClass') {
             iconName = 'children';
-          } else if (route.name === 'Tchat') {
+          } else if (route.name === 'ChatScreen') {
             iconName = 'message';
           } else if (route.name === 'Profil') {
             iconName = 'user';
@@ -86,7 +89,8 @@ const ParentTabNavigator = () => {
     >
       <Tab.Screen name="ParentHome" component={ParentHomeScreen} />
       <Tab.Screen name="ParentClass" component={ParentClassScreen} />
-      <Tab.Screen name="Tchat" component={TchatScreen} />
+      {/* <Tab.Screen name="Tchat" component={TchatScreen} /> */}
+      <Tab.Screen name="ChatScreen" component={ChatScreen} />
       <Tab.Screen name="Profil" component={ProfilScreen} />
     </Tab.Navigator>
   );
@@ -104,7 +108,7 @@ const TeacherTabNavigator = () => {
             iconName = 'house';
           } else if (route.name === 'TeacherClass') {
             iconName = 'children';
-          } else if (route.name === 'Tchat') {
+          } else if (route.name === 'ChatScreen') {
             iconName = 'message';
           } else if (route.name === 'ProfilTeacher') {
             iconName = 'user';
@@ -124,7 +128,8 @@ const TeacherTabNavigator = () => {
     >
       <Tab.Screen name="TeacherHome" component={TeacherHomeScreen} />
       <Tab.Screen name="TeacherClass" component={TeacherClassScreen} />
-      <Tab.Screen name="Tchat" component={TchatScreen} />
+      {/* <Tab.Screen name="Tchat" component={TchatScreen} /> */}
+      <Tab.Screen name="ChatScreen" component={ChatScreen} />
       <Tab.Screen name="ProfilTeacher" component={ProfilTeacherScreen} />
     </Tab.Navigator>
   );

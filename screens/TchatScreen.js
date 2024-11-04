@@ -66,7 +66,7 @@ export default function TchatScreen() {
               multiline={true}
               onChangeText={setNewMessage}
               placeholder="Écrire un message..."
-              onSubmitEditing={sendMessage} // Optionnel pour envoyer avec la touche "Entrée"
+              onSubmitEditing={sendMessage} 
             />
             <FontAwesome name="send" onPress={sendMessage} size={14} color="#4a7b59" style={styles.seenIcon} />
           </View>
