@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert, Image, Button } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert, Image, Button, StatusBar, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 
@@ -12,6 +12,7 @@ import { shareAsync } from 'expo-sharing';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
+import { globalStyles } from "../styles/globalStyles";
 
 const BACK_URL = 'http://192.168.3.174:3000';
 
@@ -304,12 +305,19 @@ console.log("DOTS", e)
   //JSX
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-
-      <View style={styles.header}>
-        <Image style={styles.logo} source={require('../assets/logo.png')} />
-        <Text style={styles.titleHome}> Quoi de neuf dans notre école ? </Text>
-      </View>
+    <SafeAreaView style={[globalStyles.safeArea]}>
+    <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={40}
+    >
+       <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+  <View style={globalStyles.container}>
+    <View style={[styles.header, globalStyles.container]}>
+      <Image style={styles.logo} source={require('../assets/logo.png')} />
+      <Text style={globalStyles.title}>Quoi de neuf ?</Text>
+    </View>
 
       <Calendar
         onDayPress={onDayPress}
@@ -430,6 +438,9 @@ console.log("DOTS", e)
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -441,10 +452,10 @@ const styles = StyleSheet.create({
   },
   header: {
 
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+    // height: 60,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // marginBottom: 20,
 
 
   },
