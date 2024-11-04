@@ -16,7 +16,7 @@ import { globalStyles } from "../styles/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEmail, logout } from "../reducers/teacher";
 
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
 
 const emailRegex =

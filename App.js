@@ -6,15 +6,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // --------------------------------- Importation des composants redux ---------------------------------
 import { Provider, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+
+
 // --------------------------------- Importation des reducers ---------------------------------
 import parent from './reducers/parent';
 import teacher from './reducers/teacher';
-import event from './reducers/event';
-import menu from './reducers/menu';
+
+
 // --------------------------------- Importation des screens ---------------------------------
 import IdentificationScreen from './screens/IdentificationScreen';
 import ParentHomeScreen from './screens/ParentHomeScreen';
-import TeacherHomeScreen from './screens/TeacherHomeScreen';
 import LoginParentScreen from './screens/LoginParentScreen';
 import LoginTeacherScreen from './screens/LoginTeacherScreen';
 import ParentClassScreen from './screens/ParentClassScreen';
@@ -23,6 +24,8 @@ import TchatScreen from './screens/TchatScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import ProfilKidScreen from './screens/ProfilKidScreen';
 import ProfilParentScreen from './screens/ProfilParentScreen';
+import QRreaderScreen from './screens/QRreaderScreen';
+import TeacherHomeScreen from './screens/TeacherHomeScreen';
 import ProfilTeacherScreen from './screens/ProfilTeacherScreen';
 import QRreaderScreen from './screens/QRreaderScreen';
 import ChatScreen from './screens/ChatScreen';
@@ -31,34 +34,25 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 // --------------------------------- Importation des polices ---------------------------------
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
-import {
-  Montserrat_100Thin,
-  Montserrat_200ExtraLight,
-  Montserrat_300Light,
-  Montserrat_400Regular,
-  Montserrat_500Medium,
-  Montserrat_600SemiBold,
-  Montserrat_800ExtraBold,
-  Montserrat_900Black,
-} from '@expo-google-fonts/montserrat';
-import {
-  OpenSans_300Light,
-  OpenSans_400Regular,
-  OpenSans_600SemiBold,
-  OpenSans_700Bold,
-  OpenSans_800ExtraBold,
-} from '@expo-google-fonts/open-sans';
-
+import {  Montserrat_100Thin,  Montserrat_200ExtraLight, 
+ Montserrat_300Light,  Montserrat_400Regular, 
+ Montserrat_500Medium,  Montserrat_600SemiBold, 
+ Montserrat_800ExtraBold,  Montserrat_900Black,} from '@expo-google-fonts/montserrat';
+import {  OpenSans_300Light,  OpenSans_400Regular, 
+ OpenSans_600SemiBold,  OpenSans_700Bold,  OpenSans_800ExtraBold,} from '@expo-google-fonts/open-sans';
+ import FontAwesome from 'react-native-vector-icons/FontAwesome6';
+ 
 const Stack = createNativeStackNavigator(); // Création d'un StackNavigator pour gérer la navigation entre les écrans
 const Tab = createBottomTabNavigator(); // Création d'un TabNavigator pour gérer la navigation entre les onglets
 
 // --------------------------------- Store ---------------------------------
+
 const store = configureStore({
   reducer: {
-    event,
+   
     parent,
     teacher,
-    menu,
+    
   },
 });
 

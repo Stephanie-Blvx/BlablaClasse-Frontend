@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { globalStyles } from '../styles/globalStyles';
 import { classeStyles } from '../styles/classeStyles';
-
+const BACK_URL = 'http://192.168.3.174:3000'
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -99,7 +99,7 @@ export default function ClassScreen() {
     const teacher = useSelector((state) => state.teacher.value);
 
     const fetchPosts = () => {
-        fetch('http://localhost:3000/posts')
+        fetch(`${BACK_URL}/posts`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -117,6 +117,9 @@ export default function ClassScreen() {
 
     const handleDeletePost = (postId) => {
         fetch(`http://localhost:3000/posts/${postId}`, { method: 'DELETE' })
+        fetch(`${BACK_URL}/posts/${postId}`, {
+            method: 'DELETE',
+        })
             .then((response) => response.json())
             .then((result) => {
                 if (result.success) {
@@ -162,8 +165,10 @@ export default function ClassScreen() {
             classes: [],
             isRead: false,
         };
+        console.log(newPost);
+        
 
-        fetch('http://localhost:3000/posts', {
+        fetch(`${BACK_URL}/posts`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newPost),
