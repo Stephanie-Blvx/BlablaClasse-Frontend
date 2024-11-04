@@ -11,6 +11,7 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     const [editedTitle, setEditedTitle] = useState(post.title);
     const [editedContent, setEditedContent] = useState(post.content);
 
+    // gestion des actions utilisateur
     const handleDeletePress = () => setModalVisible(true);
     const handleConfirmDelete = () => {
         onDeletePost(postId);
@@ -97,6 +98,7 @@ export default function ClassScreen() {
     const [selectedImage, setSelectedImage] = useState(null);
     const teacher = useSelector((state) => state.teacher.value);
 
+    // Récupérer les posts depuis la db
     const fetchPosts = () => {
         fetch('http://localhost:3000/posts')
             .then((response) => response.json())
@@ -109,11 +111,12 @@ export default function ClassScreen() {
                 }
             });
     };
-
+    // Faire un render au chargement du code
     useEffect(() => {
         fetchPosts();
     }, []);
 
+    // Supprimer un post
     const handleDeletePost = (postId) => {
         fetch(`http://localhost:3000/posts/${postId}`, { method: 'DELETE' })
             .then((response) => response.json())
@@ -126,6 +129,8 @@ export default function ClassScreen() {
             });
     };
 
+
+    // Modifier un post
     const handleUpdatePost = (postId, newTitle, newContent) => {
         fetch(`http://localhost:3000/posts/${postId}`, {
             method: 'PUT',
@@ -142,35 +147,53 @@ export default function ClassScreen() {
             });
     };
 
+    // Ajouter un post avec ou sans Image
     const handleAddPost = () => {
         if (newTitle.length > 40 || newContent.length > 180) {
-            alert("Le titre et le contenu doivent chacun être limités à 180 caractères.");
+            alert("Le titre doit être limité à 40 caractères et le contenu à 180 caractères.");
             return;
         }
+        console.log("Image sélectionnée avant ajout :", selectedImage);
 
-        const newPost = {
-            title: newTitle,
-            content: newContent,
-            images: selectedImage ? [selectedImage] : [],
-            creationDate: new Date(),
-            author: {
-                id: teacher.id,
-                username: teacher.username,
-                firstname: teacher.firstname,
-            },
-            classes: [],
-            isRead: false,
-        };
+        const formData = new FormData();
+        formData.append('title', newTitle);
+        formData.append('content', newContent);
+        formData.append('author', JSON.stringify({
+            id: teacher.id,
+            username: teacher.username,
+            firstname: teacher.firstname,
+        }));
+
+        // Ajout de l'image au formData si elle existe
+        if (selectedImage) {
+            console.log("Image sélectionnée :", selectedImage);
+
+            // Convertir l'URI de l'image en Blob
+            const base64Data = selectedImage.split(',')[1]; // Enlève le préfixe
+            const imageBlob = new Blob([new Uint8Array(atob(base64Data).split("").map(c => c.charCodeAt(0)))], { type: 'image/jpeg' });
+
+            formData.append('photoFromFront', imageBlob, 'upload.jpg');
+        } else {
+            console.log("Aucune image sélectionnée.");
+        }
+
+        console.log("Données à envoyer :", formData);
 
         fetch('http://localhost:3000/posts', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newPost),
+            body: formData,
         })
-            .then((response) => response.json())
-            .then((result) => {
+            .then(response => {
+                console.log("Réponse du serveur :", response);
+                return response.json();
+            })
+            .then(result => {
                 if (result.success) {
-                    setPosts([result.post, ...posts]);
+                    const newPostWithId = {
+                        ...result.post,
+                        cloudinaryId: result.post.cloudinaryId 
+                    };
+                    setPosts([newPostWithId, ...posts]);
                     setModalVisible(false);
                     setNewTitle('');
                     setNewContent('');
@@ -178,11 +201,16 @@ export default function ClassScreen() {
                 } else {
                     console.error("Erreur d'ajout :", result.error);
                 }
+            })
+            .catch(error => {
+                console.error("Erreur lors de l'ajout du post : ", error);
+                alert("Erreur lors de l'ajout du post.");
             });
     };
 
+    // Ouvrir la bibliothèque  pour ajouter une image au post
     const pickImage = async () => {
-        // Request permission to access media library
+        // Demander la permission d'accéder à la bibliothèque de médias
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (!permissionResult.granted) {
@@ -190,7 +218,7 @@ export default function ClassScreen() {
             return;
         }
 
-        // Open image picker
+        // Ouvrir le sélecteur d'images
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -198,16 +226,21 @@ export default function ClassScreen() {
         });
 
         if (!result.cancelled) {
-            setSelectedImage(result.uri);
+            const selectedUri = result.assets[0].uri;
+            console.log("Image selected:", selectedUri);
+            setSelectedImage(selectedUri);
+        }
+        else {
+            console.log("Image selection canceled.");
         }
     };
 
-    // Fonction pour prendre une photo avec la caméra
+    // Prendre une photo avec son appareil pour l'ajouter au post
     const takePhoto = async () => {
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
         if (!permissionResult.granted) {
-            alert("Permission d'accès à la caméra requise !");
+            alert("Permission to access camera is required!");
             return;
         }
 
@@ -217,7 +250,10 @@ export default function ClassScreen() {
         });
 
         if (!result.canceled) {
-            setSelectedImage(result.assets[0].uri);  // Définir l'URI de l'image capturée
+            console.log("Photo taken:", result.assets[0].uri);
+            setSelectedImage(result.assets[0].uri);
+        } else {
+            console.log("Camera action canceled.");
         }
     };
 
@@ -265,23 +301,25 @@ export default function ClassScreen() {
                         />
                         <Text style={styles.charCount}>{180 - newContent.length} caractères restants</Text>
                         <View style={styles.iconContainer}>
-                        <TouchableOpacity onPress={takePhoto} style={styles.attachmentIcon}>
-                                <FontAwesome name="camera" size={24} color="#69AFAC" />
-                            </TouchableOpacity>
                             <TouchableOpacity onPress={pickImage} style={styles.attachmentIcon}>
-                                <FontAwesome name="paperclip" size={24} color="#69AFAC" />
+                                <FontAwesome name="paperclip" size={24} color="white" />
                             </TouchableOpacity>
+                            <TouchableOpacity onPress={takePhoto} style={styles.attachmentIcon}>
+                                <FontAwesome name="camera" size={24} color="white" />
+                            </TouchableOpacity>
+                        </View>
 
-                        </View>
-                        {selectedImage && <Image source={{ uri: selectedImage }} style={styles.imagePreview} />}
-                        <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={handleAddPost}>
-                            <Text style={styles.buttonText}>Ajouter</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
-                            <Text style={styles.buttonText}>Annuler</Text>
-                        </TouchableOpacity >
-                        </View>
+                        {selectedImage && (
+                            <View style={styles.imagePreviewContainer}>
+                                <Image source={{ uri: selectedImage }} style={styles.imagePreview} />
+                                <TouchableOpacity onPress={() => setSelectedImage(null)} style={styles.closeButton}>
+                                    <FontAwesome name="times" size={24} color="red" />
+                                </TouchableOpacity>
+                            </View>
+                        )}
+
+                        <Button title="Ajouter" color="#67AFAC" onPress={handleAddPost} />
+                        <Button title="Annuler" color="#67AFAC" onPress={() => setModalVisible(false)} />
                     </View>
                 </View>
             </Modal>
@@ -324,12 +362,12 @@ const styles = StyleSheet.create({
     title2: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#67AFAC',
+        color: '#69AFAC',
     },
     messageContent: {
         fontSize: 14,
         marginVertical: 5,
-        color: '#67AFAC',
+        color: '#69AFAC',
     },
     image: {
         width: '100%',
@@ -350,7 +388,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        backgroundColor: 'white',
+        backgroundColor: '#67AFAC',
         padding: 20,
         borderRadius: 10,
         width: '80%',
@@ -360,7 +398,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
-        color: '#69AFAC',
+        color: 'white',
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -387,14 +425,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         marginBottom: 10,
-        color: '#67AFAC',
+        color: 'white',
     },
     titleClass: {
         fontSize: 25,
         fontWeight: 'bold',
         marginTop: 20,
         marginBottom: 20,
-        color: '#67AFAC',
+        color: '#69AFAC',
         textAlign: 'center',
     },
     imagePreview: {
@@ -412,7 +450,14 @@ const styles = StyleSheet.create({
     attachmentIcon: {
         padding: 10,
     },
-    buttonText: {
-        color: '#67AFAC',
-    }
+    imagePreviewContainer: {
+        position: 'relative',
+        marginTop: 10,
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 5,
+        right: 5,
+        padding: 5,
+    },
 });
