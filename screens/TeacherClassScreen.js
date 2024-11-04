@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { globalStyles } from '../styles/globalStyles';
+import { classeStyles } from '../styles/classeStyles';
 
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -25,37 +26,37 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     };
 
     return (
-        <View style={styles.messageContainer}>
-            <View style={styles.headerContainer}>
-                <Image source={require('../assets/avatar-1.jpg')} style={styles.avatar} />
-                <View style={styles.authorInfo}>
-                    <Text style={styles.messageInfos}>
+        <View style={classeStyles.messageContainer}>
+            <View style={classeStyles.headerContainer}>
+                <Image source={require('../assets/avatar-1.jpg')} style={classeStyles.avatar} />
+                <View style={classeStyles.authorInfo}>
+                    <Text style={classeStyles.messageInfos}>
                         {post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}
                     </Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={handleEditPress} style={styles.editIcon}>
+                    <TouchableOpacity onPress={handleEditPress} style={classeStyles.editIcon}>
                         <FontAwesome name="edit" size={24} color="#4A7B59" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleDeletePress} style={styles.deleteIcon}>
+                    <TouchableOpacity onPress={handleDeletePress} style={classeStyles.deleteIcon}>
                         <FontAwesome name="trash" size={24} color="#4A7B59" />
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.messageContentContainer}>
-                <Text style={styles.title2}>{post.title}</Text>
-                <Text style={styles.messageContent}>{post.content}</Text>
+            <View style={classeStyles.messageContentContainerTeacher}>
+                <Text style={classeStyles.title2}>{post.title}</Text>
+                <Text style={classeStyles.messageContent}>{post.content}</Text>
                 {post.images.map((imagePath, index) => (
-                    <Image key={index} source={{ uri: imagePath }} style={styles.image} />
+                    <Image key={index} source={{ uri: imagePath }} style={classeStyles.image} />
                 ))}
             </View>
 
             <Modal visible={modalVisible} animationType="fade" transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Suppression</Text>
+                <View style={classeStyles.modalContainer}>
+                    <View style={classeStyles.modalContent}>
+                        <Text style={classeStyles.modalTitle}>Suppression</Text>
                         <Text color='white'>Voulez-vous vraiment supprimer ce post ?</Text>
-                        <View style={styles.buttonContainer}>
+                        <View style={classeStyles.buttonContainer}>
                             <Button title="Oui" color="#67AFAC" onPress={handleConfirmDelete} />
                             <Button title="Non" color="#67AFAC" onPress={handleCancelDelete} />
                         </View>
@@ -64,20 +65,20 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
             </Modal>
 
             <Modal visible={isEditing} animationType="slide" transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Modifier le Post</Text>
+                <View style={classeStyles.modalContainer}>
+                    <View style={classeStyles.modalContent}>
+                        <Text style={classeStyles.modalTitle}>Modifier le Post</Text>
                         <TextInput
                             placeholder="Titre"
                             value={editedTitle}
                             onChangeText={setEditedTitle}
-                            style={styles.input}
+                            style={classeStyles.input}
                         />
                         <TextInput
                             placeholder="Contenu"
                             value={editedContent}
                             onChangeText={setEditedContent}
-                            style={styles.input}
+                            style={classeStyles.input}
                             multiline
                         />
                         <Button title="Sauvegarder" color="#67AFAC" onPress={handleConfirmEdit} />
@@ -224,9 +225,9 @@ export default function ClassScreen() {
     return (
         <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View>
-                <Text style={styles.titleClass}>Classe</Text>
-                <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.addButton}>
-                    <Text style={styles.textButton}>Ajouter un Post</Text>
+                <Text style={classeStyles.titleClass}>Classe</Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)} style={classeStyles.addButton}>
+                    <Text style={classeStyles.textButton}>Ajouter un Post</Text>
                 </TouchableOpacity>
             </View>
 
@@ -245,41 +246,41 @@ export default function ClassScreen() {
             </ScrollView>
 
             <Modal visible={modalVisible} animationType="fade" transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Ajouter un post</Text>
+                <View style={classeStyles.modalContainer}>
+                    <View style={classeStyles.modalContent}>
+                        <Text style={classeStyles.modalTitle}>Ajouter un post</Text>
                         <TextInput
                             placeholder="Titre"
                             value={newTitle}
                             onChangeText={setNewTitle}
-                            style={styles.input}
+                            style={classeStyles.input}
                         />
-                        <Text style={styles.charCount}>{40 - newTitle.length} caractères restants</Text>
+                        <Text style={classeStyles.charCount}>{40 - newTitle.length} caractères restants</Text>
 
                         <TextInput
                             placeholder="Contenu"
                             value={newContent}
                             onChangeText={setNewContent}
-                            style={styles.input}
+                            style={classeStyles.input}
                             multiline
                         />
-                        <Text style={styles.charCount}>{180 - newContent.length} caractères restants</Text>
-                        <View style={styles.iconContainer}>
-                        <TouchableOpacity onPress={takePhoto} style={styles.attachmentIcon}>
+                        <Text style={classeStyles.charCount}>{180 - newContent.length} caractères restants</Text>
+                        <View style={classeStyles.iconContainer}>
+                        <TouchableOpacity onPress={takePhoto} style={classeStyles.attachmentIcon}>
                                 <FontAwesome name="camera" size={24} color="#69AFAC" />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={pickImage} style={styles.attachmentIcon}>
+                            <TouchableOpacity onPress={pickImage} style={classeStyles.attachmentIcon}>
                                 <FontAwesome name="paperclip" size={24} color="#69AFAC" />
                             </TouchableOpacity>
 
                         </View>
-                        {selectedImage && <Image source={{ uri: selectedImage }} style={styles.imagePreview} />}
-                        <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={handleAddPost}>
-                            <Text style={styles.buttonText}>Ajouter</Text>
+                        {selectedImage && <Image source={{ uri: selectedImage }} style={classeStyles.imagePreview} />}
+                        <View style={classeStyles.buttonContainer}>
+                        <TouchableOpacity style={classeStyles.button} onPress={handleAddPost}>
+                            <Text style={classeStyles.buttonText}>Ajouter</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
-                            <Text style={styles.buttonText}>Annuler</Text>
+                        <TouchableOpacity style={classeStyles.button} onPress={() => setModalVisible(false)}>
+                            <Text style={classeStyles.buttonText}>Annuler</Text>
                         </TouchableOpacity >
                         </View>
                     </View>
@@ -289,130 +290,140 @@ export default function ClassScreen() {
     );
 }
 
-const styles = StyleSheet.create({
-    messageContainer: {
-        padding: 10,
-        marginHorizontal: 10,
-        marginVertical: 5,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        borderWidth: 2,
-        borderColor: '#67AFAC',
-    },
-    headerContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        marginRight: 10,
-    },
-    authorInfo: {
-        flex: 1,
-        marginRight: 10,
-    },
-    messageContentContainer: {
-        marginTop: 10,
-    },
-    messageInfos: {
-        color: 'black',
-        fontSize: 12,
-    },
-    title2: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#67AFAC',
-    },
-    messageContent: {
-        fontSize: 14,
-        marginVertical: 5,
-        color: '#67AFAC',
-    },
-    image: {
-        width: '100%',
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 20,
-        marginTop: 5,
-    },
-    deleteIcon: {
-        paddingLeft: 10,
-        marginRight: 10,
-        color: '#C6D387',
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-        width: '80%',
-        color: 'white',
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        color: '#69AFAC',
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 10,
-    },
-    addButton: {
-        backgroundColor: "#67AFAC",
-        color: "white",
-        paddingVertical: 10,
-        borderRadius: 25,
-        alignItems: "center",
-        marginHorizontal: 20,
-        marginBottom: 10,
-    },
-    textButton: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    input: {
-        borderColor: '#ddd',
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10,
-        color: '#67AFAC',
-    },
-    titleClass: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 20,
-        color: '#67AFAC',
-        textAlign: 'center',
-    },
-    imagePreview: {
-        width: '100%',
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 10,
-        marginTop: 10,
-    },
-    iconContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginBottom: 10,
-    },
-    attachmentIcon: {
-        padding: 10,
-    },
-    buttonText: {
-        color: '#67AFAC',
-    }
-});
+// const styles = StyleSheet.create({
+//     messageContainer: {
+//         padding: 10,
+//         marginHorizontal: 10,
+//         marginVertical: 5,
+//         // borderRadius: 20,
+//         // backgroundColor: 'white',
+//         // borderWidth: 2,
+//         // borderColor: '#67AFAC',
+
+//         backgroundColor: 'white',
+//         borderRadius: 12,
+//         padding: 15,
+//         marginVertical: 10,
+//         shadowColor: '#000',
+//         shadowOpacity: 0.1,
+//         shadowOffset: { width: 0, height: 1 },
+//         shadowRadius: 5,
+        
+//     },
+//     headerContainer: {
+//         flexDirection: 'row',
+//         alignItems: 'center',
+//         justifyContent: 'space-between',
+//     },
+//     avatar: {
+//         width: 40,
+//         height: 40,
+//         borderRadius: 20,
+//         marginRight: 10,
+//     },
+//     authorInfo: {
+//         flex: 1,
+//         marginRight: 10,
+//     },
+//     messageContentContainer: {
+//         marginTop: 10,
+//     },
+//     messageInfos: {
+//         color: '#121212',
+//         fontSize: 12,
+//     },
+//     title2: {
+//         fontWeight: 'bold',
+//         fontSize: 16,
+//         color: '#67AFAC',
+//     },
+//     messageContent: {
+//         fontSize: 14,
+//         marginVertical: 5,
+//         color: '#67AFAC',
+//     },
+//     image: {
+//         width: '100%',
+//         height: 200,
+//         resizeMode: 'cover',
+//         borderRadius: 20,
+//         marginTop: 5,
+//     },
+//     deleteIcon: {
+//         paddingLeft: 10,
+//         marginRight: 10,
+//         color: '#C6D387',
+//     },
+//     modalContainer: {
+//         flex: 1,
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+//     },
+//     modalContent: {
+//         backgroundColor: 'white',
+//         padding: 20,
+//         borderRadius: 10,
+//         width: '80%',
+//         color: 'white',
+//     },
+//     modalTitle: {
+//         fontSize: 18,
+//         fontWeight: 'bold',
+//         marginBottom: 10,
+//         color: '#69AFAC',
+//     },
+//     buttonContainer: {
+//         flexDirection: 'row',
+//         justifyContent: 'space-around',
+//         marginTop: 10,
+//     },
+//     addButton: {
+//         backgroundColor: "#67AFAC",
+//         color: "white",
+//         paddingVertical: 10,
+//         borderRadius: 25,
+//         alignItems: "center",
+//         marginHorizontal: 20,
+//         marginBottom: 10,
+//     },
+//     textButton: {
+//         color: 'white',
+//         fontSize: 16,
+//         fontWeight: 'bold',
+//     },
+//     input: {
+//         borderColor: '#ddd',
+//         borderWidth: 1,
+//         borderRadius: 10,
+//         padding: 10,
+//         marginBottom: 10,
+//         color: '#67AFAC',
+//     },
+//     titleClass: {
+//         fontSize: 25,
+//         fontWeight: 'bold',
+//         marginTop: 20,
+//         marginBottom: 20,
+//         color: '#67AFAC',
+//         textAlign: 'center',
+//     },
+//     imagePreview: {
+//         width: '100%',
+//         height: 200,
+//         resizeMode: 'cover',
+//         borderRadius: 10,
+//         marginTop: 10,
+//     },
+//     iconContainer: {
+//         flexDirection: 'row',
+//         justifyContent: 'space-around',
+//         marginBottom: 10,
+//     },
+//     attachmentIcon: {
+//         padding: 10,
+//     },
+//     buttonText: {
+//         color: '#67AFAC',
+//     }
+// });
