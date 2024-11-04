@@ -4,48 +4,40 @@ import { useSelector } from 'react-redux';
 import { CheckBox } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 import { classeStyles } from '../styles/classeStyles';
-const BACK_URL = 'http://192.168.3.174:3000';
-const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
-    const [isChecked, setIsChecked] = useState(post.isRead);
+const BACK_URL = 'http://localhost:3000';
 
-
-    const handleCheckboxChange = (newValue) => {
-        setIsChecked(newValue); // Mettre à jour l’état local de la checkbox
-        onToggleReadStatus(postId, newValue); // Appeler la fonction pour mettre à jour dans la DB
-    };
-
-    //Mapping pour rendu temporaire des images en fonction du post. Prévoir de mettre les images sur Cloudinary.
-    const imageMapping = {
-        "assets/photos/sortie-vélo.jpg": require('../assets/photos/sortie-vélo.jpg'),
-        "assets/photos/sortie-piscine.jpg": require('../assets/photos/sortie-piscine.jpg'),
-        "assets/photos/sortie-louvre.jpg": require('../assets/photos/sortie-louvre.jpg'),
-        "assets/photos/journée-dodo.jpg": require('../assets/photos/journée-dodo.jpg'),
-    };
-
-    return (
-        <View style={[classeStyles.messageContainer, { backgroundColor: isChecked ? '#69AFAC' : 'white' },]}>
-            <View style={classeStyles.headerContainer}>
-                <Image source={require('../assets/avatar-1.jpg')} style={classeStyles.avatar} />
-                <View style={classeStyles.authorInfo}>
-                    <Text style={classeStyles.messageInfos}>
-                        {post.author.firstname} @{post.author.username}   
-                    </Text>
-                    <Text>{new Date(post.creationDate).toLocaleString()}</Text>
+    const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
+        const [isChecked, setIsChecked] = useState(post.isRead);
+    
+        const handleCheckboxChange = (newValue) => {
+            setIsChecked(newValue); // Mettre à jour l’état local de la checkbox
+            onToggleReadStatus(postId, newValue); // Appeler la fonction pour mettre à jour dans la DB
+        };
+    
+        return (
+            <View style={[classeStyles.messageContainer, { backgroundColor: isChecked ? '#69AFAC' : 'white' }]}>
+                <View style={classeStyles.headerContainer}>
+                    <Image source={require('../assets/avatar-1.jpg')} style={classeStyles.avatar} />
+                    <View style={classeStyles.authorInfo}>
+                        <Text style={classeStyles.messageInfos}>
+                            {post.author.firstname} @{post.author.username}   
+                        </Text>
+                        <Text>{new Date(post.creationDate).toLocaleString()}</Text>
+                    </View>
+                    <TouchableOpacity>
+                        <CheckBox value={isChecked} onValueChange={handleCheckboxChange} style={classeStyles.checkbox} />
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity>
-                    <CheckBox value={isChecked} onValueChange={handleCheckboxChange} style={classeStyles.checkbox} />
-                </TouchableOpacity>
+                <View style={classeStyles.messageContentContainerParent}>
+                    <Text style={[classeStyles.title2, { color: isChecked ? 'black' : '#69AFAC' }]}>{post.title}</Text>
+                    <Text style={[classeStyles.messageContent, { color: isChecked ? 'black' : '#69AFAC' }]}>{post.content}</Text>
+                    {post.images.map((imageUrl, index) => (
+                        <Image key={index} source={{ uri: imageUrl }} style={classeStyles.image} />
+                    ))}
+                </View>
             </View>
-            <View style={classeStyles.messageContentContainerParent}>
-                <Text style={[classeStyles.title2, { color: isChecked ? 'black' : '#69AFAC' },]}>{post.title}</Text>
-                <Text style={[classeStyles.messageContent, { color: isChecked ? 'black' : '#69AFAC' }]}>{post.content}</Text>
-                {post.images.map((imagePath, index) => (
-                    <Image key={index} source={imageMapping[imagePath]} style={classeStyles.image} />
-                ))}
-            </View>
-        </View>
-    );
-};
+        );
+    };
 
 export default function ParentClassScreen() {
     const [posts, setPosts] = useState([]);

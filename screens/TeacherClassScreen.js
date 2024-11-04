@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { globalStyles } from '../styles/globalStyles';
 import { classeStyles } from '../styles/classeStyles';
-const BACK_URL = 'http://192.168.3.174:3000'
+const BACK_URL = 'http://localhost:3000'
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -264,9 +264,9 @@ export default function ClassScreen() {
     return (
         <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View>
-                <Text style={classeStyles.titleClass}>Classe</Text>
-                <TouchableOpacity onPress={() => setModalVisible(true)} style={classeStyles.addButton}>
-                    <Text style={classeStyles.textButton}>Ajouter un Post</Text>
+                <Text style={styles.titleClass}>Classe</Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.addButton}>
+                    <Text style={styles.textButton}>Ajouter un Post</Text>
                 </TouchableOpacity>
             </View>
 
@@ -285,22 +285,22 @@ export default function ClassScreen() {
             </ScrollView>
 
             <Modal visible={modalVisible} animationType="fade" transparent={true}>
-                <View style={classeStyles.modalContainer}>
-                    <View style={classeStyles.modalContent}>
-                        <Text style={classeStyles.modalTitle}>Ajouter un post</Text>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Ajouter un post</Text>
                         <TextInput
                             placeholder="Titre"
                             value={newTitle}
                             onChangeText={setNewTitle}
-                            style={classeStyles.input}
+                            style={styles.input}
                         />
-                        <Text style={classeStyles.charCount}>{40 - newTitle.length} caractères restants</Text>
+                        <Text style={styles.charCount}>{40 - newTitle.length} caractères restants</Text>
 
                         <TextInput
                             placeholder="Contenu"
                             value={newContent}
                             onChangeText={setNewContent}
-                            style={classeStyles.input}
+                            style={styles.input}
                             multiline
                         />
                         <Text style={styles.charCount}>{180 - newContent.length} caractères restants</Text>
@@ -312,7 +312,7 @@ export default function ClassScreen() {
                                 <FontAwesome name="camera" size={24} color="white" />
                             </TouchableOpacity>
                         </View>
-
+                        
                         {selectedImage && (
                             <View style={styles.imagePreviewContainer}>
                                 <Image source={{ uri: selectedImage }} style={styles.imagePreview} />
@@ -464,4 +464,4 @@ const styles = StyleSheet.create({
         right: 5,
         padding: 5,
     },
-});
+});  
