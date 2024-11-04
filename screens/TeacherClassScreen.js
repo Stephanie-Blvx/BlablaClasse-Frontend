@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { globalStyles } from '../styles/globalStyles';
-
+const BACK_URL = 'http://192.168.3.174:3000'
 const Message = ({ post, postId, onDeletePost }) => {
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -66,7 +66,7 @@ export default function ClassScreen() {
     console.log(teacher)
 
     const fetchPosts = () => {
-        fetch('http://localhost:3000/posts')
+        fetch(`${BACK_URL}/posts`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -83,7 +83,7 @@ export default function ClassScreen() {
     }, []);
 
     const handleDeletePost = (postId) => {
-        fetch(`http://localhost:3000/posts/${postId}`, {
+        fetch(`${BACK_URL}/posts/${postId}`, {
             method: 'DELETE',
         })
             .then((response) => response.json())
@@ -113,7 +113,7 @@ export default function ClassScreen() {
         console.log(newPost);
         
 
-        fetch('http://localhost:3000/posts', {
+        fetch(`${BACK_URL}/posts`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newPost),

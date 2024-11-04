@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import {CheckBox} from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 
-
+const BACK_URL = 'http://192.168.3.174:3000';
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     const [isChecked, setIsChecked] = useState(post.isRead); 
 

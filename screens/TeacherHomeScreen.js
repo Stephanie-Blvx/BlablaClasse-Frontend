@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert, Image } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert, Image, Button } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { addEvent, removeEvent } from '../reducers/event';
-import { addMenu } from '../reducers/menu';
-import { useDispatch, useSelector } from 'react-redux';
+
+
+import { useSelector } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker'
 import * as DocumentPicker from 'expo-document-picker';
@@ -11,46 +11,48 @@ import * as FileSystem from 'expo-file-system';
 import { shareAsync } from 'expo-sharing';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
+import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 
-const BACK_URL = 'http://192.168.1.30:3000';
+const BACK_URL = 'http://192.168.3.174:3000';
 
 export default function TeacherHomeScreen() {
-  const [markedDates, setMarkedDates] = useState({});
+  const [markedDates, setMarkedDates] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-
+  const [lastActu, setLastActu] = useState([])
+  const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
   // Teacher View
   const [modalEventVisible, setModalEventVisible] = useState(false);
   const [modalActuVisible, setModalActuVisible] = useState(false);
-  const [newEvent, setNewEvent] = useState('');
+  const [newEvent, setNewEvent] = useState([]);
   const [newDate, setNewDate] = useState('');
   const [classe, setClasse] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [classes, setClasses] = useState([]);
   const [hasPermission, setHasPermission] = useState(false);
-  const [newContent, setNewContent] = useState('');
   const [actus, setActus] = useState([]);
 
-  const dispatch = useDispatch();
-  //USESELECTOR 
-  const menu = useSelector((state) => state.menu.value.menu);
-  console.log("MENU USESELECTOR", menu)
+
+  //USESELECTOR à utiliser pour teacher ADMIN TO DO !!!
   const teacher = useSelector((state) => state.teacher.value);
+  //-------------------------------------------------------------
+
+
 
   //------------CALENDAR---------------------//
-  // Transformer les événements en dates marquées
+  // Transformer les événements en dates marquées en dot 
   const transformEventsToMarkedDates = (events) => {
     const dates = {};
 
+    events.forEach(e => {
+      const date = new Date(e.date).toISOString().split('T')[0];
 
-    events.forEach(event => {
-      const date = new Date(event.date).toISOString().split('T')[0];
-
-
+//console.log("DATE", date)
+//toutes les dates des events qui ont été ajoutées 
 
       // Création d'un dot pour la classe associée à l'événement
-      const dot = event.classe && event.classe.color ? { color: event.classe.color } : { color: 'blue' };
-
+      const dot = e.classe && e.classe.color ? { color: e.classe.color } : { color: 'blue' };
+console.log("DOTS", e)
       // Initialiser la date si elle n'existe pas encore dans `dates`
       if (!dates[date]) {
         dates[date] = { marked: true, dots: [], events: [] };
@@ -58,24 +60,25 @@ export default function TeacherHomeScreen() {
 
       // Ajouter le dot et l'événement
       dates[date].dots.push(dot);
-      dates[date].events.push(event);
+      dates[date].events.push(e);
+      console.log('DATES',dates)
     });
 
     return dates;
   };
+
   //Route get : all events à afficher 
   useEffect(() => {
-    fetch(`${BACK_URL}/events`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("------data-----", data)
+    const fetchEvents = async () => {
+  
+      
+        const response = await fetch(`${BACK_URL}/events`);
+        const data = await response.json();
         const dates = transformEventsToMarkedDates(data.events);
         setMarkedDates(dates);
-
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la récupération des événements :", error);
-      });
+      
+    };
+    fetchEvents();
   }, []);
 
   //Route get : recupère les classes pour que teacher puisse create new event
@@ -83,12 +86,10 @@ export default function TeacherHomeScreen() {
     fetch(`${BACK_URL}/classes`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("classes", data)
+       // console.log("classes", data)
         setClasses(data.classes);
       })
-      .catch((error) => {
-        console.error("Erreur lors de la récupération des classes :", error);
-      });
+  
   }, []);
 
 
@@ -98,7 +99,7 @@ export default function TeacherHomeScreen() {
   };
 
   const selectedDateEvents = markedDates[selectedDate]?.events || [];
-
+//-----------MODALS------------------
   // Ouvre le modal 
   const handleOpenModal = () => {
     setModalEventVisible(true);
@@ -112,26 +113,37 @@ export default function TeacherHomeScreen() {
     setNewDate('');
   };
 
+  // Ouvre le modal new Actu
+  const handleOpenActu = () => {
+    setModalActuVisible(true);
+  };
+
+  // Ferme le modal  new Actu
+  const handleCloseActu = () => {
+    setModalActuVisible(false);
+    setActus('');
+
+  };
+//-------------------------------------
+
   // Route POST Ajoute un nouvel événement en BDD
   const handleNewEvent = () => {
     fetch(`${BACK_URL}/events`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ classe: classe, date: newDate, description: newEvent }) // Assurez-vous que classe est l'ID de la classe
+      body: JSON.stringify({ classe: classe, date: newDate, description: newEvent })
     })
       .then(response => response.json())
       .then(data => {
         if (data.result) {
           // Ici, vous devez également récupérer la classe correspondante
-          const selectedClass = classes.find(item => item._id === classe); // Récupérer l'objet classe
+          const selectedClass = classes.find(item => item._id === classe);
           const newEventData = {
+            _id: data.event._id,
             classe: selectedClass, // Incluez l'objet classe complet
             date: newDate,
             description: newEvent
           };
-
-          // Dispatch de l'événement dans Redux
-          dispatch(addEvent(newEventData));
 
           // Mettre à jour les markedDates
           const updatedMarkedDates = {
@@ -166,6 +178,63 @@ export default function TeacherHomeScreen() {
     }
   };
 
+  //-------DELETE UN EVENT
+  const deleteEvent = (eventId) => {
+    fetch(`${BACK_URL}/events/${eventId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          // Mettre à jour les événements marqués après la suppression
+          const updatedMarkedDates = { ...markedDates };
+  
+          // Parcourir chaque date marquée
+          for (const date in updatedMarkedDates) {
+            // Filtrer les événements pour enlever celui qui a été supprimé
+            updatedMarkedDates[date].events = updatedMarkedDates[date].events.filter(event => event._id !== eventId);
+  
+            // Si aucun événement ne reste pour cette date, supprimer la date des dates marquées
+            if (updatedMarkedDates[date].events.length === 0) {
+              delete updatedMarkedDates[date];
+            }
+          }
+  
+          // Mettre à jour le MarkedDates
+          setMarkedDates(updatedMarkedDates);
+          Alert.alert('Succès', 'Événement supprimé avec succès');
+        } else {
+          Alert.alert('Erreur', data.error || 'Erreur de suppression');
+        }
+      })
+      
+  };
+
+  // ----------------ROUTE GET DERNIèRE ACTU A AFFICHER-----------
+  // Fetch des posts dans la db
+  const fetchActu = () => {
+    fetch(`${BACK_URL}/actus`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+         // console.log("LAST ACTU", data.actu.content)
+          const lastActuToShow = data.actu.content
+          setLastActu(lastActuToShow)
+         // console.log("LAST ACTU", data)
+        } else {
+          console.error(data.error);
+        }
+      });
+  }
+
+  // appeler last actu 
+  useEffect(() => {
+    fetchActu();
+  }, [actus]);
+
   // PERMISSION GESTIONNAIRE FICHIERS
   useEffect(() => {
     (async () => {
@@ -192,14 +261,14 @@ export default function TeacherHomeScreen() {
       type: 'image/jpeg',
     });
 
+
     fetch(`${BACK_URL}/menus`, {
       method: 'POST',
       body: formData,
     }).then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log("DATA>>>>>>>>>>", data)
-          data.result && dispatch(addMenu(data.url));
+        //  console.log("DATA>>>>>>>>>>", data)
           Alert.alert('Info', 'menu ajouté avec succès');
         }
 
@@ -212,12 +281,8 @@ export default function TeacherHomeScreen() {
 
   const handleAddActu = () => {
     const newActu = {
-
-      content: newContent,
-
+      content: actus,
     }
-
-
 
     fetch(`${BACK_URL}/actus`, {
       method: 'POST',
@@ -225,13 +290,13 @@ export default function TeacherHomeScreen() {
       body: JSON.stringify(newActu),
     })
       .then((response) => response.json())
-      .then((result) => {
-        if (result.success) {
-          setActus([result.actu, ...actus]);
+      .then((data) => {
+        if (data.result) {
+          setActus([actus]);
           setModalActuVisible(false);
-          setNewContent('');
+          setActus('');
         } else {
-          console.error("Erreur d'ajout :", result.error);
+          console.error("Erreur d'ajout :", data.error);
         }
       });
   };
@@ -250,11 +315,13 @@ export default function TeacherHomeScreen() {
         onDayPress={onDayPress}
         markedDates={markedDates}
         markingType={'multi-dot'}
+        current={currentDate}
         theme={{
           selectedDayBackgroundColor: '#67AFAC',
           todayTextColor: '#67AFAC',
           arrowColor: '#67AFAC',
         }}
+      
       />
 
       <Modal
@@ -266,90 +333,102 @@ export default function TeacherHomeScreen() {
           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
             Événements du {selectedDate}
           </Text>
+
           {selectedDateEvents.length > 0 ? (
             selectedDateEvents.map((event, index) => (
               <View key={index} style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
                 <Text>Classe : {event.classe?.name} </Text>
                 <Text>Événement : {event.description}</Text>
+                <TouchableOpacity onPress={() => deleteEvent(event._id)} style={styles.deleteIcon}>
+                    <FontAwesome name="trash" size={24} color="#4A7B59" />
+                </TouchableOpacity>
+
               </View>
             ))
           ) : (
             <Text>Aucun événement pour cette date.</Text>
           )}
+
+
+
           <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 20 }}>
             <Text style={{ color: '#67AFAC' }}>Fermer</Text>
           </TouchableOpacity>
         </View>
       </Modal>
-
+      {/* Dernière actu de l'école */}
+      <View style={styles.lastActuContainer}>
+        <Text style={styles.actuTitle}> Dernière actu : </Text>
+        <Text style={styles.actuContent}>{lastActu}</Text>
+      </View>
 
       {/* TEACHER VIEW  ---- Modal pour nouvel événement */}
+      <View style={styles.teacherButtons}>
+        <TouchableOpacity onPress={() => handleOpenModal()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Nouvel évenement</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => handleOpenModal()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Nouvel évenement</Text>
-      </TouchableOpacity>
+        <Modal visible={modalEventVisible} animationType="fade" transparent>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={{ marginBottom: 10 }}>Nouvel évenement :</Text>
+              <Picker selectedValue={classe} onValueChange={(itemValue) => setClasse(itemValue)} style={styles.input}>
+                <Picker.Item label="Classe" value="" />
+                {classes.map((classe) => (
+                  <Picker.Item key={classe._id} label={classe.name} value={classe._id} />
+                ))}
+              </Picker>
+              <TouchableOpacity onPress={openDatePicker} style={styles.input}>
+                <Text style={{ color: newDate ? '#000' : '#888' }}>{newDate || "Sélectionner une date"}</Text>
+              </TouchableOpacity>
+              {showDatePicker && (
 
-      <Modal visible={modalEventVisible} animationType="fade" transparent>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={{ marginBottom: 10 }}>Nouvel évenement :</Text>
-            <Picker selectedValue={classe} onValueChange={(itemValue) => setClasse(itemValue)} style={styles.input}>
-              <Picker.Item label="Classe" value="" />
-              {classes.map((classe) => (
-                <Picker.Item key={classe._id} label={classe.name} value={classe._id} />
-              ))}
-            </Picker>
-            <TouchableOpacity onPress={openDatePicker} style={styles.input}>
-              <Text style={{ color: newDate ? '#000' : '#888' }}>{newDate || "Sélectionner une date"}</Text>
-            </TouchableOpacity>
-            {showDatePicker && (
-              <DateTimePicker
-                value={new Date()}
-                mode="date"
-                display="default"
-                onChange={onDateChange}
-              />
-            )}
-            <TextInput placeholder="Description de l'événement" onChangeText={(value) => setNewEvent(value)} value={newEvent} style={styles.input} />
-            <TouchableOpacity onPress={() => handleNewEvent()} style={styles.button} activeOpacity={0.8}>
-              <Text style={styles.textButton}>   Ajouter   </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
-              <Text style={styles.textButton}>   Fermer   </Text>
-            </TouchableOpacity>
+                <DateTimePicker
+                  value={new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={onDateChange}
+                />
+
+              )}
+              <TextInput placeholder="Description de l'événement" onChangeText={(value) => setNewEvent(value)} value={newEvent} style={styles.input} />
+              <TouchableOpacity onPress={() => handleNewEvent()} style={styles.button} activeOpacity={0.8}>
+                <Text style={styles.textButton}>   Ajouter   </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
+                <Text style={styles.textButton}>   Fermer   </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>
-      {/* AFFICHAGE NOUVELLE ACTU*/}
-      {/* POST NOUVELLE ACTU*/}
-      {teacher.isAdmin && (
-  <View style={[styles.actuContainer]}>
-    <Modal visible={modalActuVisible} animationType="fade" transparent={true}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Ajouter une actualité</Text>
-          <TextInput
-            placeholder="Contenu"
-            value={newContent}
-            onChangeText={setNewContent}
-            style={styles.input}
-            multiline
-          />
-          <TouchableOpacity style={styles.attachmentIcon}>
-            <FontAwesome name="paperclip" size={24} color="#000" />
-          </TouchableOpacity>
-          <Button title="Ajouter" color="#67AFAC" onPress={handleAddActu} />
-          <Button title="Annuler" color="#67AFAC" onPress={() => setModalActuVisible(false)} />
-        </View>
-      </View>
-    </Modal>
-  </View>
-)}
-      {/* UPLOAD MENU CANTINE*/}
-      <TouchableOpacity onPress={() => uploadMenu()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Ajouter le nouveau menu </Text>
-      </TouchableOpacity>
+        </Modal>
 
+        {/* POST NOUVELLE ACTU*/}
+
+        <TouchableOpacity onPress={() => handleOpenActu()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}> Quoi de neuf aujourd'hui ? </Text>
+        </TouchableOpacity>
+
+        <Modal visible={modalActuVisible} animationType="fade" transparent>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TextInput maxLength={250} placeholder="Quoi de neuf ? " onChangeText={(value) => setActus(value)} value={actus} style={styles.inputActu} multiline={true} numberOfLines={4} />
+              <TouchableOpacity onPress={() => handleAddActu()} style={styles.button} activeOpacity={0.8}>
+                <Text style={styles.textButton}>   Ajouter   </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleCloseActu()} style={styles.button} activeOpacity={0.8}>
+                <Text style={styles.textButton}>   Fermer   </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
+
+
+        {/* UPLOAD MENU CANTINE*/}
+        <TouchableOpacity onPress={() => uploadMenu()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}> Nouveau menu </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -402,16 +481,21 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   button: {
-    marginTop: 15,
+    width: '20%',
     backgroundColor: "#69AFAC",
-    paddingVertical: 15,
+    paddingVertical: 8,
     borderRadius: 8,
     alignItems: "center",
+    marginHorizontal: 5,
+
   },
+
   textButton: {
     color: "#FFFFFF",
-    fontSize: 18,
+    fontSize: 10,
     fontWeight: "600",
+    textAlign: 'center',
+    padding: 3
   },
   modalContent: {
     backgroundColor: '#67AFAC',
@@ -419,17 +503,59 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '80%',
     color: 'white',
-},
-modalTitle: {
-  fontSize: 18,
-  fontWeight: 'bold',
-  marginBottom: 10,
-  color: 'white',
-},
-modalContainer: {
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-},
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'white',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  inputActu: {
+    width: 200,
+    borderBottomColor: '#69AFAC',
+    borderBottomWidth: 1,
+    fontSize: 16,
+    paddingVertical: 8,
+    padding: 40,
+  },
+  lastActuContainer: {
+    backgroundColor: "white",
+    borderWidth: 1.5,
+    borderColor: "#69AFAC",
+    borderRadius: 10,
+    padding: 20,
+    marginTop: 20,
+    alignItems: 'center',
+
+
+  },
+  actuTitle: {
+    textDecorationLine: 'underline',
+    color: "#69AFAC",
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 10,
+
+  },
+  actuContent: {
+    color: "#69AFAC",
+    fontSize: 12,
+    fontWeight: "600",
+
+  },
+  teacherButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+    marginBottom: 5,
+
+
+
+  }
 });
