@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert, Image, Button } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 
 
 import { useSelector } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker'
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
-import { shareAsync } from 'expo-sharing';
 import * as Permissions from 'expo-permissions';
-import * as MediaLibrary from 'expo-media-library';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 
 const BACK_URL = 'http://192.168.3.174:3000';
 
+
 export default function TeacherHomeScreen() {
-  const [markedDates, setMarkedDates] = useState([])
+  const [markedDates, setMarkedDates] = useState({})
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [lastActu, setLastActu] = useState([])
@@ -35,9 +33,26 @@ export default function TeacherHomeScreen() {
 
   //USESELECTOR à utiliser pour teacher ADMIN TO DO !!!
   const teacher = useSelector((state) => state.teacher.value);
+  console.log("TEACHER ADMIN USE SELECTOR???", teacher)
   //-------------------------------------------------------------
 
+// Configuration Calendar en FR
+LocaleConfig.locales['fr'] = {
+  monthNames: [
+    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+  ],
+  monthNamesShort: [
+    'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
+    'Jul', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'
+  ],
+  dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+  dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+  today: 'Aujourd\'hui',
+};
 
+// Définir la locale actuelle
+LocaleConfig.defaultLocale = 'fr';
 
   //------------CALENDAR---------------------//
   // Transformer les événements en dates marquées en dot 
@@ -47,12 +62,12 @@ export default function TeacherHomeScreen() {
     events.forEach(e => {
       const date = new Date(e.date).toISOString().split('T')[0];
 
-//console.log("DATE", date)
-//toutes les dates des events qui ont été ajoutées 
+      //console.log("DATE", date)
+      //toutes les dates des events qui ont été ajoutées 
 
       // Création d'un dot pour la classe associée à l'événement
       const dot = e.classe && e.classe.color ? { color: e.classe.color } : { color: 'blue' };
-console.log("DOTS", e)
+      console.log("DOTS", e)
       // Initialiser la date si elle n'existe pas encore dans `dates`
       if (!dates[date]) {
         dates[date] = { marked: true, dots: [], events: [] };
@@ -61,7 +76,7 @@ console.log("DOTS", e)
       // Ajouter le dot et l'événement
       dates[date].dots.push(dot);
       dates[date].events.push(e);
-      console.log('DATES',dates)
+      console.log('DATES', dates)
     });
 
     return dates;
@@ -70,13 +85,13 @@ console.log("DOTS", e)
   //Route get : all events à afficher 
   useEffect(() => {
     const fetchEvents = async () => {
-  
-      
-        const response = await fetch(`${BACK_URL}/events`);
-        const data = await response.json();
-        const dates = transformEventsToMarkedDates(data.events);
-        setMarkedDates(dates);
-      
+
+
+      const response = await fetch(`${BACK_URL}/events`);
+      const data = await response.json();
+      const dates = transformEventsToMarkedDates(data.events);
+      setMarkedDates(dates);
+
     };
     fetchEvents();
   }, []);
@@ -86,10 +101,10 @@ console.log("DOTS", e)
     fetch(`${BACK_URL}/classes`)
       .then((response) => response.json())
       .then((data) => {
-       // console.log("classes", data)
+        // console.log("classes", data)
         setClasses(data.classes);
       })
-  
+
   }, []);
 
 
@@ -97,9 +112,17 @@ console.log("DOTS", e)
     setSelectedDate(day.dateString);
     setModalVisible(true);
   };
-
+    //modifier formate de date en JJ-MM-AA
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0'); 
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
+      const year = String(date.getFullYear()).slice(-2); 
+      return `${day}-${month}-${year}`;
+    };
+    
   const selectedDateEvents = markedDates[selectedDate]?.events || [];
-//-----------MODALS------------------
+  //-----------MODALS------------------
   // Ouvre le modal 
   const handleOpenModal = () => {
     setModalEventVisible(true);
@@ -115,7 +138,14 @@ console.log("DOTS", e)
 
   // Ouvre le modal new Actu
   const handleOpenActu = () => {
-    setModalActuVisible(true);
+    console.log("TEACHER ADMIN ???", teacher.isAdmin)
+    // Teacher isAdmin : true ? 
+    if (teacher.isAdmin) {
+     
+      setModalActuVisible(true);
+    } else {
+      Alert.alert("Accès refusé", "Seule la direction peut ajouter des actualités.");
+    }
   };
 
   // Ferme le modal  new Actu
@@ -124,7 +154,7 @@ console.log("DOTS", e)
     setActus('');
 
   };
-//-------------------------------------
+  //-------------------------------------
 
   // Route POST Ajoute un nouvel événement en BDD
   const handleNewEvent = () => {
@@ -191,18 +221,18 @@ console.log("DOTS", e)
         if (data.result) {
           // Mettre à jour les événements marqués après la suppression
           const updatedMarkedDates = { ...markedDates };
-  
+
           // Parcourir chaque date marquée
           for (const date in updatedMarkedDates) {
             // Filtrer les événements pour enlever celui qui a été supprimé
             updatedMarkedDates[date].events = updatedMarkedDates[date].events.filter(event => event._id !== eventId);
-  
+
             // Si aucun événement ne reste pour cette date, supprimer la date des dates marquées
             if (updatedMarkedDates[date].events.length === 0) {
               delete updatedMarkedDates[date];
             }
           }
-  
+
           // Mettre à jour le MarkedDates
           setMarkedDates(updatedMarkedDates);
           Alert.alert('Succès', 'Événement supprimé avec succès');
@@ -210,7 +240,7 @@ console.log("DOTS", e)
           Alert.alert('Erreur', data.error || 'Erreur de suppression');
         }
       })
-      
+
   };
 
   // ----------------ROUTE GET DERNIèRE ACTU A AFFICHER-----------
@@ -220,10 +250,10 @@ console.log("DOTS", e)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-         // console.log("LAST ACTU", data.actu.content)
+          // console.log("LAST ACTU", data.actu.content)
           const lastActuToShow = data.actu.content
           setLastActu(lastActuToShow)
-         // console.log("LAST ACTU", data)
+          // console.log("LAST ACTU", data)
         } else {
           console.error(data.error);
         }
@@ -268,7 +298,7 @@ console.log("DOTS", e)
     }).then((response) => response.json())
       .then((data) => {
         if (data.result) {
-        //  console.log("DATA>>>>>>>>>>", data)
+          //  console.log("DATA>>>>>>>>>>", data)
           Alert.alert('Info', 'menu ajouté avec succès');
         }
 
@@ -312,6 +342,8 @@ console.log("DOTS", e)
       </View>
 
       <Calendar
+      
+        firstDay={1}
         onDayPress={onDayPress}
         markedDates={markedDates}
         markingType={'multi-dot'}
@@ -321,7 +353,8 @@ console.log("DOTS", e)
           todayTextColor: '#67AFAC',
           arrowColor: '#67AFAC',
         }}
-      
+        locale={"fr"}
+
       />
 
       <Modal
@@ -331,7 +364,7 @@ console.log("DOTS", e)
       >
         <View style={{ flex: 1, padding: 20, justifyContent: 'center', alignItems: 'center' }}>
           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-            Événements du {selectedDate}
+            Événements du {formatDate(selectedDate)}
           </Text>
 
           {selectedDateEvents.length > 0 ? (
@@ -340,7 +373,7 @@ console.log("DOTS", e)
                 <Text>Classe : {event.classe?.name} </Text>
                 <Text>Événement : {event.description}</Text>
                 <TouchableOpacity onPress={() => deleteEvent(event._id)} style={styles.deleteIcon}>
-                    <FontAwesome name="trash" size={24} color="#4A7B59" />
+                  <FontAwesome name="trash" size={24} color="#4A7B59" />
                 </TouchableOpacity>
 
               </View>
@@ -348,7 +381,6 @@ console.log("DOTS", e)
           ) : (
             <Text>Aucun événement pour cette date.</Text>
           )}
-
 
 
           <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 20 }}>
@@ -365,7 +397,7 @@ console.log("DOTS", e)
       {/* TEACHER VIEW  ---- Modal pour nouvel événement */}
       <View style={styles.teacherButtons}>
         <TouchableOpacity onPress={() => handleOpenModal()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Nouvel évenement</Text>
+          <Text style={styles.textButton}> Ajouter un évenement</Text>
         </TouchableOpacity>
 
         <Modal visible={modalEventVisible} animationType="fade" transparent>
@@ -392,12 +424,14 @@ console.log("DOTS", e)
 
               )}
               <TextInput placeholder="Description de l'événement" onChangeText={(value) => setNewEvent(value)} value={newEvent} style={styles.input} />
-              <TouchableOpacity onPress={() => handleNewEvent()} style={styles.button} activeOpacity={0.8}>
-                <Text style={styles.textButton}>   Ajouter   </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
-                <Text style={styles.textButton}>   Fermer   </Text>
-              </TouchableOpacity>
+              <View style={styles.validationButtons}>
+                <TouchableOpacity onPress={() => handleNewEvent()} style={styles.button} activeOpacity={0.8}>
+                  <Text style={styles.textButton}>   Ajouter   </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
+                  <Text style={styles.textButton}>   Fermer   </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -405,19 +439,21 @@ console.log("DOTS", e)
         {/* POST NOUVELLE ACTU*/}
 
         <TouchableOpacity onPress={() => handleOpenActu()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}> Quoi de neuf aujourd'hui ? </Text>
+          <Text style={styles.textButton}> Ajouter une actualité </Text>
         </TouchableOpacity>
 
         <Modal visible={modalActuVisible} animationType="fade" transparent>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <TextInput maxLength={250} placeholder="Quoi de neuf ? " onChangeText={(value) => setActus(value)} value={actus} style={styles.inputActu} multiline={true} numberOfLines={4} />
-              <TouchableOpacity onPress={() => handleAddActu()} style={styles.button} activeOpacity={0.8}>
-                <Text style={styles.textButton}>   Ajouter   </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleCloseActu()} style={styles.button} activeOpacity={0.8}>
-                <Text style={styles.textButton}>   Fermer   </Text>
-              </TouchableOpacity>
+              <TextInput maxLength={250} placeholder=" Nouvelle actualité... " onChangeText={(value) => setActus(value)} value={actus} style={styles.inputActu} multiline={true} numberOfLines={4} />
+              <View style={styles.validationButtons}>
+                <TouchableOpacity onPress={() => handleAddActu()} style={styles.button} activeOpacity={0.8}>
+                  <Text style={styles.textButton}>   Ajouter   </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleCloseActu()} style={styles.button} activeOpacity={0.8}>
+                  <Text style={styles.textButton}>   Fermer   </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -426,7 +462,7 @@ console.log("DOTS", e)
 
         {/* UPLOAD MENU CANTINE*/}
         <TouchableOpacity onPress={() => uploadMenu()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}> Nouveau menu </Text>
+          <Text style={styles.textButton}> Ajouter un menu </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -445,8 +481,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-
-
   },
   titleHome: {
     fontSize: 20,
@@ -462,6 +496,7 @@ const styles = StyleSheet.create({
     height: 70,
     marginRight: 10,
   },
+ 
   modalView: {
     backgroundColor: 'white',
     borderRadius: 20,
@@ -550,6 +585,13 @@ const styles = StyleSheet.create({
 
   },
   teacherButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+    marginBottom: 5,
+
+  },
+  validationButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
