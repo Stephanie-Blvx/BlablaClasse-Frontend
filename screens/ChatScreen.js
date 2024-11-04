@@ -112,7 +112,7 @@ export default function ChatScreen() {
       createdAt: new Date(), // Date de création
     };
 
-    fetch(`${BACKEND_ADDRESS}/message`, {
+    fetch(`http://localhost:3000/message`, {
       // Envoi du message au serveur
       method: "POST",
       headers: { "Content-Type": "application/json" },

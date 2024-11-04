@@ -20,7 +20,6 @@ import LoginParentScreen from './screens/LoginParentScreen';
 import LoginTeacherScreen from './screens/LoginTeacherScreen';
 import ParentClassScreen from './screens/ParentClassScreen';
 import TeacherClassScreen from './screens/TeacherClassScreen';
-import TchatScreen from './screens/TchatScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import ProfilKidScreen from './screens/ProfilKidScreen';
 import ProfilParentScreen from './screens/ProfilParentScreen';

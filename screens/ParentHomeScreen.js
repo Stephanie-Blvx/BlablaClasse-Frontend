@@ -9,7 +9,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 
-const BACK_URL = 'http://192.168.3.174:3000';
+const BACK_URL = 'http://localhost:3000';
 //Lien pour dl menu
 const fileUri = `${FileSystem.documentDirectory}menu.jpg`
 

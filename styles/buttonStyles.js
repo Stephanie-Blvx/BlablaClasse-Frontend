@@ -118,4 +118,10 @@ export const buttonStyles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 8,
   },
+  iconsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+  },
 });

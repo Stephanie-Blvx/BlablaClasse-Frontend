@@ -13,7 +13,7 @@ import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 
-const BACK_URL = 'http://192.168.3.174:3000';
+const BACK_URL = 'http://localhost:3000';
 
 export default function TeacherHomeScreen() {
   const [markedDates, setMarkedDates] = useState([])
@@ -35,6 +35,7 @@ export default function TeacherHomeScreen() {
 
   //USESELECTOR à utiliser pour teacher ADMIN TO DO !!!
   const teacher = useSelector((state) => state.teacher.value);
+  console.log(teacher)
   //-------------------------------------------------------------
 
 

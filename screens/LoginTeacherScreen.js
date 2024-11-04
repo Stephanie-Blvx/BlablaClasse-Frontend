@@ -31,6 +31,7 @@ export default function LoginTeacherScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const teacher = useSelector((state) => state.teacher.value);
+  console.log(teacher)
 
   function handleConnexion() {
 
@@ -71,6 +72,7 @@ export default function LoginTeacherScreen({ navigation }) {
               classes: dbData.classes,
               id: dbData.id,
               userType: dbData.userType,
+              isAdmin: dbData.isAdmin
             })
           ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");

@@ -105,6 +105,14 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
+  modalInput: {
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+    color: 'black',
+},
   successMessage: {
     // Message de succès
     fontFamily: "OpenSans_300Light",

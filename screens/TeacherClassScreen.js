@@ -1,10 +1,11 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { Button, SafeAreaView, StatusBar, Text, View, Image, TextInput, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { globalStyles } from '../styles/globalStyles';
 import { classeStyles } from '../styles/classeStyles';
+import { buttonStyles } from '../styles/buttonStyles'
 const BACK_URL = 'http://localhost:3000'
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -54,7 +55,7 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
 
             <Modal visible={modalVisible} animationType="fade" transparent={true}>
                 <View style={classeStyles.modalContainer}>
-                    <View style={classeStyles.modalContent}>
+                    <View style={buttonStyles.inputContainer}>
                         <Text style={classeStyles.modalTitle}>Suppression</Text>
                         <Text color='white'>Voulez-vous vraiment supprimer ce post ?</Text>
                         <View style={classeStyles.buttonContainer}>
@@ -82,8 +83,8 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
                             style={classeStyles.input}
                             multiline
                         />
-                        <Button title="Sauvegarder" color="#67AFAC" onPress={handleConfirmEdit} />
-                        <Button title="Annuler" color="#67AFAC" onPress={() => setIsEditing(false)} />
+                        <Button style={buttonStyles.button} title="Sauvegarder" color="#67AFAC" onPress={handleConfirmEdit} />
+                        <Button style={buttonStyles.button} title="Annuler" color="#67AFAC" onPress={() => setIsEditing(false)} />
                     </View>
                 </View>
             </Modal>
@@ -195,7 +196,7 @@ export default function ClassScreen() {
                 if (result.success) {
                     const newPostWithId = {
                         ...result.post,
-                        cloudinaryId: result.post.cloudinaryId 
+                        cloudinaryId: result.post.cloudinaryId
                     };
                     setPosts([newPostWithId, ...posts]);
                     setModalVisible(false);
@@ -262,206 +263,101 @@ export default function ClassScreen() {
     };
 
     return (
-        <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <View>
-                <Text style={styles.titleClass}>Classe</Text>
-                <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.addButton}>
-                    <Text style={styles.textButton}>Ajouter un Post</Text>
-                </TouchableOpacity>
-            </View>
-
-            <ScrollView contentContainerStyle={{ paddingBottom: 15 }}>
-                <View>
-                    {posts.map((post) => (
-                        <Message
-                            key={post._id}
-                            post={post}
-                            postId={post._id}
-                            onDeletePost={handleDeletePost}
-                            onUpdatePost={handleUpdatePost}
-                        />
-                    ))}
+        <SafeAreaView style={globalStyles.safeArea}>
+            <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={40}
+                >
+                <View style={buttonStyles.buttonContainer}>
+                    <Text style={globalStyles.title} >Classe</Text>
+                    <TouchableOpacity
+                        onPress={() => setModalVisible(true)}
+                        style={[buttonStyles.button, buttonStyles.buttonSecondary]}
+                        activeOpacity={0.8}
+                    >
+                        <Text style={buttonStyles.buttonText}>Ajouter un Post</Text>
+                    </TouchableOpacity>
                 </View>
-            </ScrollView>
 
-            <Modal visible={modalVisible} animationType="fade" transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Ajouter un post</Text>
-                        <TextInput
-                            placeholder="Titre"
-                            value={newTitle}
-                            onChangeText={setNewTitle}
-                            style={styles.input}
-                        />
-                        <Text style={styles.charCount}>{40 - newTitle.length} caractères restants</Text>
+                <ScrollView contentContainerStyle={{ paddingBottom: 15 }}>
+                    <View>
+                        {posts.map((post) => (
+                            <Message
+                                key={post._id}
+                                post={post}
+                                postId={post._id}
+                                onDeletePost={handleDeletePost}
+                                onUpdatePost={handleUpdatePost}
+                            />
+                        ))}
+                    </View>
+                </ScrollView>
 
-                        <TextInput
-                            placeholder="Contenu"
-                            value={newContent}
-                            onChangeText={setNewContent}
-                            style={styles.input}
-                            multiline
-                        />
-                        <Text style={styles.charCount}>{180 - newContent.length} caractères restants</Text>
-                        <View style={styles.iconContainer}>
-                            <TouchableOpacity onPress={pickImage} style={styles.attachmentIcon}>
-                                <FontAwesome name="paperclip" size={24} color="white" />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={takePhoto} style={styles.attachmentIcon}>
-                                <FontAwesome name="camera" size={24} color="white" />
-                            </TouchableOpacity>
-                        </View>
-                        
-                        {selectedImage && (
-                            <View style={styles.imagePreviewContainer}>
-                                <Image source={{ uri: selectedImage }} style={styles.imagePreview} />
-                                <TouchableOpacity onPress={() => setSelectedImage(null)} style={styles.closeButton}>
-                                    <FontAwesome name="times" size={24} color="red" />
+                {/* Modal for adding a post */}
+                <Modal transparent={true} visible={modalVisible} animationType="slide">
+                    <View style={globalStyles.modalContainer}>
+                        <View style={globalStyles.modalContent}>
+                            <Text style={globalStyles.modalTitle} >Ajouter un post</Text>
+                            <TextInput
+                                placeholder="Titre"
+                                value={newTitle}
+                                onChangeText={setNewTitle}
+                                style={buttonStyles.input}
+                            />
+                            <Text >{40 - newTitle.length} caractères restants</Text>
+
+                            <TextInput
+                                placeholder="Contenu"
+                                value={newContent}
+                                onChangeText={setNewContent}
+                                style={buttonStyles.input}
+                                multiline
+                            />
+                            <Text >{180 - newContent.length} caractères restants</Text>
+                            <View style={buttonStyles.iconsContainer}>
+                                <TouchableOpacity onPress={pickImage} >
+                                    <FontAwesome name="paperclip" size={24} color='#67AFAC' />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={takePhoto} >
+                                    <FontAwesome name="camera" size={24} color='#67AFAC' />
                                 </TouchableOpacity>
                             </View>
-                        )}
 
-                        <Button title="Ajouter" color="#67AFAC" onPress={handleAddPost} />
-                        <Button title="Annuler" color="#67AFAC" onPress={() => setModalVisible(false)} />
+                            {selectedImage && (
+                                <View >
+                                    <Image source={{ uri: selectedImage }} />
+                                    <TouchableOpacity onPress={() => setSelectedImage(null)} >
+                                        <FontAwesome name="times" size={24} color="red" />
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+
+                            <View style={globalStyles.modalContent}>
+                                <View style={buttonStyles.buttonContainer}>
+                                    <TouchableOpacity
+                                        style={buttonStyles.button}
+                                        onPress={handleAddPost}
+                                        activeOpacity={0.8}
+                                    />
+                                    <Text style={buttonStyles.buttonText}>Ajouter</Text>
+                                </View>
+                                <View style={buttonStyles.buttonContainer}>
+                                    <TouchableOpacity
+                                        style={buttonStyles.button}
+                                        onPress={() => setModalVisible(false)}
+                                        activeOpacity={0.8}
+                                    />
+                                    <Text style={buttonStyles.buttonText}>Annuler</Text>
+                                </View>
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </Modal>
-        </KeyboardAvoidingView>
+                </Modal>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
-}
+};
 
-const styles = StyleSheet.create({
-    messageContainer: {
-        padding: 10,
-        marginHorizontal: 10,
-        marginVertical: 5,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        borderWidth: 2,
-        borderColor: '#67AFAC',
-    },
-    headerContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        marginRight: 10,
-    },
-    authorInfo: {
-        flex: 1,
-        marginRight: 10,
-    },
-    messageContentContainer: {
-        marginTop: 10,
-    },
-    messageInfos: {
-        color: 'black',
-        fontSize: 12,
-    },
-    title2: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#69AFAC',
-    },
-    messageContent: {
-        fontSize: 14,
-        marginVertical: 5,
-        color: '#69AFAC',
-    },
-    image: {
-        width: '100%',
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 20,
-        marginTop: 5,
-    },
-    deleteIcon: {
-        paddingLeft: 10,
-        marginRight: 10,
-        color: '#C6D387',
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: '#67AFAC',
-        padding: 20,
-        borderRadius: 10,
-        width: '80%',
-        color: 'white',
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        color: 'white',
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 10,
-    },
-    addButton: {
-        backgroundColor: "#67AFAC",
-        color: "white",
-        paddingVertical: 10,
-        borderRadius: 25,
-        alignItems: "center",
-        marginHorizontal: 20,
-        marginBottom: 10,
-    },
-    textButton: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    input: {
-        borderColor: '#ddd',
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10,
-        color: 'white',
-    },
-    titleClass: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 20,
-        color: '#69AFAC',
-        textAlign: 'center',
-    },
-    imagePreview: {
-        width: '100%',
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 10,
-        marginTop: 10,
-    },
-    iconContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginBottom: 10,
-    },
-    attachmentIcon: {
-        padding: 10,
-    },
-    imagePreviewContainer: {
-        position: 'relative',
-        marginTop: 10,
-    },
-    closeButton: {
-        position: 'absolute',
-        top: 5,
-        right: 5,
-        padding: 5,
-    },
-});  
+
