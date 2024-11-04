@@ -4,7 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { globalStyles } from '../styles/globalStyles';
-
+import { classeStyles } from '../styles/classeStyles';
+const BACK_URL = 'http://192.168.3.174:3000'
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -26,37 +27,37 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     };
 
     return (
-        <View style={styles.messageContainer}>
-            <View style={styles.headerContainer}>
-                <Image source={require('../assets/avatar-1.jpg')} style={styles.avatar} />
-                <View style={styles.authorInfo}>
-                    <Text style={styles.messageInfos}>
+        <View style={classeStyles.messageContainer}>
+            <View style={classeStyles.headerContainer}>
+                <Image source={require('../assets/avatar-1.jpg')} style={classeStyles.avatar} />
+                <View style={classeStyles.authorInfo}>
+                    <Text style={classeStyles.messageInfos}>
                         {post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}
                     </Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={handleEditPress} style={styles.editIcon}>
+                    <TouchableOpacity onPress={handleEditPress} style={classeStyles.editIcon}>
                         <FontAwesome name="edit" size={24} color="#4A7B59" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleDeletePress} style={styles.deleteIcon}>
+                    <TouchableOpacity onPress={handleDeletePress} style={classeStyles.deleteIcon}>
                         <FontAwesome name="trash" size={24} color="#4A7B59" />
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.messageContentContainer}>
-                <Text style={styles.title2}>{post.title}</Text>
-                <Text style={styles.messageContent}>{post.content}</Text>
+            <View style={classeStyles.messageContentContainerTeacher}>
+                <Text style={classeStyles.title2}>{post.title}</Text>
+                <Text style={classeStyles.messageContent}>{post.content}</Text>
                 {post.images.map((imagePath, index) => (
-                    <Image key={index} source={{ uri: imagePath }} style={styles.image} />
+                    <Image key={index} source={{ uri: imagePath }} style={classeStyles.image} />
                 ))}
             </View>
 
             <Modal visible={modalVisible} animationType="fade" transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Suppression</Text>
+                <View style={classeStyles.modalContainer}>
+                    <View style={classeStyles.modalContent}>
+                        <Text style={classeStyles.modalTitle}>Suppression</Text>
                         <Text color='white'>Voulez-vous vraiment supprimer ce post ?</Text>
-                        <View style={styles.buttonContainer}>
+                        <View style={classeStyles.buttonContainer}>
                             <Button title="Oui" color="#67AFAC" onPress={handleConfirmDelete} />
                             <Button title="Non" color="#67AFAC" onPress={handleCancelDelete} />
                         </View>
@@ -65,20 +66,20 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
             </Modal>
 
             <Modal visible={isEditing} animationType="slide" transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Modifier le Post</Text>
+                <View style={classeStyles.modalContainer}>
+                    <View style={classeStyles.modalContent}>
+                        <Text style={classeStyles.modalTitle}>Modifier le Post</Text>
                         <TextInput
                             placeholder="Titre"
                             value={editedTitle}
                             onChangeText={setEditedTitle}
-                            style={styles.input}
+                            style={classeStyles.input}
                         />
                         <TextInput
                             placeholder="Contenu"
                             value={editedContent}
                             onChangeText={setEditedContent}
-                            style={styles.input}
+                            style={classeStyles.input}
                             multiline
                         />
                         <Button title="Sauvegarder" color="#67AFAC" onPress={handleConfirmEdit} />
@@ -100,7 +101,7 @@ export default function ClassScreen() {
 
     // Récupérer les posts depuis la db
     const fetchPosts = () => {
-        fetch('http://localhost:3000/posts')
+        fetch(`${BACK_URL}/posts`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -119,6 +120,9 @@ export default function ClassScreen() {
     // Supprimer un post
     const handleDeletePost = (postId) => {
         fetch(`http://localhost:3000/posts/${postId}`, { method: 'DELETE' })
+        fetch(`${BACK_URL}/posts/${postId}`, {
+            method: 'DELETE',
+        })
             .then((response) => response.json())
             .then((result) => {
                 if (result.success) {
@@ -179,7 +183,7 @@ export default function ClassScreen() {
 
         console.log("Données à envoyer :", formData);
 
-        fetch('http://localhost:3000/posts', {
+        fetch(`${BACK_URL}/posts`, {
             method: 'POST',
             body: formData,
         })
@@ -260,9 +264,9 @@ export default function ClassScreen() {
     return (
         <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View>
-                <Text style={styles.titleClass}>Classe</Text>
-                <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.addButton}>
-                    <Text style={styles.textButton}>Ajouter un Post</Text>
+                <Text style={classeStyles.titleClass}>Classe</Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)} style={classeStyles.addButton}>
+                    <Text style={classeStyles.textButton}>Ajouter un Post</Text>
                 </TouchableOpacity>
             </View>
 
@@ -281,22 +285,22 @@ export default function ClassScreen() {
             </ScrollView>
 
             <Modal visible={modalVisible} animationType="fade" transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Ajouter un post</Text>
+                <View style={classeStyles.modalContainer}>
+                    <View style={classeStyles.modalContent}>
+                        <Text style={classeStyles.modalTitle}>Ajouter un post</Text>
                         <TextInput
                             placeholder="Titre"
                             value={newTitle}
                             onChangeText={setNewTitle}
-                            style={styles.input}
+                            style={classeStyles.input}
                         />
-                        <Text style={styles.charCount}>{40 - newTitle.length} caractères restants</Text>
+                        <Text style={classeStyles.charCount}>{40 - newTitle.length} caractères restants</Text>
 
                         <TextInput
                             placeholder="Contenu"
                             value={newContent}
                             onChangeText={setNewContent}
-                            style={styles.input}
+                            style={classeStyles.input}
                             multiline
                         />
                         <Text style={styles.charCount}>{180 - newContent.length} caractères restants</Text>

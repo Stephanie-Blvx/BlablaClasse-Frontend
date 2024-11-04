@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -15,8 +15,10 @@ import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEmail } from "../reducers/parent.js";
+import FontAwesome from 'react-native-vector-icons/FontAwesome6';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -31,6 +33,8 @@ export default function ProfilParentScreen() {
   const [newEmail, setNewEmail] = useState(""); //  Ajouter un état pour le nouvel email
   const [currentPassword, setCurrentPassword] = useState(""); // Ajouter un état pour le mot de passe actuel
   const [newPassword, setNewPassword] = useState(""); // Ajouter un état pour le nouveau mot de passe
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const [emailError, setEmailError] = useState(""); // Ajouter un état pour le message d'erreur de l'email
 
   // Accéder aux informations du parent connecté depuis le Redux store
@@ -40,43 +44,97 @@ export default function ProfilParentScreen() {
   const dispatch = useDispatch(); // Dispatch pour mettre à jour les informations du parent
 
   //---------------------- Fonction pour changer le mot de passe ------------------------------------------------------------------
-  const handleChangePassword = () => {
-    const token = parent.token; // Assurez-vous que le token est présent
-    if (!token) {
-      // Vérifiez si le token est présent
-      console.error("Token is undefined"); // Pour le débogage
-      return; // Ou montrez un message d'erreur à l'utilisateur
-    }
+  // const handleChangePassword = () => {
+  //   const token = parent.token; // Assurez-vous que le token est présent
+  //   if (!token) {
+  //     // Vérifiez si le token est présent
+  //     console.error("Token is undefined"); // Pour le débogage
+  //     return; // Ou montrez un message d'erreur à l'utilisateur
+  //   }
 
+  //   const parentId = parent.id; // Récupérez l'ID du parent depuis le Redux store
+  //   console.log("Parent ID:", parentId); // Pour le débogage
+
+  //   const payload = {
+  //     parentId: parentId, // ID du parent récupéré
+  //     currentPassword: currentPassword, // Le mot de passe actuel
+  //     newPassword: newPassword, // Le nouveau mot de passe
+  //   };
+
+  //   console.log("Payload pour le changement de mot de passe:", payload); // Pour le débogage
+
+  //   const requestOptions = {
+  //     method: "PUT", // Méthode HTTP PUT
+  //     headers: {
+  //       // En-têtes de la requête
+  //       "Content-Type": "application/json", // Type de contenu
+  //       Authorization: `Bearer ${token}`, // Token d'authentification
+  //     },
+  //     body: JSON.stringify(payload), // Convertit l'objet en chaîne JSON
+  //   };
+
+  //   fetch(`${BACKEND_ADDRESS}/parents/change-password`, requestOptions) // Appel de l'API
+  //     .then((response) => response.json()) // Convertit la réponse en JSON
+  //     .then((data) => {
+  //       // Récupère les données
+  //       console.log("Réponse du serveur:", data); // Affiche la réponse complète
+  //       if (data.result) {
+  //         // Si la réponse est positive
+  //         // Optionnel : Réinitialiser les champs ou montrer un message de succès
+  //         setCurrentPassword(""); // Réinitialiser le mot de passe actuel
+  //         console.log(
+  //           "currentPassword après réinitialisation:",
+  //           currentPassword
+  //         ); // Vérifie la valeur
+  //         setNewPassword(""); // Réinitialiser le nouveau mot de passe
+  //         setPasswordModalVisible(false); // Ferme le modal
+  //       } else {
+  //         // Si la réponse est négative
+  //         console.error(data.error); // Affiche l'erreur
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Erreur lors de la modification du mot de passe:", error); // Gestion des erreurs
+  //     });
+  // };
+
+  const handleChangePassword = async () => {
+    console.log('Appel de la fonction handleChangePassword');
+    
+    // Récupérer le token JWT stocké dans AsyncStorage
+    const token = await AsyncStorage.getItem('accessToken')
+    
+    if (!token) {
+      setError('Token is undefined'); // Afficher un message d'erreur
+      console.log('Token is undefined');
+      return;
+    }
+  
+    console.log('Token JWT', token); // Pour le débogage
+  
     const parentId = parent.id; // Récupérez l'ID du parent depuis le Redux store
     console.log("Parent ID:", parentId); // Pour le débogage
 
-    const payload = {
+    const payload = { 
       parentId: parentId, // ID du parent récupéré
       currentPassword: currentPassword, // Le mot de passe actuel
       newPassword: newPassword, // Le nouveau mot de passe
     };
-
-    console.log("Payload pour le changement de mot de passe:", payload); // Pour le débogage
-
-    const requestOptions = {
-      method: "PUT", // Méthode HTTP PUT
+    
+    console.log("Payload pour le changement de mot de passe :", payload);
+    
+    fetch(`${BACKEND_ADDRESS}/parents/change-password`, {
+      method: 'PUT',
       headers: {
-        // En-têtes de la requête
-        "Content-Type": "application/json", // Type de contenu
-        Authorization: `Bearer ${token}`, // Token d'authentification
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload), // Convertit l'objet en chaîne JSON
-    };
-
-    fetch(`${BACKEND_ADDRESS}/parents/change-password`, requestOptions) // Appel de l'API
-      .then((response) => response.json()) // Convertit la réponse en JSON
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
       .then((data) => {
-        // Récupère les données
-        console.log("Réponse du serveur:", data); // Affiche la réponse complète
-        if (data.result) {
-          // Si la réponse est positive
-          // Optionnel : Réinitialiser les champs ou montrer un message de succès
+        console.log('Réponse du serveur:', data);
+        if (data.success) {
           setCurrentPassword(""); // Réinitialiser le mot de passe actuel
           console.log(
             "currentPassword après réinitialisation:",
@@ -85,13 +143,9 @@ export default function ProfilParentScreen() {
           setNewPassword(""); // Réinitialiser le nouveau mot de passe
           setPasswordModalVisible(false); // Ferme le modal
         } else {
-          // Si la réponse est négative
-          console.error(data.error); // Affiche l'erreur
+          setError(data.error || 'Une erreur est survenue.'); // Utilisez data.error ou un message par défaut
         }
       })
-      .catch((error) => {
-        console.error("Erreur lors de la modification du mot de passe:", error); // Gestion des erreurs
-      });
   };
 
   //----------------------------------------------- Fonction pour changer le mot de passe ------------------------------------------------
@@ -107,6 +161,7 @@ export default function ProfilParentScreen() {
     }
 
     const token = parent.token; // Assurez-vous que le token est présent
+    
     if (!token) {
       console.error("Token is undefined"); // Pour le débogage
       return; // Ou montrez un message d'erreur à l'utilisateur
@@ -130,7 +185,8 @@ export default function ProfilParentScreen() {
       },
       body: JSON.stringify(payload), // Convertit l'objet en chaîne JSON
     };
-
+    
+    console.log("Requête pour le changement d'email:", requestOptions); // Pour le débogage
     fetch(`${BACKEND_ADDRESS}/parents/change-email`, requestOptions) // Appel de l'API
       .then((response) => response.json()) // Convertit la réponse en JSON
       .then((data) => {
@@ -140,12 +196,12 @@ export default function ProfilParentScreen() {
           setNewEmail(""); // Réinitialise le nouvel email
           setEmailModalVisible(false); // Ferme le modal
         } else {
-          console.error(data.error); // Affiche l'erreur
+          console.error("Erreur lors de :", data.error); // Affiche l'erreur
         }
       })
-      .catch((error) => {
-        console.error("Erreur lors du changement d'email:", error); // Gestion des erreurs
-      });
+      // .catch((error) => {
+      //   console.error("Erreur lors du changement d'email:", error); // Gestion des erreurs
+      // });
   };
 
   //-------------------------------------------- JSX ----------------------------------------------
@@ -161,6 +217,14 @@ export default function ProfilParentScreen() {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
+            {/* Bouton de retour */}
+            <TouchableOpacity
+              
+              onPress={() => navigation.navigate("Profil")}
+            >
+              <FontAwesome name="arrow-left" size={20} color="#4A7B59" solid />
+            </TouchableOpacity>
+            
             <Text style={globalStyles.title}>Profil parent</Text>
 
             <View style={buttonStyles.inputContainer}>
@@ -282,7 +346,7 @@ export default function ProfilParentScreen() {
                       placeholder="Mot de passe actuel"
                       value={currentPassword}
                       onChangeText={setCurrentPassword}
-                      secureTextEntry={true}
+                      // secureTextEntry={true}
                       placeholderTextColor="#5e5e5e8a"
                     />
                   </View>
@@ -292,7 +356,7 @@ export default function ProfilParentScreen() {
                       placeholder="Nouveau mot de passe"
                       value={newPassword}
                       onChangeText={setNewPassword}
-                      secureTextEntry={true}
+                      // secureTextEntry={true}
                       placeholderTextColor="#5e5e5e8a"
                     />
                   </View>
