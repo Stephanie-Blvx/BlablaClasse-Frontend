@@ -19,7 +19,7 @@ export default function TchatScreen() {
       const message = {
         author: 'parent1', // par défaut
         timestamp: new Date(),
-        seen: false, // par défaut
+        seen: false, 
         content: newMessage,
       };
       setMessages([...messages, message]);
