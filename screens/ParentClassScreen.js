@@ -1,10 +1,10 @@
 import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { CheckBox } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { globalStyles } from '../styles/globalStyles';
 import { classeStyles } from '../styles/classeStyles';
-const BACK_URL = 'http://localhost:3000';
+const BACK_URL = 'http://192.168.3.174:3000';
 
     const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
         const [isChecked, setIsChecked] = useState(post.isRead);
@@ -25,7 +25,7 @@ const BACK_URL = 'http://localhost:3000';
                         <Text>{new Date(post.creationDate).toLocaleString()}</Text>
                     </View>
                     <TouchableOpacity>
-                        <CheckBox value={isChecked} onValueChange={handleCheckboxChange} style={classeStyles.checkbox} />
+                        <Checkbox value={isChecked} onValueChange={handleCheckboxChange} style={classeStyles.checkbox} />
                     </TouchableOpacity>
                 </View>
                 <View style={classeStyles.messageContentContainerParent}>

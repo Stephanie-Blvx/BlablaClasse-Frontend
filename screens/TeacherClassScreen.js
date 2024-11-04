@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { globalStyles } from '../styles/globalStyles';
 import { classeStyles } from '../styles/classeStyles';
-const BACK_URL = 'http://localhost:3000'
+const BACK_URL = 'http://192.168.3.174:3000';
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
