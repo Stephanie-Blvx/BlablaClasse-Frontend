@@ -177,11 +177,11 @@ export default function ChatScreen() {
                     : chatStyles.messageRecieved,
                 ]}
               >
-                {" "}
+              
                 {/* Wrapper du message */}
                 <Text style={chatStyles.usernameText}>
                   {message.username}
-                </Text>{" "}
+                </Text>
                 {/* Nom d'utilisateur */}
                 <View
                   style={[
@@ -191,11 +191,11 @@ export default function ChatScreen() {
                       : chatStyles.messageRecievedBg,
                   ]}
                 >
-                  {" "}
+                
                   {/* Message */}
                   <Text style={chatStyles.messageText}>
                     {message.text}
-                  </Text>{" "}
+                  </Text>
                   {/* Texte du message */}
                 </View>
                 <Text style={chatStyles.timeText}>
