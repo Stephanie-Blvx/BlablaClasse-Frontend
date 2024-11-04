@@ -1,10 +1,23 @@
-import { Button, StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import Checkbox from 'expo-checkbox';
-import { globalStyles } from '../styles/globalStyles';
-import { classeStyles } from '../styles/classeStyles';
-const BACK_URL = 'http://192.168.3.174:3000';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  Platform,
+  TouchableOpacity,
+  ScrollView,
+  StatusBar,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { globalStyles } from "../styles/globalStyles";
+import { classeStyles } from "../styles/classeStyles";
+const BACK_URL = "http://192.168.1.30:3000";
+import Checkbox from "expo-checkbox";
 
     const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
         const [isChecked, setIsChecked] = useState(post.isRead);
@@ -40,11 +53,9 @@ const BACK_URL = 'http://192.168.3.174:3000';
     };
 
 export default function ParentClassScreen() {
-    const [posts, setPosts] = useState([]);
-    const parent = useSelector((state) => state.parent.value);
-    const childName = parent.kids[0].firstname;
-
-
+  const [posts, setPosts] = useState([]);
+  const parent = useSelector((state) => state.parent.value);
+  const childName = parent.kids[0].firstname;
 
     // Fetch des posts dans la db
     const fetchPosts = () => {
@@ -60,10 +71,10 @@ export default function ParentClassScreen() {
             });
     }
 
-    // appeler fetchPosts dès le premier rendu de la page
-    useEffect(() => {
-        fetchPosts();
-    }, []);
+  // appeler fetchPosts dès le premier rendu de la page
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
     // Mise à jour de isRead dans la db
     const handleToggleReadStatus = (postId, isRead) => {
@@ -81,97 +92,32 @@ export default function ParentClassScreen() {
             });
     };
 
-    return (
-        <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+  return (
+    <SafeAreaView style={globalStyles.safeArea}>
+      {/* Modifier la couleur de la barre d'état */}
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={40}
+      >
+        <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+          <View style={globalStyles.container}>
+            <Text style={globalStyles.title}>Classe de {childName}</Text>
             <View>
-                <Text style={classeStyles.titleClass}>Classe de {childName}</Text>
+              {posts.map((post) => (
+                <MessageWithCheckbox
+                  key={post._id}
+                  post={post}
+                  postId={post._id}
+                  onToggleReadStatus={handleToggleReadStatus}
+                />
+              ))}
             </View>
-            <ScrollView>
-                <View>
-                    {posts.map((post) => (
-                        <MessageWithCheckbox
-                            key={post._id}
-                            post={post}
-                            postId={post._id}
-                            onToggleReadStatus={handleToggleReadStatus}
-                        />
-                    ))}
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
-    );
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 }
-
-// const styles = StyleSheet.create({
-//     messageContainer: {
-//         padding: 10,
-//         marginHorizontal: 10,
-//         marginVertical: 5,
-//         // borderRadius: 20,
-//         // backgroundColor: 'white',
-//         // borderWidth: 2,
-//         // borderColor: '#67AFAC',
-//         backgroundColor: 'white',
-//         borderRadius: 12,
-//         padding: 15,
-//         marginVertical: 10,
-//         shadowColor: '#000',
-//         shadowOpacity: 0.1,
-//         shadowOffset: { width: 0, height: 1 },
-//         shadowRadius: 5,
-//     },
-//         headerContainer: {
-//             flexDirection: 'row',
-//             alignItems: 'center',
-//             justifyContent: 'space-between',
-//             marginBottom: 5,
-//         },
-
-//     avatar: {
-//         width: 40,
-//         height: 40,
-//         borderRadius: 20,
-//         marginRight: 10,
-//     },
-//     messageInfos: {
-//         fontSize: 14,
-//         color: 'black',
-//     },
-//     contentRow: {
-//         flexDirection: 'row',
-//         alignItems: 'flex-start',
-//         marginTop: 5,
-//     },
-//     messageContentContainer: {
-//         flex: 1,
-//     },
-//     titleClass:{
-//         fontSize: 25,
-//         fontWeight: 'bold',
-//         marginTop: 20,
-//         marginBottom: 20,
-//         color:'#69AFAC',
-//         textAlign: 'center',
-//       },
-//     title2: {
-//         fontWeight: 'bold',
-//         fontSize: 16,
-//         color: '#69AFAC',
-//     },
-//     messageContent: {
-//         fontSize: 14,
-//         color: '#69AFAC',
-//     },
-//     image: {
-//         width: '100%',
-//         height: 200,
-//         resizeMode: 'cover',
-//         borderRadius: 20,
-//         marginTop: 5,
-//     },
-//     checkbox: {
-//         alignSelf: 'center',
-//         marginLeft: 5,
-
-//     },
-// });

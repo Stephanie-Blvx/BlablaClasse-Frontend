@@ -19,8 +19,8 @@ import { globalStyles } from "../styles/globalStyles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
-const BACKEND_ADDRESS = 'http://192.168.3.174:3000';
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+
 // email Regex
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -122,7 +122,7 @@ export default function LoginParentScreen({ navigation }) {
     // contenu de la page = mainContainer
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -131,7 +131,7 @@ export default function LoginParentScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter parent</Text>
+            <Text style={globalStyles.title}>Se connecter</Text>
 
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity //champ cliquable renvoi vers QRCode scanner

@@ -156,11 +156,11 @@ export default function ChatScreen() {
 
   return (
     <SafeAreaView style={[globalStyles.safeArea]}>
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
       <KeyboardAvoidingView
         style={{ flex: 1, margin: 10 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={70}
+        keyboardVerticalOffset={40}
       >
         <View style={chatStyles.banner}>
           <Text style={chatStyles.greetingText}>Bonjour {username}</Text>
@@ -178,11 +178,11 @@ export default function ChatScreen() {
                     : chatStyles.messageRecieved,
                 ]}
               >
-                {" "}
+              
                 {/* Wrapper du message */}
                 <Text style={chatStyles.usernameText}>
                   {message.username}
-                </Text>{" "}
+                </Text>
                 {/* Nom d'utilisateur */}
                 <View
                   style={[
@@ -192,11 +192,11 @@ export default function ChatScreen() {
                       : chatStyles.messageRecievedBg,
                   ]}
                 >
-                  {" "}
+                
                   {/* Message */}
                   <Text style={chatStyles.messageText}>
                     {message.text}
-                  </Text>{" "}
+                  </Text>
                   {/* Texte du message */}
                 </View>
                 <Text style={chatStyles.timeText}>

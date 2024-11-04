@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert, Image, Button } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert, Image, Button, StatusBar, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 
 
@@ -9,6 +9,7 @@ import { Picker } from '@react-native-picker/picker'
 import * as DocumentPicker from 'expo-document-picker';
 import * as Permissions from 'expo-permissions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
+import { globalStyles } from "../styles/globalStyles";
 
 const BACK_URL = 'http://192.168.3.174:3000';
 
@@ -334,12 +335,19 @@ LocaleConfig.defaultLocale = 'fr';
   //JSX
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-
-      <View style={styles.header}>
-        <Image style={styles.logo} source={require('../assets/logo.png')} />
-        <Text style={styles.titleHome}> Quoi de neuf dans notre école ? </Text>
-      </View>
+    <SafeAreaView style={[globalStyles.safeArea]}>
+    <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={40}
+    >
+       <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+  <View style={globalStyles.container}>
+    <View style={[styles.header, globalStyles.container]}>
+      <Image style={styles.logo} source={require('../assets/logo.png')} />
+      <Text style={globalStyles.title}>Quoi de neuf ?</Text>
+    </View>
 
       <Calendar
       
@@ -466,6 +474,9 @@ LocaleConfig.defaultLocale = 'fr';
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -477,10 +488,12 @@ const styles = StyleSheet.create({
   },
   header: {
 
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+    // height: 60,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // marginBottom: 20,
+
+
   },
   titleHome: {
     fontSize: 20,

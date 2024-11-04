@@ -18,13 +18,13 @@ import { updateEmail } from "../reducers/parent.js";
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // Composant principal pour l'écran de profil
-export default function ProfilParentScreen() {
+export default function ProfilParentScreen({navigation}) {
   // États pour gérer les valeurs des champs de formulaire et modales
   const [firstname, setFirstname] = useState(""); // Ajouter un état pour le prénom du parent
   const [lastname, setLastname] = useState(""); //    Ajouter un état pour le nom du parent
@@ -43,61 +43,7 @@ export default function ProfilParentScreen() {
 
   const dispatch = useDispatch(); // Dispatch pour mettre à jour les informations du parent
 
-  //---------------------- Fonction pour changer le mot de passe ------------------------------------------------------------------
-  // const handleChangePassword = () => {
-  //   const token = parent.token; // Assurez-vous que le token est présent
-  //   if (!token) {
-  //     // Vérifiez si le token est présent
-  //     console.error("Token is undefined"); // Pour le débogage
-  //     return; // Ou montrez un message d'erreur à l'utilisateur
-  //   }
-
-  //   const parentId = parent.id; // Récupérez l'ID du parent depuis le Redux store
-  //   console.log("Parent ID:", parentId); // Pour le débogage
-
-  //   const payload = {
-  //     parentId: parentId, // ID du parent récupéré
-  //     currentPassword: currentPassword, // Le mot de passe actuel
-  //     newPassword: newPassword, // Le nouveau mot de passe
-  //   };
-
-  //   console.log("Payload pour le changement de mot de passe:", payload); // Pour le débogage
-
-  //   const requestOptions = {
-  //     method: "PUT", // Méthode HTTP PUT
-  //     headers: {
-  //       // En-têtes de la requête
-  //       "Content-Type": "application/json", // Type de contenu
-  //       Authorization: `Bearer ${token}`, // Token d'authentification
-  //     },
-  //     body: JSON.stringify(payload), // Convertit l'objet en chaîne JSON
-  //   };
-
-  //   fetch(`${BACKEND_ADDRESS}/parents/change-password`, requestOptions) // Appel de l'API
-  //     .then((response) => response.json()) // Convertit la réponse en JSON
-  //     .then((data) => {
-  //       // Récupère les données
-  //       console.log("Réponse du serveur:", data); // Affiche la réponse complète
-  //       if (data.result) {
-  //         // Si la réponse est positive
-  //         // Optionnel : Réinitialiser les champs ou montrer un message de succès
-  //         setCurrentPassword(""); // Réinitialiser le mot de passe actuel
-  //         console.log(
-  //           "currentPassword après réinitialisation:",
-  //           currentPassword
-  //         ); // Vérifie la valeur
-  //         setNewPassword(""); // Réinitialiser le nouveau mot de passe
-  //         setPasswordModalVisible(false); // Ferme le modal
-  //       } else {
-  //         // Si la réponse est négative
-  //         console.error(data.error); // Affiche l'erreur
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Erreur lors de la modification du mot de passe:", error); // Gestion des erreurs
-  //     });
-  // };
-
+  //----------------------------------------------- Fonction pour changer le mot de passe ------------------------------------------------
   const handleChangePassword = async () => {
     console.log('Appel de la fonction handleChangePassword');
     
@@ -208,7 +154,7 @@ export default function ProfilParentScreen() {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}

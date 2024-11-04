@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Image, Alert, StatusBar, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
-
-const BACK_URL = 'http://192.168.3.174:3000';
+import { globalStyles } from "../styles/globalStyles";
+const BACK_URL = 'http://192.168.1.30:3000';
 //Lien pour dl menu
 const fileUri = `${FileSystem.documentDirectory}menu.jpg`
 
@@ -168,10 +168,18 @@ LocaleConfig.defaultLocale = 'fr';
   ///JSX///
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <View style={styles.header}>
+    <SafeAreaView style={[globalStyles.safeArea]}>
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={40}
+      >
+         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+    <View style={globalStyles.container}>
+      <View style={[styles.header, globalStyles.container]}>
         <Image style={styles.logo} source={require('../assets/logo.png')} />
-        <Text style={styles.titleHome}> Quoi de neuf dans notre école ? </Text>
+        <Text style={globalStyles.title}>Quoi de neuf ?</Text>
       </View>
 
       <Calendar
@@ -225,6 +233,9 @@ LocaleConfig.defaultLocale = 'fr';
       </View>
 
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -236,10 +247,10 @@ const styles = StyleSheet.create({
   },
   header: {
 
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+    // height: 60,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    //marginBottom: 20,
 
 
   },
@@ -255,7 +266,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 70,
     height: 70,
-    marginRight: 10,
+    //marginRight: 10,
   },
 
   modalView: {
@@ -280,10 +291,10 @@ const styles = StyleSheet.create({
   },
   buttonPlace: {
 
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 5,
-    marginTop: 60,
+    marginTop: 36,
     marginLeft: 30,
 
   },
