@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles"; // Importation des styles pour les boutons
 import { globalStyles } from "../styles/globalStyles"; // Importation des styles globaux
-const BACKEND_ADDRESS = "http://192.168.3.174:3000"; // URL Backend
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 import { useDispatch, useSelector } from "react-redux";
 import { updateKidInfo } from "../reducers/parent"; // Assurez-vous d'importer l'action
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
