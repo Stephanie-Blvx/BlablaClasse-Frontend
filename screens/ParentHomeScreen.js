@@ -1,39 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-
 import { useDispatch, useSelector } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker'
-//import DocumentPicker from 'react-native-document-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import { shareAsync } from 'expo-sharing';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 
-const BACK_URL = 'http://192.168.1.30:3000';
+const BACK_URL = 'http://192.168.3.174:3000';
+//Lien pour dl menu
+const fileUri = `${FileSystem.documentDirectory}menu.jpg`
 
 export default function ParentHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-
-  const dispatch = useDispatch();
-  //USESELECTOR MENU
-  const menu = useSelector((state) => state.menu.value.menus);
-  console.log("MENU USESELECTOR", menu)
+  const [lastActu, setLastActu] = useState([])
+  const [menu, setMenu] = useState('')
+  const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
 
 
+  //------------CALENDAR---------------------//
   // Transformer les événements en dates marquées
   const transformEventsToMarkedDates = (events) => {
     const dates = {};
-
-
     events.forEach(event => {
       const date = new Date(event.date).toISOString().split('T')[0];
-
-
 
       // Création d'un dot pour la classe associée à l'événement
       const dot = event.classe && event.classe.color ? { color: event.classe.color } : { color: 'blue' };
@@ -50,7 +44,7 @@ export default function ParentHomeScreen() {
 
     return dates;
   };
-  //Route get : all events à afficher 
+  //-----Route get : all events à afficher ---
   useEffect(() => {
     fetch(`${BACK_URL}/events`)
       .then((response) => response.json())
@@ -74,6 +68,27 @@ export default function ParentHomeScreen() {
 
   const selectedDateEvents = markedDates[selectedDate]?.events || [];
 
+  // ----------------ROUTE GET DERNIèRE ACTU A AFFICHER-----------
+  // Fetch des posts dans la db
+  const fetchActu = () => {
+    fetch(`${BACK_URL}/actus`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          console.log("LAST ACTU", data.actu.content)
+          const lastActuToShow = data.actu.content
+          setLastActu(lastActuToShow)
+          console.log("LAST ACTU", data)
+        } else {
+          console.error(data.error);
+        }
+      });
+  }
+
+  // appeler fetchPosts dès le premier rendu de la page
+  useEffect(() => {
+    fetchActu();
+  }, [lastActu]);
 
 
   // PERMISSION GESTIONNAIRE FICHIERS
@@ -87,45 +102,53 @@ export default function ParentHomeScreen() {
   }, []);
 
 
-  /// Fonction pour DOWNLOAD menu cantine
+  ///----- Fonction pour DOWNLOAD menu cantine------
 
   const downloadMenu = async () => {
-    try {
-      const now = new Date();
-    const formattedDate = now.toISOString().replace(/[-:]/g, '').split('.')[0]; // Format: YYYYMMDDTHHmmss
+//utiiser await 
+const response = await fetch(`${BACK_URL}/menus`);
+const data = await response.json();
 
-      const lastMenuUrl = menu[menu.length - 1];
-      console.log("URL du dernier menu :", lastMenuUrl);
+if (data.result) {
+  console.log("LAST MENU URL", data);
+  const lastMenuUrl = data;
+  setMenu(lastMenuUrl);
+  console.log("LAST MENU", menu.menu.url);
+} else {
+  console.error(data.error);
+}
+ // Demander la permission d'accéder à la galerie
+ const { status } = await MediaLibrary.requestPermissionsAsync();
 
-      const filename = `menu_${formattedDate}.jpg`;
-      const fileUri = FileSystem.documentDirectory + filename;
+ if (status === 'granted') {
+  console.log('WHAT', menu.menu.url)
 
-      // Télécharger le fichier
-      const result = await FileSystem.downloadAsync(lastMenuUrl, fileUri);
-      console.log("Fichier téléchargé avec succès :", result.uri);
+    // ---Télécharger le fichier---
+    const result = await FileSystem.downloadAsync(menu.menu.url, fileUri);
+    console.log('RESULT', result)
+    console.log("Fichier téléchargé avec succès :", result.uri);
 
-      // Demander la permission d'accéder à la galerie
-      const { status } = await MediaLibrary.requestPermissionsAsync(); "uploadMenu"
-      if (status === 'granted') {
-        // Enregistrer le fichier dans la galerie
-        const asset = await MediaLibrary.createAssetAsync(result.uri);
-        Alert.alert('Téléchargement terminé', `Le fichier a été enregistré dans la galerie : ${asset.uri}`);
-      } else {
-        Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la galerie pour enregistrer le fichier.');
-      }
-    } catch (error) {
-      console.error("Erreur lors du téléchargement du fichier :", error);
-      Alert.alert('Erreur', 'Une erreur est survenue lors du téléchargement du fichier.');
+   
+      // Enregistrer le fichier dans la galerie
+      const asset = await MediaLibrary.createAssetAsync(result.uri);
+      Alert.alert('Téléchargement terminé', `Le fichier a été enregistré dans la galerie : ${asset.uri}`);
+    } else {
+      Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la galerie pour enregistrer le fichier.');
     }
+
   };
+  ///JSX///
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
-      
+      <View style={styles.header}>
+        <Image style={styles.logo} source={require('../assets/logo.png')} />
         <Text style={styles.titleHome}> Quoi de neuf dans notre école ? </Text>
-      
+      </View>
+
       <Calendar
         onDayPress={onDayPress}
+        current={currentDate}
         markedDates={markedDates}
         markingType={'multi-dot'}
         theme={{
@@ -133,6 +156,7 @@ export default function ParentHomeScreen() {
           todayTextColor: '#67AFAC',
           arrowColor: '#67AFAC',
         }}
+       
       />
 
       <Modal
@@ -159,10 +183,17 @@ export default function ParentHomeScreen() {
           </TouchableOpacity>
         </View>
       </Modal>
+      {/* Dernière actu de l'école */}
+      <View style={styles.lastActuContainer}>
+        <Text style={styles.actuTitle}> Dernière actu : </Text>
+        <Text style={styles.actuContent}>{lastActu}</Text>
+      </View>
       {/* Télécharger le menu cantine > PARENT < */}
-      <TouchableOpacity onPress={() => downloadMenu()} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}> Menu de la cantine </Text>
-      </TouchableOpacity>
+      <View style={styles.buttonPlace}>
+        <TouchableOpacity onPress={() => downloadMenu()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>  🍽️ Télécharger le menu de la cantine </Text>
+        </TouchableOpacity>
+      </View>
 
     </View>
   );
@@ -174,6 +205,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  header: {
+
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+
+
+  },
+  titleHome: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#69AFAC',
+    flex: 1,
+    textAlign: 'center',
+    marginRight: 40,
+
+  },
+  logo: {
+    width: 70,
+    height: 70,
+    marginRight: 10,
+  },
+
   modalView: {
     backgroundColor: 'white',
     borderRadius: 20,
@@ -186,15 +241,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-  titleHome:{
-    fontSize: 25,
-    fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 20,
-    color:'#69AFAC',
-    alignItems:'center',
-    justifyContent:'center',
-  },
+
   input: {
     width: 200,
     borderBottomColor: '#69AFAC',
@@ -202,16 +249,54 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingVertical: 8,
   },
+  buttonPlace: {
+
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    marginBottom: 5,
+    marginTop: 60,
+    marginLeft: 30,
+
+  },
   button: {
-    marginTop: 15,
-    backgroundColor: "#69AFAC",
-    paddingVertical: 15,
+    width: '90%',
+    marginTop: 10,
+    marginBottom: 10,
+    paddingVertical: 10,
     borderRadius: 8,
-    alignItems: "center",
+
+
   },
   textButton: {
-    color: "#FFFFFF",
-    fontSize: 18,
+    color: "#69AFAC",
+    fontSize: 12,
     fontWeight: "600",
   },
+  lastActuContainer: {
+    backgroundColor:"white",
+    borderWidth: 1.5,
+    borderColor: "#69AFAC",
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 40,
+    alignItems: 'center',
+
+
+  },
+  actuTitle: {
+    textDecorationLine: 'underline',
+    color: "#69AFAC",
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 10,
+
+  },
+  actuContent: {
+    color: "#69AFAC",
+    fontSize: 12,
+    fontWeight: "600",
+
+  },
+
+
 });
