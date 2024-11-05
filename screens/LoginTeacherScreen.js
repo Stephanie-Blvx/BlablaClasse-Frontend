@@ -17,7 +17,7 @@ import { login, logout } from "../reducers/teacher";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
-const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 // email Regex
@@ -74,11 +74,7 @@ export default function LoginTeacherScreen({ navigation }) {
               isAdmin: dbData.isAdmin,
               id: dbData.id,
               userType: dbData.userType,
-<<<<<<< HEAD
-              isAdmin: dbData.isAdmin
-=======
               isAdmin: dbData.isAdmin,
->>>>>>> bd03f9a5deeea388695d55f83c7a8071c0c400e7
             })
           ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");

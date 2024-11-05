@@ -1,11 +1,11 @@
-import { Text, View, Image, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, Image, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView, SafeAreaView, StatusBar } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Checkbox from 'expo-checkbox';
 import { globalStyles } from '../styles/globalStyles';
 import { classeStyles } from '../styles/classeStyles';
 
-const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
     const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
@@ -48,7 +48,7 @@ export default function ParentClassScreen() {
 
     // Fetch des posts dans la db
     const fetchPosts = () => {
-        fetch(`${BACK_URL}/posts`)
+        fetch(`${BACKEND_ADDRESS}/posts`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -68,7 +68,7 @@ export default function ParentClassScreen() {
     // Mise à jour de isRead dans la db
     const handleToggleReadStatus = (postId, isRead) => {
         console.log(`Updating postId: ${postId} to isRead: ${isRead}`);
-        fetch(`${BACK_URL}/posts${postId}`, {
+        fetch(`${BACKEND_ADDRESS}/posts${postId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ isRead }),
