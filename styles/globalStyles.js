@@ -17,6 +17,9 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+  containerFull: {
+    width: "100%",
+  },
   scrollContainer: {
     // Conteneur pour le défilement
     flexGrow: 1,
@@ -24,8 +27,33 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
   },
-  container: {
-    width: "100%", // Assurez-vous que le contenu utilise toute la largeur
+  header: {
+    backgroundColor: "#67AFAC",
+    height: 60,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    elevation: 4, // Ombre pour l'en-tête
+  },
+  headerTitle: {
+    fontFamily: "Montserrat_800ExtraBold",
+    color: "#fff",
+    fontSize: 30,
+    fontWeight: "bold",
+    flex: 0.9, // Permet d'utiliser l'espace disponible pour centrer le texte
+    textAlign: "center", // Centre le texte dans l'espace disponible
+  },
+  headerTitleNoReturn: {
+    fontFamily: "Montserrat_800ExtraBold",
+    color: "#fff",
+    fontSize: 30,
+    fontWeight: "bold",
+    flex: 1, // Permet d'utiliser l'espace disponible pour centrer le texte
+    textAlign: "center", // Centre le texte dans l'espace disponible
+  },
+  backText: {
+    color: "#fff",
+    fontSize: 28,
   },
   title: {
     // Style du titre
@@ -66,19 +94,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 16,
     color: "#121212",
   },
-  QRtext: {
-    padding: 10,
-  },
-  QRbuttonContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "75%",
-  },
-  QRContainer: {
-    display: "flex",
-    alignItems: "center",
-  },
+
   modalContainer: {
     // Conteneur de la modale
     flex: 1,
@@ -105,6 +121,21 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
+  modalInput: {
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+    color: 'black',
+},
+  errorMessage: {
+    // Message d'erreur
+    fontFamily: "OpenSans_300Light",
+    color: "red",
+    marginTop: 10,
+    textAlign: "center",
+  },
   successMessage: {
     // Message de succès
     fontFamily: "OpenSans_300Light",
@@ -112,5 +143,19 @@ export const globalStyles = StyleSheet.create({
     color: "green",
     marginBottom: 15,
     textAlign: "center",
+  },
+
+  QRtext: {
+    padding: 10,
+  },
+  QRbuttonContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "75%",
+  },
+  QRContainer: {
+    display: "flex",
+    alignItems: "center",
   },
 });

@@ -18,7 +18,7 @@ import { globalStyles } from "../styles/globalStyles";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 const BACKEND_ADDRESS = 'http://192.168.3.174:3000'; //-------> url Backend
 
 // email Regex
@@ -136,7 +136,7 @@ export default function LoginParentScreen({ navigation }) {
 {/* RETRAIT ICI DU QR CODE SCREEN   */}
 
             {!isValidEmail && (
-              <Text style={buttonStyles.error}>
+              <Text style={globalStyles.errorMessage}>
                 Email ou mot de passe invalide, veuillez réessayer
               </Text>
             )}

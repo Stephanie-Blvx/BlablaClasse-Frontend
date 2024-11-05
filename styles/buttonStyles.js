@@ -32,27 +32,15 @@ export const buttonStyles = StyleSheet.create({
   },
   buttonContainer: {
     // Conteneur des boutons
-    marginTop: 20,
+    marginTop: 16,
     width: "100%",
-  },
-  QRbuttonContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "right",
-    width: "75%",
-  },
-  QRbutton: {
-    padding: 20,
-    // borderRadius: 10,
-    display: "flex",
+    alignContent: "center",
     alignItems: "center",
-    margin: 10,
-    backgroundColor: "#69AFAC",
-    paddingVertical: 15,
-    borderRadius: 8,
   },
+
   buttonContainerlogout: {
     // Conteneur du bouton de déconnexion
+    flexDirection: "row",
     marginTop: 20,
   },
   button: {
@@ -61,7 +49,9 @@ export const buttonStyles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 8,
     alignItems: "center",
-  },
+    color: "#FFFFFF",
+    width: "100%",
+  }, 
   pressedButton: {
     // Bouton pressé
     opacity: 0.8,
@@ -87,11 +77,6 @@ export const buttonStyles = StyleSheet.create({
     marginBottom: 30,
     color: "#666",
   },
-  error: {
-    // Message d'erreur
-    fontFamily: "OpenSans_300Light",
-    color: "red",
-  },
   cancelButtonText: {
     // Texte du bouton d'annulation
     fontFamily: "OpenSans_300Light",
@@ -101,6 +86,38 @@ export const buttonStyles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
+  label: {
+    display: "flex",
+    fontSize: 14,
+    fontWeight: "light",
+    alignItems: "flex-start",
+    marginBottom: 5,
+    color: "#121212",
+  },
+
+  buttonDownload: {
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    marginBottom: 5,
+     marginTop: 40,
+    // marginLeft: 30,
+  },
+  buttonDownloadPress : {
+    alignItems: "center",
+    width: "100%",
+    marginTop: 10,
+    marginBottom: 10,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  buttonDownloadText: {
+    color: "#69AFAC",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+
+// QR CODE
   QRbuttonContainer: {
     display: "flex",
     flexDirection: "column",
@@ -112,10 +129,16 @@ export const buttonStyles = StyleSheet.create({
     borderRadius: 10,
     display: "flex",
     alignItems: "center",
-
     margin: 10,
     backgroundColor: "#69AFAC",
     paddingVertical: 15,
     borderRadius: 8,
+  },
+  iconsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+    marginTop: 30,
   },
 });

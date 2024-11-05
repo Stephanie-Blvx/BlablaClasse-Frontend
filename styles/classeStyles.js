@@ -1,23 +1,25 @@
 import { StyleSheet } from "react-native";
 
 export const classeStyles = StyleSheet.create({
+  container: {
+    width: "100%",
+    padding: 16,
+  },
   messageContainer: {
     padding: 10,
     //marginHorizontal: 10,
     marginVertical: 5,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 1, // pour Android
-    backgroundColor: "white",
-    borderRadius: 8
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 2, height: 2 },
+    shadowRadius: 10,
   },
   headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
 
   avatar: {
@@ -141,9 +143,11 @@ export const classeStyles = StyleSheet.create({
     marginTop: 10,
   },
   iconContainer: {
+    display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
+    marginLeft: 50,
     marginBottom: 10,
+    alignItems: "center",
   },
   attachmentIcon: {
     padding: 10,
@@ -151,4 +155,15 @@ export const classeStyles = StyleSheet.create({
   buttonText: {
     color: "#67AFAC",
   },
+  postButton: {
+    backgroundColor: "#69AFAC",
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    color: "#FFFFFF",
+    width: "80%",
+  },
+  editIcon: {
+    marginRight: 10,
+  }
 });

@@ -17,7 +17,7 @@ import { login, logout } from "../reducers/teacher";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
-//const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 const BACKEND_ADDRESS = 'http://192.168.3.174:3000'; //-------> url Backend
 
 // email Regex
@@ -32,6 +32,7 @@ export default function LoginTeacherScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const teacher = useSelector((state) => state.teacher.value);
+  console.log(teacher)
 
   function handleConnexion() {
 
@@ -112,7 +113,7 @@ export default function LoginTeacherScreen({ navigation }) {
             </View> */}
 
             {!isValidEmail && (
-              <Text style={buttonStyles.error}>
+              <Text style={globalStyles.errorMessage}>
                 Email ou mot de passe invalide, veuillez réessayer
               </Text>
             )}
