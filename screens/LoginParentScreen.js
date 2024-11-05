@@ -18,8 +18,8 @@ import { globalStyles } from "../styles/globalStyles";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+// const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -123,7 +123,9 @@ export default function LoginParentScreen({ navigation }) {
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-
+      <View style={globalStyles.header}>
+        <Text style={globalStyles.headerTitleNoReturn}>Se connecter</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -131,7 +133,7 @@ export default function LoginParentScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter</Text>
+        
 
 {/* RETRAIT ICI DU QR CODE SCREEN   */}
 
@@ -141,6 +143,9 @@ export default function LoginParentScreen({ navigation }) {
               </Text>
             )}
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Email
+              </Text>
               <TextInput //champ d'input email
                 style={[
                   buttonStyles.input,
@@ -158,6 +163,9 @@ export default function LoginParentScreen({ navigation }) {
             </View>
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Mot de passe
+              </Text>
               <TextInput //champ d'input password
                 style={[
                   buttonStyles.input,
