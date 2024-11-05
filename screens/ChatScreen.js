@@ -20,7 +20,8 @@ import Pusher from "pusher-js/react-native";
 import { useSelector } from "react-redux";
 
 const pusher = new Pusher("62bd3eeee3b805e7b467", { cluster: "eu" });
-const BACKEND_ADDRESS = "http://192.168.1.30:3000";
+//const BACKEND_ADDRESS = "http://192.168.1.30:3000";
+const BACKEND_ADDRESS = 'http://192.168.3.174:3000'
 
 export default function ChatScreen() {
   const [messages, setMessages] = useState([]); // Tableau des messages
@@ -155,11 +156,11 @@ export default function ChatScreen() {
 
   return (
     <SafeAreaView style={[globalStyles.safeArea]}>
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
       <KeyboardAvoidingView
         style={{ flex: 1, margin: 10 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={70}
+        keyboardVerticalOffset={40}
       >
         <View style={chatStyles.banner}>
           <Text style={chatStyles.greetingText}>Bonjour {username}</Text>
@@ -177,11 +178,11 @@ export default function ChatScreen() {
                     : chatStyles.messageRecieved,
                 ]}
               >
-                {" "}
+              
                 {/* Wrapper du message */}
                 <Text style={chatStyles.usernameText}>
                   {message.username}
-                </Text>{" "}
+                </Text>
                 {/* Nom d'utilisateur */}
                 <View
                   style={[
@@ -191,11 +192,11 @@ export default function ChatScreen() {
                       : chatStyles.messageRecievedBg,
                   ]}
                 >
-                  {" "}
+                
                   {/* Message */}
                   <Text style={chatStyles.messageText}>
                     {message.text}
-                  </Text>{" "}
+                  </Text>
                   {/* Texte du message */}
                 </View>
                 <Text style={chatStyles.timeText}>

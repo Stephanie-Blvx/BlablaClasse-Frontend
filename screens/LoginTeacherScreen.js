@@ -17,7 +17,8 @@ import { login, logout } from "../reducers/teacher";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
-const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -70,9 +71,14 @@ export default function LoginTeacherScreen({ navigation }) {
               lastname: dbData.lastname,
               username: dbData.username,
               classes: dbData.classes,
+              isAdmin: dbData.isAdmin,
               id: dbData.id,
               userType: dbData.userType,
+<<<<<<< HEAD
               isAdmin: dbData.isAdmin
+=======
+              isAdmin: dbData.isAdmin,
+>>>>>>> bd03f9a5deeea388695d55f83c7a8071c0c400e7
             })
           ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");
@@ -83,7 +89,7 @@ export default function LoginTeacherScreen({ navigation }) {
   //-------------------------------------------------JSX------------------------------------------
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -92,9 +98,10 @@ export default function LoginTeacherScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter teacher</Text>
+            <Text style={globalStyles.title}>Se connecter</Text>
 
-            <View style={buttonStyles.buttonContainer}>
+ {/* //-----------Lien QR Reader tranféré vers IdentificationScreen------------------------- */}
+            {/* <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
                 style={buttonStyles.transparentButton}
                 onPress={() => navigation.navigate("QRreader")} //naviguer vers page QRCodeScanner
@@ -107,7 +114,7 @@ export default function LoginTeacherScreen({ navigation }) {
               <View style={globalStyles.line} />
               <Text style={globalStyles.orText}>OU</Text>
               <View style={globalStyles.line} />
-            </View>
+            </View> */}
 
             {!isValidEmail && (
               <Text style={buttonStyles.error}>

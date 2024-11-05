@@ -4,7 +4,7 @@ export const globalStyles = StyleSheet.create({
   safeArea: {
     // Zone de sécurité pour les appareils avec encoche
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f7fcfe",
   },
   mainContainer: {
     // Conteneur principal
@@ -31,7 +31,7 @@ export const globalStyles = StyleSheet.create({
     // Style du titre
     fontFamily: "Montserrat_800ExtraBold",
     color: "#121212",
-    fontSize: 40,
+    fontSize: 38,
     marginBottom: 20,
     textAlign: "center",
   },

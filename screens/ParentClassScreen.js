@@ -1,10 +1,12 @@
 import { Text, View, Image, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import  Checkbox  from 'expo-checkbox';
+import Checkbox from 'expo-checkbox';
 import { globalStyles } from '../styles/globalStyles';
 import { classeStyles } from '../styles/classeStyles';
-const BACK_URL = 'http://localhost:3000';
+
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
     const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
         const [isChecked, setIsChecked] = useState(post.isRead);
@@ -24,7 +26,7 @@ const BACK_URL = 'http://localhost:3000';
                         </Text>
                         <Text>{new Date(post.creationDate).toLocaleString()}</Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity>                        
                         <Checkbox value={isChecked} onValueChange={handleCheckboxChange} style={classeStyles.checkbox} />
                     </TouchableOpacity>
                 </View>
@@ -40,15 +42,13 @@ const BACK_URL = 'http://localhost:3000';
     };
 
 export default function ParentClassScreen() {
-    const [posts, setPosts] = useState([]);
-    const parent = useSelector((state) => state.parent.value);
-    const childName = parent.kids[0].firstname;
-
-
+  const [posts, setPosts] = useState([]);
+  const parent = useSelector((state) => state.parent.value);
+  const childName = parent.kids[0].firstname;
 
     // Fetch des posts dans la db
     const fetchPosts = () => {
-        fetch('http://localhost:3000/posts')
+        fetch(`${BACK_URL}/posts`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -60,15 +60,15 @@ export default function ParentClassScreen() {
             });
     }
 
-    // appeler fetchPosts dès le premier rendu de la page
-    useEffect(() => {
-        fetchPosts();
-    }, []);
+  // appeler fetchPosts dès le premier rendu de la page
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
     // Mise à jour de isRead dans la db
     const handleToggleReadStatus = (postId, isRead) => {
         console.log(`Updating postId: ${postId} to isRead: ${isRead}`);
-        fetch(`http://localhost:3000/posts/${postId}`, {
+        fetch(`${BACK_URL}/posts${postId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ isRead }),
@@ -81,23 +81,32 @@ export default function ParentClassScreen() {
             });
     };
 
-    return (
-        <KeyboardAvoidingView style={globalStyles.mainContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+  return (
+    <SafeAreaView style={globalStyles.safeArea}>
+      {/* Modifier la couleur de la barre d'état */}
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={40}
+      >
+        <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+          <View style={globalStyles.container}>
+            <Text style={globalStyles.title}>Classe de {childName}</Text>
             <View>
-                <Text style={classeStyles.titleClass}>Classe de {childName}</Text>
+              {posts.map((post) => (
+                <MessageWithCheckbox
+                  key={post._id}
+                  post={post}
+                  postId={post._id}
+                  onToggleReadStatus={handleToggleReadStatus}
+                />
+              ))}
             </View>
-            <ScrollView>
-                <View>
-                    {posts.map((post) => (
-                        <MessageWithCheckbox
-                            key={post._id}
-                            post={post}
-                            postId={post._id}
-                            onToggleReadStatus={handleToggleReadStatus}
-                        />
-                    ))}
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
-    );
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 }

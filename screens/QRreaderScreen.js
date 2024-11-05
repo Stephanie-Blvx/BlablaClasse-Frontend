@@ -86,6 +86,7 @@ export default function QRreaderScreen({ navigation })
 						kids: dbData.kids,
 						id: dbData.id,
 						userType: dbData.userType,
+						username:dbData.username,
 					}));
 					navigation.navigate("ParentTabNavigator");
 				} else { // Sinon, MàJ reducer "teacher" avec infos DB
@@ -96,8 +97,10 @@ export default function QRreaderScreen({ navigation })
 						lastname: dbData.lastname,
 						username: dbData.username,
 						classes: dbData.classes,
+						isAdmin: dbData.isAdmin,
 						id: dbData.id,
 						userType: dbData.userType,
+						username:dbData.username,
 					}));
 					navigation.navigate("TeacherTabNavigator");
 				}
@@ -159,3 +162,4 @@ export default function QRreaderScreen({ navigation })
 			</View>
 		);
 	}
+

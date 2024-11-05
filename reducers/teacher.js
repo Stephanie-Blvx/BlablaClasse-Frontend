@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: { token: null, email: null, firstname: null, lastname: null, username: null, classes: [], id: null, isAdmin: null}, userType: null};
+  value: { token: null, email: null, firstname: null, lastname: null, username: null, classes: [], id: null, isAdmin: null, userType: null}};
 
 export const teacherSlice = createSlice({
   name: 'teacher',
@@ -15,7 +15,7 @@ export const teacherSlice = createSlice({
       state.value.username= action.payload.username;
       state.value.classes= action.payload.classes;
       state.value.id= action.payload.id;
-      state.value.isAdmin= action.payload.isAdmin
+      state.value.isAdmin= action.payload.isAdmin;
     },
     logout: (state) => {
         state.value.firstname = null;
@@ -24,6 +24,7 @@ export const teacherSlice = createSlice({
         state.value.email = null;
         state.value.username= null;
         state.value.classes= [];
+        
         state.value.userType =null; // Mettre à jour le type d'utilisateur
     },
     setUserType: (state, action) => {

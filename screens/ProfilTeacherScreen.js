@@ -161,7 +161,7 @@ export default function ProfilTeacherScreen({ navigation }) {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}

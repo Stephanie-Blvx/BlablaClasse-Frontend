@@ -38,6 +38,7 @@ import {  Montserrat_100Thin,  Montserrat_200ExtraLight,
  Montserrat_800ExtraBold,  Montserrat_900Black,} from '@expo-google-fonts/montserrat';
 import {  OpenSans_300Light,  OpenSans_400Regular, 
  OpenSans_600SemiBold,  OpenSans_700Bold,  OpenSans_800ExtraBold,} from '@expo-google-fonts/open-sans';
+
  
 const Stack = createNativeStackNavigator(); // Création d'un StackNavigator pour gérer la navigation entre les écrans
 const Tab = createBottomTabNavigator(); // Création d'un TabNavigator pour gérer la navigation entre les onglets
@@ -86,7 +87,6 @@ const ParentTabNavigator = () => {
     >
       <Tab.Screen name="ParentHome" component={ParentHomeScreen} />
       <Tab.Screen name="ParentClass" component={ParentClassScreen} />
-      {/* <Tab.Screen name="Tchat" component={TchatScreen} /> */}
       <Tab.Screen name="ChatScreen" component={ChatScreen} />
       <Tab.Screen name="Profil" component={ProfilScreen} />
     </Tab.Navigator>
@@ -125,7 +125,6 @@ const TeacherTabNavigator = () => {
     >
       <Tab.Screen name="TeacherHome" component={TeacherHomeScreen} />
       <Tab.Screen name="TeacherClass" component={TeacherClassScreen} />
-      {/* <Tab.Screen name="Tchat" component={TchatScreen} /> */}
       <Tab.Screen name="ChatScreen" component={ChatScreen} />
       <Tab.Screen name="ProfilTeacher" component={ProfilTeacherScreen} />
     </Tab.Navigator>
@@ -136,12 +135,12 @@ const TeacherTabNavigator = () => {
 const ParentStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Identification" component={IdentificationScreen} />
+      {/* <Stack.Screen name="Identification" component={IdentificationScreen} /> */}
       <Stack.Screen name="LoginParent" component={LoginParentScreen} />
       <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
       <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
       <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
-      <Stack.Screen name="QRreader" component={QRreaderScreen} />
+      {/* <Stack.Screen name="QRreader" component={QRreaderScreen} /> */}
     </Stack.Navigator>
   );
 };
@@ -151,10 +150,10 @@ const ParentStackNavigator = () => {
 const TeacherStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Identification" component={IdentificationScreen} />
+      {/* <Stack.Screen name="Identification" component={IdentificationScreen} /> */}
       <Stack.Screen name="LoginTeacher" component={LoginTeacherScreen} />
       <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
-      <Stack.Screen name="QRreader" component={QRreaderScreen} />
+      {/* <Stack.Screen name="QRreader" component={QRreaderScreen} /> */}
     </Stack.Navigator>
   );
 };
@@ -182,6 +181,9 @@ const AppNavigator = () => {
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Identification" component={IdentificationScreen} />
+          <Stack.Screen name="QRreader" component={QRreaderScreen} />
+          <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
+          <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
         </Stack.Navigator>
       )}
     </NavigationContainer>

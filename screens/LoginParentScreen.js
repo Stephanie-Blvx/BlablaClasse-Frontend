@@ -18,8 +18,8 @@ import { globalStyles } from "../styles/globalStyles";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
-const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -93,6 +93,7 @@ export default function LoginParentScreen({ navigation }) {
                   username: dbData.username,
                   id: dbData.id,
                   userType: dbData.userType,
+                  
                 })
               ); // si result = OK, MàJ reducer "parent" avec token et email et kids
               console.log('Dispatch effectué');
@@ -121,7 +122,7 @@ export default function LoginParentScreen({ navigation }) {
     // contenu de la page = mainContainer
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -130,22 +131,9 @@ export default function LoginParentScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter parent</Text>
+            <Text style={globalStyles.title}>Se connecter</Text>
 
-            <View style={buttonStyles.buttonContainer}>
-              <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
-                style={buttonStyles.transparentButton}
-                onPress={() => navigation.navigate('QRreader')} //naviguer vers page QRCodeScanner
-              >
-                <Text style={buttonStyles.input}>Je scanne un QR Code</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={globalStyles.dividerContainer}>
-              <View style={globalStyles.line} />
-              <Text style={globalStyles.orText}>OU</Text>
-              <View style={globalStyles.line} />
-            </View>
+{/* RETRAIT ICI DU QR CODE SCREEN   */}
 
             {!isValidEmail && (
               <Text style={buttonStyles.error}>

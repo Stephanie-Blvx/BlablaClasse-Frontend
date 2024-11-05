@@ -12,7 +12,12 @@ import {
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles"; // Importation des styles pour les boutons
 import { globalStyles } from "../styles/globalStyles"; // Importation des styles globaux
+<<<<<<< HEAD
 const BACKEND_ADDRESS = "http://localhost:3000"; // URL Backend
+=======
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+>>>>>>> bd03f9a5deeea388695d55f83c7a8071c0c400e7
 import { useDispatch, useSelector } from "react-redux";
 import { updateKidInfo } from "../reducers/parent"; // Assurez-vous d'importer l'action
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
@@ -127,7 +132,7 @@ export default function ProfilKidScreen({ navigation }) {
   //-------------------------------------------------JSX------------------------------------------
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
