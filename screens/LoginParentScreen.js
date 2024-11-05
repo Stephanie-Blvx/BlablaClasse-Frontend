@@ -149,7 +149,7 @@ export default function LoginParentScreen({ navigation }) {
             </View>
 
             {!isValidEmail && (
-              <Text style={buttonStyles.error}>
+              <Text style={globalStyles.errorMessage}>
                 Email ou mot de passe invalide, veuillez réessayer
               </Text>
             )}
