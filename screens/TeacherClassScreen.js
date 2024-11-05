@@ -149,10 +149,7 @@ export default function ClassScreen() {
 
     // Supprimer un post
     const handleDeletePost = (postId) => {
-        fetch(`http://localhost:3000/posts/${postId}`, { method: 'DELETE' })
-        fetch(`${BACK_URL}/posts/${postId}`, {
-            method: 'DELETE',
-        })
+        fetch(`${BACK_URL}/posts/${postId}`, { method: 'DELETE' })
             .then((response) => response.json())
             .then((result) => {
                 if (result.success) {
@@ -160,6 +157,9 @@ export default function ClassScreen() {
                 } else {
                     console.error("Erreur de suppression :", result.error);
                 }
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la suppression :", error);
             });
     };
 
