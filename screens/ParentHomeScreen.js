@@ -7,8 +7,8 @@ import * as MediaLibrary from 'expo-media-library';
 import { globalStyles } from "../styles/globalStyles";
 const BACK_URL = 'http://192.168.3.174:3000';
 
-const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 
 //Lien pour dl menu
 const fileUri = `${FileSystem.documentDirectory}menu.jpg`
