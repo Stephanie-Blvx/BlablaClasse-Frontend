@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 
 const pusher = new Pusher("62bd3eeee3b805e7b467", { cluster: "eu" });
 //const BACKEND_ADDRESS = "http://192.168.1.30:3000";
-const BACKEND_ADDRESS = "http://192.168.1.30:3000";
+const BACKEND_ADDRESS = "http://192.168.3.174:3000"
 
 export default function ChatScreen() {
   const [messages, setMessages] = useState([]); // Tableau des messages
@@ -161,9 +161,7 @@ export default function ChatScreen() {
       createdAt: new Date(), // Date de création
     };
 
-    console.log("Message envoyé :", payload);
-
-    fetch(`${BACKEND_ADDRESS}/messages`, {
+    fetch(`http://192.168.3.174:3000/message`, {
       // Envoi du message au serveur
       method: "POST",
       headers: { "Content-Type": "application/json" },

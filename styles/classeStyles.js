@@ -94,7 +94,7 @@ export const classeStyles = StyleSheet.create({
   deleteIcon: {
     paddingLeft: 10,
     marginRight: 10,
-    color: "#C6D387",
+    color: "#8DBFA9",
   },
   modalContainer: {
     flex: 1,

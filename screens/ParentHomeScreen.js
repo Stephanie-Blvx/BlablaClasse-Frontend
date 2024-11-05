@@ -15,9 +15,10 @@ import {
 } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import * as FileSystem from "expo-file-system";
-import * as Permissions from "expo-permissions";
+
 import * as MediaLibrary from "expo-media-library";
 import { globalStyles } from "../styles/globalStyles";
+const BACK_URL = 'http://192.168.3.174:3000';
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
 
@@ -163,13 +164,15 @@ export default function ParentHomeScreen() {
   // PERMISSION GESTIONNAIRE FICHIERS
   useEffect(() => {
     (async () => {
-      const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-      if (result) {
-        setHasPermission(result.status === "granted");
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          "Permission refusée",
+          "Vous devez autoriser l'accès à la galerie pour enregistrer le fichier."
+        );
       }
     })();
   }, []);
-
   ///----- Fonction pour DOWNLOAD menu cantine------
 
   const downloadMenu = async () => {

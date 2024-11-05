@@ -21,14 +21,17 @@ import { useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import * as DocumentPicker from "expo-document-picker";
-import * as Permissions from "expo-permissions";
+import * as MediaLibrary from "expo-media-library";
+import * as FileSystem from "expo-file-system";
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../styles/globalStyles";
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
 
+const BACK_URL = 'http://192.168.3.174:3000';
 
-const BACK_URL = "http://192.168.1.30:3000";
+
+//const BACK_URL = "http://192.168.1.30:3000";
 
 export default function TeacherHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});
@@ -46,7 +49,7 @@ export default function TeacherHomeScreen() {
   const [classe, setClasse] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [classes, setClasses] = useState([]);
-  const [hasPermission, setHasPermission] = useState(false);
+
   const [actus, setActus] = useState([]);
 
   //USESELECTOR à utiliser pour teacher ADMIN TO DO !!!
@@ -129,6 +132,20 @@ export default function TeacherHomeScreen() {
 
     return dates;
   };
+ // PERMISSION GESTIONNAIRE FICHIERS
+ useEffect(() => {
+  (async () => {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert(
+        "Permission refusée",
+        "Vous devez autoriser l'accès à la galerie pour enregistrer le fichier."
+      );
+    }
+  })();
+}, []);
+
+
 
   //Route get : all events à afficher
   useEffect(() => {
@@ -314,15 +331,7 @@ export default function TeacherHomeScreen() {
     fetchActu();
   }, [actus]);
 
-  // PERMISSION GESTIONNAIRE FICHIERS
-  useEffect(() => {
-    (async () => {
-      const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-      if (result) {
-        setHasPermission(result.status === "granted");
-      }
-    })();
-  }, []);
+ 
 
   /// Fonction pour UPLOAD menu cantine
 
@@ -430,9 +439,9 @@ export default function TeacherHomeScreen() {
                       <Text>Événement : {event.description}</Text>
                       <TouchableOpacity
                         onPress={() => deleteEvent(event._id)}
-                        style={homeStyles.deleteIcon}
+                        
                       >
-                        <FontAwesome name="trash" size={24} color="#4A7B59" />
+                        <FontAwesome style={homeStyles.deleteIcon} name="trash" size={24} color="#4A7B59" />
                       </TouchableOpacity>
                     </View>
                   ))

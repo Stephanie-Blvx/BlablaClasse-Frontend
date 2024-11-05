@@ -1,16 +1,17 @@
 import {
   Button,
-  SafeAreaView,
-  StatusBar,
+  StyleSheet,
   Text,
   View,
   Image,
   TextInput,
   KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
   ScrollView,
   Modal,
+  SafeAreaView,
+  Platform,
+  TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -19,8 +20,7 @@ import { useSelector } from "react-redux";
 import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
 import { buttonStyles } from "../styles/buttonStyles";
-const BACK_URL = "http://192.168.5.28:3000"; //----------------> URL
-
+const BACK_URL = 'http://192.168.3.174:3000';
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
