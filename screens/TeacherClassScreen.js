@@ -19,7 +19,8 @@ import { useSelector } from "react-redux";
 import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
 import { buttonStyles } from "../styles/buttonStyles";
-const BACK_URL = "http://192.168.1.30:3000";
+const BACK_URL = "http://192.168.5.28:3000"; //----------------> URL
+
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
