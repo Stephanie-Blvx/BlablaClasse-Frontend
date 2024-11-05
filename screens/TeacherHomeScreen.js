@@ -34,11 +34,7 @@ export default function TeacherHomeScreen() {
 
   //USESELECTOR à utiliser pour teacher ADMIN TO DO !!!
   const teacher = useSelector((state) => state.teacher.value);
-<<<<<<< HEAD
-  console.log(teacher)
-=======
   console.log("TEACHER ADMIN USE SELECTOR???", teacher)
->>>>>>> bd03f9a5deeea388695d55f83c7a8071c0c400e7
   //-------------------------------------------------------------
 
 // Configuration Calendar en FR

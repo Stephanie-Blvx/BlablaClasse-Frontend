@@ -18,13 +18,9 @@ import { updateEmail } from "../reducers/parent.js";
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-<<<<<<< HEAD
-const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
-=======
 // const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
->>>>>>> bd03f9a5deeea388695d55f83c7a8071c0c400e7
 
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
