@@ -4,15 +4,28 @@ export const classeStyles = StyleSheet.create({
   container: {
     width: "100%",
     padding: 16,
+    borderBottomColor: "#cecece",
+    borderBottomWidth: 1,
   },
   messageContainer: {
+    // padding: 10,
+    // //marginHorizontal: 10,
+    // marginVertical: 5,
+    // shadowColor: "#000",
+    // shadowOpacity: 0.5,
+    // shadowOffset: { width: 2, height: 2 },
+    // shadowRadius: 10,
     padding: 10,
     //marginHorizontal: 10,
     marginVertical: 5,
     shadowColor: "#000",
-    shadowOpacity: 0.5,
-    shadowOffset: { width: 2, height: 2 },
-    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 1, // pour Android
+    backgroundColor: "white",
+    borderRadius: 8
+   
   },
   headerContainer: {
     flexDirection: 'row',
@@ -43,9 +56,11 @@ export const classeStyles = StyleSheet.create({
   },
   messageContentContainerParent: {
     flex: 1,
+    padding: 10,
   },
   messageContentContainerTeacher: {
-    marginTop: 10,
+    padding: 10,
+    flex: 1,
   },
   titleClass: {
     fontSize: 25,
@@ -98,7 +113,7 @@ export const classeStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#69AFAC",
+    color: "#121212",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -125,7 +140,7 @@ export const classeStyles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
-    color: "#67AFAC",
+    color: "#121212",
   },
   titleClass: {
     fontSize: 25,
@@ -145,15 +160,40 @@ export const classeStyles = StyleSheet.create({
   iconContainer: {
     display: "flex",
     flexDirection: "row",
-    marginLeft: 50,
-    marginBottom: 10,
+    marginLeft: 20,
+    marginBottom: 20,
+    marginTop: 20,
     alignItems: "center",
+  },
+  trashCan: {
+    marginTop: -2,
   },
   attachmentIcon: {
     padding: 10,
   },
   buttonText: {
     color: "#67AFAC",
+  },
+  confirmedButton: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "600",
+    textAlign: "center",
+    padding: 3,
+  },
+  button: {
+    width: "40%",
+    backgroundColor: "#69AFAC",
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignItems: "center",
+    marginHorizontal: 5,
+  },
+  validationButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 20,
+    marginBottom: 5,
   },
   postButton: {
     backgroundColor: "#69AFAC",

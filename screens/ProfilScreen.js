@@ -67,13 +67,13 @@ export default function ProfilScreen({ navigation }) {
       </View>
     </ScrollView>
     {/* Bouton de déconnexion fixe en bas */}
-    <View style={styles.logoutContainer}>
+    <View style={buttonStyles.logoutContainer}>
       <TouchableOpacity
-        style={styles.logoutButton}
+        style={buttonStyles.logoutButton}
         onPress={handleLogout}
       >
          <FontAwesome name="right-from-bracket" size={20} color="#4A7B59" solid />
-        <Text style={[buttonStyles.buttonText, buttonStyles.buttonTextLogout, styles.logouttext]}>
+        <Text style={[buttonStyles.buttonText, buttonStyles.buttonTextLogout, buttonStyles.logouttext]}>
           Deconnexion
         </Text>
       </TouchableOpacity>
@@ -84,50 +84,50 @@ export default function ProfilScreen({ navigation }) {
 }
 
 
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#67AFAC',
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    elevation: 4,
-  },
-  backButton: {
-    marginRight: 0,
-  },
-  backText: {
-    color: '#fff',
-    fontSize: 28,
-  },
-  headerTitle: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
-    flex: 0.9,
-    textAlign: 'center',
-  },
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'space-between', // Espace entre le contenu et le bouton de déconnexion
-  },
-  logoutContainer: {
-    paddingBottom: 20,
-    alignItems: 'center',
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f7fcfe',
-    paddingVertical: 15,
-    borderRadius: 8,
-    width: 200,
-  },
-  logouttext: {
-      fontFamily: "OpenSans_700Bold",
-      color: "#121212",
-      fontSize: 18,
-      marginLeft: 10,
-  }
-});
+// const styles = StyleSheet.create({
+//   header: {
+//     backgroundColor: '#67AFAC',
+//     height: 60,
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     paddingHorizontal: 15,
+//     elevation: 4,
+//   },
+//   backButton: {
+//     marginRight: 0,
+//   },
+//   backText: {
+//     color: '#fff',
+//     fontSize: 28,
+//   },
+//   headerTitle: {
+//     color: '#fff',
+//     fontSize: 30,
+//     fontWeight: 'bold',
+//     flex: 0.9,
+//     textAlign: 'center',
+//   },
+//   mainContainer: {
+//     flex: 1,
+//     justifyContent: 'space-between', // Espace entre le contenu et le bouton de déconnexion
+//   },
+//   logoutContainer: {
+//     paddingBottom: 20,
+//     alignItems: 'center',
+//   },
+//   logoutButton: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     backgroundColor: '#f7fcfe',
+//     paddingVertical: 15,
+//     borderRadius: 8,
+//     width: 200,
+//   },
+//   logouttext: {
+//       fontFamily: "OpenSans_700Bold",
+//       color: "#121212",
+//       fontSize: 18,
+//       marginLeft: 10,
+//   }
+// });

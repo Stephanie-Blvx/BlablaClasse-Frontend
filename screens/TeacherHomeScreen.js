@@ -24,9 +24,11 @@ import * as DocumentPicker from "expo-document-picker";
 import * as Permissions from "expo-permissions";
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../styles/globalStyles";
+import { buttonStyles } from "../styles/buttonStyles";
+import { homeStyles } from "../styles/homeStyles";
 
-const BACK_URL = 'http://localhost:3000';
 
+const BACK_URL = "http://192.168.1.30:3000";
 
 export default function TeacherHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});
@@ -108,7 +110,6 @@ export default function TeacherHomeScreen() {
 
       //console.log("DATE", date)
       //toutes les dates des events qui ont été ajoutées
-
       // Création d'un dot pour la classe associée à l'événement
       const dot =
         e.classe && e.classe.color
@@ -379,21 +380,16 @@ export default function TeacherHomeScreen() {
   return (
     <SafeAreaView style={[globalStyles.safeArea]}>
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+      <View style={globalStyles.header}>
+        <Text style={globalStyles.headerTitleNoReturn}>Quoi de neuf ?</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={40}
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
-          <View style={globalStyles.container}>
-            <View style={[styles.header, globalStyles.container]}>
-              <Image
-                style={styles.logo}
-                source={require("../assets/logo.png")}
-              />
-              <Text style={globalStyles.title}>Quoi de neuf ?</Text>
-            </View>
-
+        <View style={globalStyles.containerFull}>
             <Calendar
               firstDay={1}
               onDayPress={onDayPress}
@@ -414,14 +410,9 @@ export default function TeacherHomeScreen() {
               onRequestClose={() => setModalVisible(false)}
             >
               <View
-                style={{
-                  flex: 1,
-                  padding: 20,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                style={homeStyles.containerAgenda}
               >
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                <Text style={homeStyles.title}>
                   Événements du {formatDate(selectedDate)}
                 </Text>
 
@@ -439,7 +430,7 @@ export default function TeacherHomeScreen() {
                       <Text>Événement : {event.description}</Text>
                       <TouchableOpacity
                         onPress={() => deleteEvent(event._id)}
-                        style={styles.deleteIcon}
+                        style={homeStyles.deleteIcon}
                       >
                         <FontAwesome name="trash" size={24} color="#4A7B59" />
                       </TouchableOpacity>
@@ -458,19 +449,19 @@ export default function TeacherHomeScreen() {
               </View>
             </Modal>
             {/* Dernière actu de l'école */}
-            <View style={styles.lastActuContainer}>
-              <Text style={styles.actuTitle}> Dernière actu : </Text>
-              <Text style={styles.actuContent}>{lastActu}</Text>
+            <View style={homeStyles.lastActuContainer}>
+              <Text style={homeStyles.lastActuTitle}> Dernière actu : </Text>
+              <Text style={homeStyles.lastActuContent}>{lastActu}</Text>
             </View>
 
             {/* TEACHER VIEW  ---- Modal pour nouvel événement */}
-            <View style={styles.teacherButtons}>
+            <View style={homeStyles.teacherButtons}>
               <TouchableOpacity
                 onPress={() => handleOpenModal()}
-                style={styles.button}
+                style={homeStyles.button}
                 activeOpacity={0.8}
               >
-                <Text style={styles.textButton}> Ajouter un évenement</Text>
+                <Text style={homeStyles.addButton}> Ajouter un évenement</Text>
               </TouchableOpacity>
 
               <Modal
@@ -478,13 +469,13 @@ export default function TeacherHomeScreen() {
                 animationType="fade"
                 transparent
               >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
+                <View style={homeStyles.centeredView}>
+                  <View style={homeStyles.modalView}>
                     <Text style={{ marginBottom: 10 }}>Nouvel évenement :</Text>
                     <Picker
                       selectedValue={classe}
                       onValueChange={(itemValue) => setClasse(itemValue)}
-                      style={styles.input}
+                      style={homeStyles.input}
                     >
                       <Picker.Item label="Classe" value="" />
                       {classes.map((classe) => (
@@ -497,7 +488,7 @@ export default function TeacherHomeScreen() {
                     </Picker>
                     <TouchableOpacity
                       onPress={openDatePicker}
-                      style={styles.input}
+                      style={homeStyles.input}
                     >
                       <Text style={{ color: newDate ? "#000" : "#888" }}>
                         {newDate || "Sélectionner une date"}
@@ -515,22 +506,22 @@ export default function TeacherHomeScreen() {
                       placeholder="Description de l'événement"
                       onChangeText={(value) => setNewEvent(value)}
                       value={newEvent}
-                      style={styles.input}
+                      style={homeStyles.input}
                     />
-                    <View style={styles.validationButtons}>
+                    <View style={homeStyles.validationButtons}>
                       <TouchableOpacity
                         onPress={() => handleNewEvent()}
-                        style={styles.button}
+                        style={homeStyles.button}
                         activeOpacity={0.8}
                       >
-                        <Text style={styles.textButton}> Ajouter </Text>
+                        <Text style={homeStyles.addButton}> Ajouter </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => handleClose()}
-                        style={styles.button}
+                        style={homeStyles.button}
                         activeOpacity={0.8}
                       >
-                        <Text style={styles.textButton}> Fermer </Text>
+                        <Text style={homeStyles.closedButton}> Fermer </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -541,10 +532,10 @@ export default function TeacherHomeScreen() {
 
               <TouchableOpacity
                 onPress={() => handleOpenActu()}
-                style={styles.button}
+                style={homeStyles.button}
                 activeOpacity={0.8}
               >
-                <Text style={styles.textButton}> Ajouter une actualité </Text>
+                <Text style={homeStyles.addButton}>Ajouter une actualité</Text>
               </TouchableOpacity>
 
               <Modal
@@ -552,31 +543,31 @@ export default function TeacherHomeScreen() {
                 animationType="fade"
                 transparent
               >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
+                <View style={homeStyles.centeredView}>
+                  <View style={homeStyles.modalView}>
                     <TextInput
                       maxLength={250}
                       placeholder=" Nouvelle actualité... "
                       onChangeText={(value) => setActus(value)}
                       value={actus}
-                      style={styles.inputActu}
+                      style={homeStyles.inputActu}
                       multiline={true}
                       numberOfLines={4}
                     />
-                    <View style={styles.validationButtons}>
+                    <View style={homeStyles.validationButtons}>
                       <TouchableOpacity
                         onPress={() => handleAddActu()}
-                        style={styles.button}
+                        style={homeStyles.button}
                         activeOpacity={0.8}
                       >
-                        <Text style={styles.textButton}> Ajouter </Text>
+                        <Text style={homeStyles.addButton}> Ajouter </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => handleCloseActu()}
-                        style={styles.button}
+                        style={homeStyles.button}
                         activeOpacity={0.8}
                       >
-                        <Text style={styles.textButton}> Fermer </Text>
+                        <Text style={homeStyles.closedButton}> Fermer </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -586,10 +577,10 @@ export default function TeacherHomeScreen() {
               {/* UPLOAD MENU CANTINE*/}
               <TouchableOpacity
                 onPress={() => uploadMenu()}
-                style={styles.button}
+                style={homeStyles.button}
                 activeOpacity={0.8}
               >
-                <Text style={styles.textButton}> Ajouter un menu </Text>
+                 <Text style={homeStyles.addButton}>Ajouter un menu</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -598,125 +589,3 @@ export default function TeacherHomeScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  header: {
-    // height: 60,
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // marginBottom: 20,
-  },
-  titleHome: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#69AFAC",
-    flex: 1,
-    textAlign: "center",
-    marginRight: 40,
-  },
-  logo: {
-    width: 70,
-    height: 70,
-    marginRight: 10,
-  },
-
-  modalView: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 30,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  input: {
-    width: 200,
-    borderBottomColor: "#69AFAC",
-    borderBottomWidth: 1,
-    fontSize: 16,
-    paddingVertical: 8,
-  },
-  button: {
-    width: "20%",
-    backgroundColor: "#69AFAC",
-    paddingVertical: 8,
-    borderRadius: 8,
-    alignItems: "center",
-    marginHorizontal: 5,
-  },
-
-  textButton: {
-    color: "#FFFFFF",
-    fontSize: 10,
-    fontWeight: "600",
-    textAlign: "center",
-    padding: 3,
-  },
-  modalContent: {
-    backgroundColor: "#67AFAC",
-    padding: 20,
-    borderRadius: 10,
-    width: "80%",
-    color: "white",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "white",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  inputActu: {
-    width: 200,
-    borderBottomColor: "#69AFAC",
-    borderBottomWidth: 1,
-    fontSize: 16,
-    paddingVertical: 8,
-    padding: 40,
-  },
-  lastActuContainer: {
-    backgroundColor: "white",
-    borderWidth: 1.5,
-    borderColor: "#69AFAC",
-    borderRadius: 10,
-    padding: 20,
-    marginTop: 20,
-    alignItems: "center",
-  },
-  actuTitle: {
-    textDecorationLine: "underline",
-    color: "#69AFAC",
-    fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 10,
-  },
-  actuContent: {
-    color: "#69AFAC",
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  teacherButtons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 20,
-    marginBottom: 5,
-  },
-  validationButtons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 20,
-    marginBottom: 5,
-  },
-});

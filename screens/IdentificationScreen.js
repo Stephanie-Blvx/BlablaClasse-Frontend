@@ -50,7 +50,9 @@ export default function IdentificationScreen({ navigation }) {
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-
+      <View style={globalStyles.header}>
+        <Text style={globalStyles.headerTitleNoReturn}>Identifiez-vous</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -58,7 +60,7 @@ export default function IdentificationScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Identifiez-vous</Text>
+     
             {/* <View style={globalStyles.lineTitle} /> */}
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity //champ cliquable renvoi vers QRCode scanner

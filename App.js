@@ -135,7 +135,7 @@ const TeacherTabNavigator = () => {
 const ParentStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Identification" component={IdentificationScreen} /> */}
+      <Stack.Screen name="Identification" component={IdentificationScreen} />
       <Stack.Screen name="LoginParent" component={LoginParentScreen} />
       <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
       <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
@@ -150,7 +150,7 @@ const ParentStackNavigator = () => {
 const TeacherStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Identification" component={IdentificationScreen} /> */}
+      <Stack.Screen name="Identification" component={IdentificationScreen} />
       <Stack.Screen name="LoginTeacher" component={LoginTeacherScreen} />
       <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
       {/* <Stack.Screen name="QRreader" component={QRreaderScreen} /> */}

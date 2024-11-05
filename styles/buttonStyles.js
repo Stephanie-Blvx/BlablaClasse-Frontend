@@ -141,4 +141,24 @@ export const buttonStyles = StyleSheet.create({
     width: "80%",
     marginTop: 30,
   },
+
+  logoutContainer: {
+    paddingBottom: 20,
+    alignItems: 'center',
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f7fcfe',
+    paddingVertical: 15,
+    borderRadius: 8,
+    width: 200,
+  },
+  logouttext: {
+      fontFamily: "OpenSans_700Bold",
+      color: "#121212",
+      fontSize: 18,
+      marginLeft: 10,
+  }
 });
