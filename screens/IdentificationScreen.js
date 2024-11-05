@@ -15,6 +15,8 @@ import { setUserType as setTeacherUserType } from '../reducers/teacher';
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 // Composant principal pour l'écran d'identification
 export default function IdentificationScreen({ navigation }) {
@@ -58,6 +60,20 @@ export default function IdentificationScreen({ navigation }) {
           <View style={globalStyles.container}>
             <Text style={globalStyles.title}>Identifiez-vous</Text>
             {/* <View style={globalStyles.lineTitle} /> */}
+            <View style={buttonStyles.buttonContainer}>
+              <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
+                style={buttonStyles.transparentButton}
+                onPress={() => navigation.navigate('QRreader')} //naviguer vers page QRCodeScanner
+              >
+                <Text style={buttonStyles.input}>Je scanne un QR Code</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={globalStyles.dividerContainer}>
+              <View style={globalStyles.line} />
+              <Text style={globalStyles.orText}>OU</Text>
+              <View style={globalStyles.line} />
+            </View>
+
             <View style={buttonStyles.buttonContainer}>
               {/*Navigation vers la page de connexion parent*/}
               <View style={buttonStyles.buttonContainer}>

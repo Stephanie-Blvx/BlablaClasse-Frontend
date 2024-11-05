@@ -25,7 +25,8 @@ import * as Permissions from "expo-permissions";
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../styles/globalStyles";
 
-const BACK_URL = "http://192.168.3.174:3000";
+const BACK_URL = 'http://localhost:3000';
+
 
 export default function TeacherHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});

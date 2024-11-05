@@ -108,7 +108,7 @@ export default function ParentHomeScreen() {
   };
   //-----Route get : all events à afficher ---
   useEffect(() => {
-    fetch(`${BACK_URL}/events`)
+    fetch(`${BACKEND_ADDRESS}/events`)
       .then((response) => response.json())
       .then((data) => {
         console.log("------data-----", data);
@@ -139,7 +139,7 @@ export default function ParentHomeScreen() {
   // ----------------ROUTE GET DERNIèRE ACTU A AFFICHER-----------
   // Fetch des posts dans la db
   const fetchActu = () => {
-    fetch(`${BACK_URL}/actus`)
+    fetch(`${BACKEND_ADDRESS}/actus`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {

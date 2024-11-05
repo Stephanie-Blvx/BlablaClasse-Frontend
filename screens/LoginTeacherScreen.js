@@ -17,7 +17,8 @@ import { login, logout } from "../reducers/teacher";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
-const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -31,6 +32,7 @@ export default function LoginTeacherScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const teacher = useSelector((state) => state.teacher.value);
+  console.log(teacher)
 
   function handleConnexion() {
 
@@ -94,7 +96,8 @@ export default function LoginTeacherScreen({ navigation }) {
           <View style={globalStyles.container}>
             <Text style={globalStyles.title}>Se connecter</Text>
 
-            <View style={buttonStyles.buttonContainer}>
+ {/* //-----------Lien QR Reader tranféré vers IdentificationScreen------------------------- */}
+            {/* <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
                 style={buttonStyles.transparentButton}
                 onPress={() => navigation.navigate("QRreader")} //naviguer vers page QRCodeScanner
@@ -107,7 +110,7 @@ export default function LoginTeacherScreen({ navigation }) {
               <View style={globalStyles.line} />
               <Text style={globalStyles.orText}>OU</Text>
               <View style={globalStyles.line} />
-            </View>
+            </View> */}
 
             {!isValidEmail && (
               <Text style={globalStyles.errorMessage}>

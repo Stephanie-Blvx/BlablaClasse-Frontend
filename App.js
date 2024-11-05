@@ -181,6 +181,9 @@ const AppNavigator = () => {
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Identification" component={IdentificationScreen} />
+          <Stack.Screen name="QRreader" component={QRreaderScreen} />
+          <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
+          <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
         </Stack.Navigator>
       )}
     </NavigationContainer>
