@@ -86,7 +86,9 @@ export default function LoginTeacherScreen({ navigation }) {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-
+      <View style={globalStyles.header}>
+        <Text style={globalStyles.headerTitleNoReturn}>Se connecter</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -94,7 +96,7 @@ export default function LoginTeacherScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter</Text>
+
 
  {/* //-----------Lien QR Reader tranféré vers IdentificationScreen------------------------- */}
             {/* <View style={buttonStyles.buttonContainer}>
@@ -119,6 +121,9 @@ export default function LoginTeacherScreen({ navigation }) {
             )}
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Email
+              </Text>
               <TextInput
                 style={[
                   buttonStyles.input,
@@ -136,6 +141,9 @@ export default function LoginTeacherScreen({ navigation }) {
             </View>
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Mot de passe
+              </Text>
               <TextInput
                 style={[
                   buttonStyles.input,
