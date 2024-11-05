@@ -8,8 +8,8 @@ import { login as loginParent } from "../reducers/parent.js";
 import { login as loginTeacher } from "../reducers/teacher.js";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-//const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //===> URL à adapter
-const BACKEND_ADDRESS = "http://192.168.1.30:3000";
+const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //===> URL à adapter
+//const BACKEND_ADDRESS = "http://localhost:3000";
 
 export default function QRreaderScreen({ navigation }) 
 {
@@ -35,7 +35,7 @@ export default function QRreaderScreen({ navigation })
 			setScannedInfo(data); // Mettre l'info scannée dans l'état
 		}
 		console.log('data', data);
-		console.log('scannedInfo', scannedInfo);
+		// console.log('scannedInfo', scannedInfo);
 	};
 
 	const dispatch = useDispatch();
@@ -51,9 +51,9 @@ export default function QRreaderScreen({ navigation })
 		const email = url.searchParams.get('email'); // Isoler paramètre email
 		const userType = url.searchParams.get('userType'); // Isoler paramètre userType
 
-		console.log('token', token);
-		console.log('email', email);
-		console.log('userType', userType);
+		// console.log('token', token);
+		// console.log('email', email);
+		// console.log('userType', userType);
 
 		if (!token || !email || !userType) {
 			setIsValidInfo(false);
@@ -70,7 +70,7 @@ export default function QRreaderScreen({ navigation })
 		})
 		.then((response) => response.json())
 		.then((dbData) => {
-			console.log("dbData", dbData); // console log de la réponse de la route / dataBase
+			// console.log("dbData", dbData); // console log de la réponse de la route / dataBase
 
 			if (!dbData.result) {
 				setIsValidInfo(false); // Si result : false, setIsValidInfo à false pour message d'erreur
@@ -112,8 +112,8 @@ export default function QRreaderScreen({ navigation })
 		});
 	}
 
-		console.log("parent", parent);
-		console.log("teacher", teacher);
+		// console.log("reducer PARENT from page QRReader apres identification", parent);
+		// console.log("reducer TEACHER from page QRReader apres identification", teacher);
 
 		const handleReset = () => {setScannedInfo(null);} // Fonction callback bouton "Nouveau scan" = réinitialiser l'état scannedInfo
 	

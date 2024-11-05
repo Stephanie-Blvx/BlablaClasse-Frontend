@@ -1,16 +1,17 @@
 import {
   Button,
-  SafeAreaView,
-  StatusBar,
+  StyleSheet,
   Text,
   View,
   Image,
   TextInput,
   KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
   ScrollView,
   Modal,
+  SafeAreaView,
+  Platform,
+  TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";

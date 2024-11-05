@@ -16,6 +16,8 @@ export const teacherSlice = createSlice({
       state.value.classes= action.payload.classes;
       state.value.id= action.payload.id;
       state.value.isAdmin= action.payload.isAdmin;
+      state.value.userType = action.payload.userType;
+
     },
     logout: (state) => {
         state.value.firstname = null;
@@ -24,7 +26,8 @@ export const teacherSlice = createSlice({
         state.value.email = null;
         state.value.username= null;
         state.value.classes= [];
-        
+        state.value.id= null;
+        state.value.isAdmin= false;
         state.value.userType =null; // Mettre à jour le type d'utilisateur
     },
     setUserType: (state, action) => {

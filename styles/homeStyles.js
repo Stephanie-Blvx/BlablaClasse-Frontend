@@ -95,7 +95,12 @@ export const homeStyles = StyleSheet.create({
     fontSize: 12,
     marginVertical: 5,
   },
-
+  deleteIcon: {
+    marginBottom: 10,
+    marginTop: 10,
+    color: "#8DBFA9",
+  
+  },
   // Agenda
 
   containerAgenda: {
