@@ -9,7 +9,7 @@ import { login as loginTeacher } from "../reducers/teacher.js";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //===> URL à adapter
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000";
+//const BACKEND_ADDRESS = "http://192.168.5.28:3000";
 
 export default function QRreaderScreen({ navigation }) 
 {
@@ -86,6 +86,7 @@ export default function QRreaderScreen({ navigation })
 						kids: dbData.kids,
 						id: dbData.id,
 						userType: dbData.userType,
+						username:dbData.username,
 					}));
 					navigation.navigate("ParentTabNavigator");
 				} else { // Sinon, MàJ reducer "teacher" avec infos DB
@@ -96,8 +97,10 @@ export default function QRreaderScreen({ navigation })
 						lastname: dbData.lastname,
 						username: dbData.username,
 						classes: dbData.classes,
+						isAdmin: dbData.isAdmin,
 						id: dbData.id,
 						userType: dbData.userType,
+						username:dbData.username,
 					}));
 					navigation.navigate("TeacherTabNavigator");
 				}
@@ -159,3 +162,4 @@ export default function QRreaderScreen({ navigation })
 			</View>
 		);
 	}
+

@@ -18,8 +18,8 @@ import { globalStyles } from "../styles/globalStyles";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
-const BACKEND_ADDRESS = 'http://192.168.3.174:3000'; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = 'http://192.168.3.174:3000'; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -133,20 +133,7 @@ export default function LoginParentScreen({ navigation }) {
           <View style={globalStyles.container}>
             <Text style={globalStyles.title}>Se connecter</Text>
 
-            <View style={buttonStyles.buttonContainer}>
-              <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
-                style={buttonStyles.transparentButton}
-                onPress={() => navigation.navigate('QRreader')} //naviguer vers page QRCodeScanner
-              >
-                <Text style={buttonStyles.input}>Je scanne un QR Code</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={globalStyles.dividerContainer}>
-              <View style={globalStyles.line} />
-              <Text style={globalStyles.orText}>OU</Text>
-              <View style={globalStyles.line} />
-            </View>
+{/* RETRAIT ICI DU QR CODE SCREEN   */}
 
             {!isValidEmail && (
               <Text style={buttonStyles.error}>

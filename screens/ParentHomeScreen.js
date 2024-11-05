@@ -6,6 +6,10 @@ import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 import { globalStyles } from "../styles/globalStyles";
 const BACK_URL = 'http://192.168.3.174:3000';
+
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+
 //Lien pour dl menu
 const fileUri = `${FileSystem.documentDirectory}menu.jpg`
 
@@ -61,7 +65,7 @@ LocaleConfig.defaultLocale = 'fr';
   };
   //-----Route get : all events à afficher ---
   useEffect(() => {
-    fetch(`${BACK_URL}/events`)
+    fetch(`${BACKEND_ADDRESS}/events`)
       .then((response) => response.json())
       .then((data) => {
         console.log("------data-----", data)
@@ -99,7 +103,7 @@ LocaleConfig.defaultLocale = 'fr';
   // ----------------ROUTE GET DERNIèRE ACTU A AFFICHER-----------
   // Fetch des posts dans la db
   const fetchActu = () => {
-    fetch(`${BACK_URL}/actus`)
+    fetch(`${BACKEND_ADDRESS}/actus`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {

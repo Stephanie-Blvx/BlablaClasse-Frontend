@@ -37,7 +37,7 @@ import Checkbox from "expo-checkbox";
                         </Text>
                         <Text>{new Date(post.creationDate).toLocaleString()}</Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity>                        
                         <Checkbox value={isChecked} onValueChange={handleCheckboxChange} style={classeStyles.checkbox} />
                     </TouchableOpacity>
                 </View>
