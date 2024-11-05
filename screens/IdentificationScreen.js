@@ -23,7 +23,7 @@ export default function IdentificationScreen({ navigation }) {
 
 
   const dispatch = useDispatch();
-
+//----------------------   Fonction pour sélectionner le type d'utilisateur   ----------------------
   const handleUserTypeSelect = (type) => {
     console.log(`selected user type: ${type}`);
     
@@ -33,8 +33,8 @@ export default function IdentificationScreen({ navigation }) {
       dispatch(setTeacherUserType(type)); // appel de la fonction setUserType du reducer teacher
     }
   
-    // setTimeout pour naviguer vers la page de connexion
-    setTimeout(() => { 
+  //----------------------  setTimeout pour naviguer vers la page de connexion pour éviter conflits de nav et assurer une expérience fluide. La nav doit se déclencer après la mise à jour de l'état ----------------------
+    setTimeout(() => {  // délai de 0 ms
       if (type === 'parent') { // si parent naviguer vers page LoginParent
         navigation.navigate('LoginParent');
       } else if (type === 'teacher') { // si enseignant naviguer vers page LoginTeacher

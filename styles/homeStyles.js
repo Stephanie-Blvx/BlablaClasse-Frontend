@@ -90,6 +90,11 @@ export const homeStyles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
   },
+  titleLength: {
+    color: "#121212",
+    fontSize: 12,
+    marginVertical: 5,
+  },
 
   // Agenda
 

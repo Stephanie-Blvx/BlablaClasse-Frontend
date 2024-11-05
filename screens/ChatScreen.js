@@ -11,7 +11,6 @@ import {
   StatusBar,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 import { chatStyles } from "../styles/chatStyles";
 
@@ -39,7 +38,7 @@ export default function ChatScreen() {
   console.log("userType:", userType);
 
   if (!username) {
-    console.error("Erreur : username non défini");
+    console.error("Erreur : username non défini"); // Afficher une erreur si le nom d'utilisateur n'est pas défini
     return (
       <View>
         <Text>Erreur : username non défini</Text>
@@ -47,34 +46,16 @@ export default function ChatScreen() {
     );
   }
 
-  // useEffect(() => {
-  //   const fetchMessages = async () => {
-  //     // Récupération des messages stockés
-  //     try {
-  //       // Récupération des messages stockés
-  //       const storedMessages = await AsyncStorage.getItem("chatMessages"); // Récupération des messages stockés dans le stockage local
-  //       if (storedMessages) {
-  //         // Si des messages sont stockés
-  //         setMessages(JSON.parse(storedMessages)); // Mettre à jour les messages avec les messages stockés
-  //       }
-  //     } catch (error) {
-  //       console.error(
-  //         "Erreur lors de la récupération des messages stockés :",
-  //         error
-  //       );
-  //     }
-  //   };
-
-  //   fetchMessages(); // Appel de la fonction pour récupérer les messages stockés
-
   useEffect(() => {
     if (username) {
+      // Si le nom d'utilisateur est défini
       const fetchMessages = async () => {
+        // Fonction pour récupérer les messages
         try {
           // Récupérer les messages depuis AsyncStorage
           const storedMessages = await AsyncStorage.getItem("chatMessages");
-          const parsedStoredMessages = storedMessages
-            ? JSON.parse(storedMessages)
+          const parsedStoredMessages = storedMessages // Analyser les messages stockés
+            ? JSON.parse(storedMessages) // Si des messages sont stockés, les analyser
             : [];
 
           // Récupérer les messages depuis la base de données
@@ -85,35 +66,35 @@ export default function ChatScreen() {
             const errorMessage = await response.text(); // Lire la réponse en texte pour déboguer
             console.error(
               "Erreur lors de la récupération des messages :",
-              response.status,
-              errorMessage
+              response.status, // Afficher le statut de la réponse
+              errorMessage // Afficher le message d'erreur
             );
             return; // Quitter la fonction si la réponse n'est pas OK
           }
 
-          const dbMessages = await response.json();
+          const dbMessages = await response.json(); // Récupérer les messages de la base de données
 
           // Mettre à jour AsyncStorage avec les messages de la base de données
           const dbMessageIds = dbMessages.map((message) => message.id);
-          const updatedMessages = parsedStoredMessages.filter((message) =>
-            dbMessageIds.includes(message.id)
+          const updatedMessages = parsedStoredMessages.filter(
+            (message) => dbMessageIds.includes(message.id) // Garder les messages qui sont dans la base de données
           );
 
           // Si des messages sont manquants, les supprimer d'AsyncStorage
           if (updatedMessages.length !== parsedStoredMessages.length) {
             await AsyncStorage.setItem(
               "chatMessages",
-              JSON.stringify(updatedMessages)
+              JSON.stringify(updatedMessages) // Stocker les messages mis à jour
             );
           }
 
-          setMessages(updatedMessages);
+          setMessages(updatedMessages); // Mettre à jour les messages avec les messages mis à jour
         } catch (error) {
           console.error("Erreur lors de la récupération des messages :", error);
         }
       };
 
-      fetchMessages();
+      fetchMessages(); // Appel de la fonction pour récupérer les messages
 
       console.log("Params reçus dans ChatScreen : ", { username, userType });
       fetch(`${BACKEND_ADDRESS}/users/${username}`, {
@@ -137,7 +118,7 @@ export default function ChatScreen() {
           body: JSON.stringify({ userType }), // Type d'utilisateur
         });
     }
-  }, [username, userType]);
+  }, [username, userType]); // Déclenchement de l'effet lorsque le nom d'utilisateur ou le type d'utilisateur change
 
   const handleReceiveMessage = (data) => {
     // Lorsqu'un message est reçu
@@ -206,90 +187,95 @@ export default function ChatScreen() {
 
   return (
     <SafeAreaView style={[globalStyles.safeArea]}>
-  <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-  <View style={globalStyles.header}>
-    <TouchableOpacity
-      onPress={() => navigation.goBack()}
-      style={globalStyles.backButton}
-    >
-      <Text style={globalStyles.backText}>←</Text>
-    </TouchableOpacity>
-    <Text style={chatStyles.greetingText}>Bonjour {username}</Text>
-  </View>
-  
-  <KeyboardAvoidingView
-    style={{ flex: 1 }}
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
-    keyboardVerticalOffset={70}
-  >
-    {/* Affichage des messages */}
-    <View style={{ flex: 1 }}>
-      <ScrollView
-        ref={scrollViewRef}
-        style={chatStyles.scroller}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: messages.length === 0 ? 'center' : 'flex-start' }}
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+      <View style={globalStyles.header}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={globalStyles.backButton}
+        >
+          <Text style={globalStyles.backText}>←</Text>
+        </TouchableOpacity>
+        <Text style={chatStyles.greetingText}>Bonjour {username}</Text>
+      </View>
+
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={70}
       >
-        {messages.length === 0 ? (
-          // Affichage lorsque la liste de messages est vide
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
+        {/* Affichage des messages */}
+        <View style={{ flex: 1 }}>
+          <ScrollView
+            ref={scrollViewRef}
+            style={chatStyles.scroller}
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: messages.length === 0 ? "center" : "flex-start",
             }}
           >
-            <Text style={chatStyles.emptyText}>
-              Pas de messages pour le moment
-            </Text>
-          </View>
-        ) : (
-          // Affichage des messages
-          messages.map((message, i) => (
-            <View
-              key={i}
-              style={[
-                chatStyles.messageWrapper,
-                message.username === username
-                  ? chatStyles.messageSent
-                  : chatStyles.messageRecieved,
-              ]}
-            >
-              <Text style={chatStyles.usernameText}>{message.username}</Text>
+            {messages.length === 0 ? (
+              // Affichage lorsque la liste de messages est vide
               <View
-                style={[
-                  chatStyles.message,
-                  message.username === username
-                    ? chatStyles.messageSentBg
-                    : chatStyles.messageRecievedBg,
-                ]}
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
-                <Text style={chatStyles.messageText}>{message.text}</Text>
+                <Text style={chatStyles.emptyText}>
+                  Pas de messages pour le moment
+                </Text>
               </View>
-              <Text style={chatStyles.timeText}>
-                {formatDate(message.createdAt)}
-              </Text>
-            </View>
-          ))
-        )}
-      </ScrollView>
-    </View>
-    
-    {/* Champ de saisie, toujours en bas */}
-    <View style={chatStyles.inputContainer}>
-      <TextInput
-        onChangeText={(value) => setMessageText(value)}
-        value={messageText}
-        style={chatStyles.input}
-        autoFocus
-      />
-      <TouchableOpacity
-        onPress={() => handleSendMessage()}
-        style={chatStyles.sendButton}
-      >
-        <MaterialIcons name="send" color="#ffffff" size={24} />
-      </TouchableOpacity>
-    </View>
-  </KeyboardAvoidingView>
-</SafeAreaView>
+            ) : (
+              // Affichage des messages
+              messages.map((message, i) => (
+                <View
+                  key={i}
+                  style={[
+                    chatStyles.messageWrapper,
+                    message.username === username
+                      ? chatStyles.messageSent
+                      : chatStyles.messageRecieved,
+                  ]}
+                >
+                  <Text style={chatStyles.usernameText}>
+                    {message.username}
+                  </Text>
+                  <View
+                    style={[
+                      chatStyles.message,
+                      message.username === username
+                        ? chatStyles.messageSentBg
+                        : chatStyles.messageRecievedBg,
+                    ]}
+                  >
+                    <Text style={chatStyles.messageText}>{message.text}</Text>
+                  </View>
+                  <Text style={chatStyles.timeText}>
+                    {formatDate(message.createdAt)}
+                  </Text>
+                </View>
+              ))
+            )}
+          </ScrollView>
+        </View>
+
+        {/* Champ de saisie, toujours en bas */}
+        <View style={chatStyles.inputContainer}>
+          <TextInput
+            onChangeText={(value) => setMessageText(value)}
+            value={messageText}
+            style={chatStyles.input}
+            autoFocus
+          />
+          <TouchableOpacity
+            onPress={() => handleSendMessage()}
+            style={chatStyles.sendButton}
+          >
+            <MaterialIcons name="send" color="#ffffff" size={24} />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // --------------------------------- Importation des composants navigation ---------------------------------
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -30,7 +30,8 @@ import ChatScreen from './screens/ChatScreen';
 // --------------------------------- Importation des icônes ---------------------------------
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 // --------------------------------- Importation des polices ---------------------------------
-import AppLoading from 'expo-app-loading';
+// import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import {  Montserrat_100Thin,  Montserrat_200ExtraLight, 
  Montserrat_300Light,  Montserrat_400Regular, 
@@ -39,6 +40,9 @@ import {  Montserrat_100Thin,  Montserrat_200ExtraLight,
 import {  OpenSans_300Light,  OpenSans_400Regular, 
  OpenSans_600SemiBold,  OpenSans_700Bold,  OpenSans_800ExtraBold,} from '@expo-google-fonts/open-sans';
 
+
+ // Empêcher l'écran de démarrage de se cacher automatiquement
+ SplashScreen.preventAutoHideAsync();
  
 const Stack = createNativeStackNavigator(); // Création d'un StackNavigator pour gérer la navigation entre les écrans
 const Tab = createBottomTabNavigator(); // Création d'un TabNavigator pour gérer la navigation entre les onglets
@@ -47,10 +51,8 @@ const Tab = createBottomTabNavigator(); // Création d'un TabNavigator pour gér
 
 const store = configureStore({
   reducer: {
-   
     parent,
     teacher,
-    
   },
 });
 
@@ -207,8 +209,14 @@ export default function App() {
     OpenSans_800ExtraBold,
   });
 
+  useEffect(()=> {
+    if(fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  },[fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />; 
+    return null; 
   }
 
   return (
