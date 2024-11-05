@@ -91,11 +91,10 @@ export const homeStyles = StyleSheet.create({
     marginBottom: 5,
   },
   deleteIcon: {
-    paddingLeft: 10,
-    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 10,
     color: "#8DBFA9",
-    alignItems :'center',
-    marginTop: 10
+  
   },
 
   // Agenda
