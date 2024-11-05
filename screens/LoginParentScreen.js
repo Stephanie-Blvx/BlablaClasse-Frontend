@@ -136,7 +136,7 @@ export default function LoginParentScreen({ navigation }) {
 {/* RETRAIT ICI DU QR CODE SCREEN   */}
 
             {!isValidEmail && (
-              <Text style={buttonStyles.error}>
+              <Text style={globalStyles.errorMessage}>
                 Email ou mot de passe invalide, veuillez réessayer
               </Text>
             )}

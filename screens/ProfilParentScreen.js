@@ -10,13 +10,14 @@ import {
   ScrollView,
   StatusBar,
   Modal,
+  StyleSheet,
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEmail } from "../reducers/parent.js";
-import FontAwesome from 'react-native-vector-icons/FontAwesome6';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import FontAwesome from "react-native-vector-icons/FontAwesome6";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
@@ -26,7 +27,7 @@ const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // Composant principal pour l'écran de profil
-export default function ProfilParentScreen({navigation}) {
+export default function ProfilParentScreen({ navigation }) {
   // États pour gérer les valeurs des champs de formulaire et modales
   const [firstname, setFirstname] = useState(""); // Ajouter un état pour le prénom du parent
   const [lastname, setLastname] = useState(""); //    Ajouter un état pour le nom du parent
@@ -35,9 +36,11 @@ export default function ProfilParentScreen({navigation}) {
   const [newEmail, setNewEmail] = useState(""); //  Ajouter un état pour le nouvel email
   const [currentPassword, setCurrentPassword] = useState(""); // Ajouter un état pour le mot de passe actuel
   const [newPassword, setNewPassword] = useState(""); // Ajouter un état pour le nouveau mot de passe
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const [emailError, setEmailError] = useState(""); // Ajouter un état pour le message d'erreur de l'email
+  const [emailSuccessMessage, setEmailSuccessMessage] = useState(""); // Message de succès pour l'email
+  const [passwordSuccessMessage, setPasswordSuccessMessage] = useState(""); // Message de succès pour le mot de passe
 
   // Accéder aux informations du parent connecté depuis le Redux store
   const parent = useSelector((state) => state.parent.value); // Récupère les informations du parent
@@ -47,56 +50,68 @@ export default function ProfilParentScreen({navigation}) {
 
   //----------------------------------------------- Fonction pour changer le mot de passe ------------------------------------------------
   const handleChangePassword = async () => {
-    console.log('Appel de la fonction handleChangePassword');
-    
+    console.log("Appel de la fonction handleChangePassword");
+
     // Récupérer le token JWT stocké dans AsyncStorage
-    const token = await AsyncStorage.getItem('accessToken')
-    
+    const token = await AsyncStorage.getItem("accessToken");
+
     if (!token) {
-      setError('Token is undefined'); // Afficher un message d'erreur
-      console.log('Token is undefined');
+      setError("Token is undefined"); // Afficher un message d'erreur
+      console.log("Token is undefined");
       return;
     }
-  
-    console.log('Token JWT', token); // Pour le débogage
-  
+
+    console.log("Token JWT", token); // Pour le débogage
+
     const parentId = parent.id; // Récupérez l'ID du parent depuis le Redux store
     console.log("Parent ID:", parentId); // Pour le débogage
 
-    const payload = { 
+    const payload = {
       parentId: parentId, // ID du parent récupéré
       currentPassword: currentPassword, // Le mot de passe actuel
       newPassword: newPassword, // Le nouveau mot de passe
     };
-    
+
     console.log("Payload pour le changement de mot de passe :", payload);
-    
-    fetch(`${BACKEND_ADDRESS}/parents/change-password`, {
-      method: 'PUT',
+
+    const requestOptions = {
+      method: "PUT", // Méthode HTTP PUT
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json", // Type de contenu
+        Authorization: `Bearer ${token}`, // Token d'authentification
       },
-      body: JSON.stringify(payload),
-    })
+      body: JSON.stringify(payload), // Convertit l'objet en chaîne JSON
+    };
+
+    console.log("Requête pour le changement de password :", requestOptions); // Pour le débogage
+    fetch(`${BACKEND_ADDRESS}/parents/change-password`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log('Réponse du serveur:', data);
-        if (data.success) {
-          setCurrentPassword(""); // Réinitialiser le mot de passe actuel
-          console.log(
-            "currentPassword après réinitialisation:",
-            currentPassword
-          ); // Vérifie la valeur
-          setNewPassword(""); // Réinitialiser le nouveau mot de passe
-          setPasswordModalVisible(false); // Ferme le modal
+        if (data.result) {
+          console.log("Changement réussi:", data.message);
+          setCurrentPassword("");
+          setPasswordSuccessMessage("Mot de passe changé avec succès !");
+          setTimeout(() => {
+            setNewPassword("");
+            setPasswordModalVisible(false);
+            setPasswordSuccessMessage("");
+          }, 2000); // Augmenter le délai pour voir le message
         } else {
-          setError(data.error || 'Une erreur est survenue.'); // Utilisez data.error ou un message par défaut
+          // console.error("Erreur lors du changement de mot de passe :", data.error);
+          console.error(
+            "Erreur lors du changement de mot de passe :",
+            error.message || "Erreur non spécifiée"
+          );
+          setError(data.error || "Une erreur est survenue.");
         }
       })
+      .catch((error) => {
+        console.error("Erreur lors de la requête :", error);
+        setError("Une erreur est survenue.");
+      });
   };
 
-  //----------------------------------------------- Fonction pour changer le mot de passe ------------------------------------------------
+  //----------------------------------------------- Fonction pour changer l'email ------------------------------------------------
   const handleChangeEmail = () => {
     console.log("Nouvel email :", newEmail); // Vérifiez la valeur ici
 
@@ -109,7 +124,7 @@ export default function ProfilParentScreen({navigation}) {
     }
 
     const token = parent.token; // Assurez-vous que le token est présent
-    
+
     if (!token) {
       console.error("Token is undefined"); // Pour le débogage
       return; // Ou montrez un message d'erreur à l'utilisateur
@@ -133,23 +148,24 @@ export default function ProfilParentScreen({navigation}) {
       },
       body: JSON.stringify(payload), // Convertit l'objet en chaîne JSON
     };
-    
+
     console.log("Requête pour le changement d'email:", requestOptions); // Pour le débogage
     fetch(`${BACKEND_ADDRESS}/parents/change-email`, requestOptions) // Appel de l'API
       .then((response) => response.json()) // Convertit la réponse en JSON
       .then((data) => {
-        console.log("Réponse du serveur:", data); // Affiche la réponse complète
         if (data.result) {
-          dispatch(updateEmail(newEmail)); // Met à jour l'email dans le Redux store
-          setNewEmail(""); // Réinitialise le nouvel email
-          setEmailModalVisible(false); // Ferme le modal
+          dispatch(updateEmail(newEmail));
+          //setEmailModalVisible(false);
+          setEmailSuccessMessage("Email changé avec succès !");
+          setTimeout(() => {
+            setNewEmail("");
+            setEmailModalVisible(false);
+            setEmailSuccessMessage("");
+          }, 1000); // Modal fermée après 3 secondes
         } else {
-          console.error("Erreur lors de :", data.error); // Affiche l'erreur
+          console.error("Erreur :", data.error);
         }
-      })
-      // .catch((error) => {
-      //   console.error("Erreur lors du changement d'email:", error); // Gestion des erreurs
-      // });
+      });
   };
 
   //-------------------------------------------- JSX ----------------------------------------------
@@ -157,7 +173,15 @@ export default function ProfilParentScreen({navigation}) {
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-
+      <View style={globalStyles.header}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={globalStyles.backButton}
+        >
+          <Text style={globalStyles.backText}>←</Text>
+        </TouchableOpacity>
+        <Text style={globalStyles.headerTitle}>Mon profil</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -165,17 +189,10 @@ export default function ProfilParentScreen({navigation}) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            {/* Bouton de retour */}
-            <TouchableOpacity
-              
-              onPress={() => navigation.navigate("Profil")}
-            >
-              <FontAwesome name="arrow-left" size={20} color="#4A7B59" solid />
-            </TouchableOpacity>
-            
-            <Text style={globalStyles.title}>Profil parent</Text>
-
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Prénom
+              </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Prénom du parent"
@@ -187,6 +204,9 @@ export default function ProfilParentScreen({navigation}) {
             </View>
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Nom
+              </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Nom du parent"
@@ -198,6 +218,9 @@ export default function ProfilParentScreen({navigation}) {
             </View>
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Email
+              </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Email du parent"
@@ -228,6 +251,10 @@ export default function ProfilParentScreen({navigation}) {
             >
               <View style={globalStyles.modalContainer}>
                 <View style={globalStyles.modalContent}>
+                <View style={buttonStyles.buttonContainer}>
+                  <Text style={buttonStyles.label}>
+                    Taper votre nouvel email
+                  </Text>
                   <TextInput
                     style={buttonStyles.input}
                     placeholder="Nouveau email"
@@ -235,10 +262,14 @@ export default function ProfilParentScreen({navigation}) {
                     onChangeText={setNewEmail}
                     placeholderTextColor="#5e5e5e8a"
                   />
+                  </View>
                   {/* Affichage du message d'erreur pour l'email */}
                   {emailError ? (
-                    <Text style={{ color: "red", marginTop: 3 }}>
-                      {emailError}
+                    <Text style={globalStyles.errorMessage}>{emailError}</Text>
+                  ) : null}
+                  {emailSuccessMessage ? (
+                    <Text style={globalStyles.successMessage}>
+                      {emailSuccessMessage}
                     </Text>
                   ) : null}
                   <View style={buttonStyles.buttonContainer}>
@@ -246,7 +277,7 @@ export default function ProfilParentScreen({navigation}) {
                       style={buttonStyles.button}
                       onPress={() => {
                         handleChangeEmail();
-                        setEmailModalVisible(false);
+                        //setEmailModalVisible(false);
                       }}
                     >
                       <Text style={buttonStyles.buttonText}>Valider</Text>
@@ -285,35 +316,50 @@ export default function ProfilParentScreen({navigation}) {
             >
               <View style={globalStyles.modalContainer}>
                 <View style={globalStyles.modalContent}>
-                  <Text style={globalStyles.modalTitle}>
+                  {/* <Text style={globalStyles.modalTitle}>
                     Changer le mot de passe
-                  </Text>
+                  </Text> */}
+
                   <View style={buttonStyles.buttonContainer}>
+                    <Text style={buttonStyles.label}>
+                      Taper votre ancien mot de passe
+                    </Text>
                     <TextInput
                       style={buttonStyles.input}
                       placeholder="Mot de passe actuel"
                       value={currentPassword}
                       onChangeText={setCurrentPassword}
-                      // secureTextEntry={true}
+                      secureTextEntry={true}
                       placeholderTextColor="#5e5e5e8a"
                     />
                   </View>
                   <View style={buttonStyles.buttonContainer}>
+                    <Text style={buttonStyles.label}>
+                      Taper votre nouveau mot de passe
+                    </Text>
                     <TextInput
                       style={buttonStyles.input}
                       placeholder="Nouveau mot de passe"
                       value={newPassword}
                       onChangeText={setNewPassword}
-                      // secureTextEntry={true}
+                      secureTextEntry={true}
                       placeholderTextColor="#5e5e5e8a"
                     />
+                    {error ? (
+                      <Text style={globalStyles.errorMessage}>{error}</Text>
+                    ) : null}
+                    {passwordSuccessMessage ? (
+                      <Text style={globalStyles.successMessage}>
+                        {passwordSuccessMessage}
+                      </Text>
+                    ) : null}
                   </View>
                   <View style={buttonStyles.buttonContainer}>
                     <TouchableOpacity
                       style={buttonStyles.button}
                       onPress={() => {
                         handleChangePassword();
-                        setPasswordModalVisible(false);
+                        //setPasswordModalVisible(false);
                       }}
                     >
                       <Text style={buttonStyles.buttonText}>Valider</Text>

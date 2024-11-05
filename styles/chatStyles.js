@@ -2,12 +2,12 @@ import { StyleSheet } from "react-native";
 
 // Styles inchangés
 export const chatStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#000",
-  },
+  // chatContainer: {
+  //   flex: 1,
+  //   alignItems: "center",
+  //   justifyContent: "space-between",
+  //   backgroundColor: "#000",
+  // },
   banner: {
     width: "100%",
     height: "10%",
@@ -21,14 +21,14 @@ export const chatStyles = StyleSheet.create({
     width: "100%",
     paddingTop: 10,
     position: "relative",
-    borderTopColor: "#ffe099",
     borderTopWidth: 1,
   },
   greetingText: {
-    color: "#000000",
+    color: "#ffffff",
     fontWeight: "bold",
     fontSize: 18,
     marginLeft: 15,
+    marginTop: 8,
   },
   message: {
     paddingTop: 12,
@@ -88,7 +88,7 @@ export const chatStyles = StyleSheet.create({
     justifyContent: "center",
     justifySelf: "flex-end",
     alignContent: "flex-start",
-    marginBottom: 30,
+    marginBottom: 0,
     marginTop: "auto",
     background: "transparent",
     paddingLeft: 20,
@@ -97,7 +97,7 @@ export const chatStyles = StyleSheet.create({
   input: {
     backgroundColor: "#f0f0f0",
     width: "80%",
-    padding: 14,
+    padding: 10,
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: {
@@ -110,7 +110,7 @@ export const chatStyles = StyleSheet.create({
   },
   sendButton: {
     borderRadius: 50,
-    padding: 16,
+    padding: 10,
     backgroundColor: "#F9F2D9",
     marginLeft: 12,
     alignItems: "center",
