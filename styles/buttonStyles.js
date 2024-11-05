@@ -34,6 +34,8 @@ export const buttonStyles = StyleSheet.create({
     // Conteneur des boutons
     marginTop: 20,
     width: "100%",
+    alignContent: "center",
+    alignItems: "center",
   },
   QRbuttonContainer: {
     display: "flex",
@@ -61,7 +63,9 @@ export const buttonStyles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 8,
     alignItems: "center",
-  },
+    color: "#FFFFFF",
+    width: "100%",
+  }, 
   pressedButton: {
     // Bouton pressé
     opacity: 0.8,
@@ -123,5 +127,6 @@ export const buttonStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "80%",
+    marginTop: 30,
   },
 });

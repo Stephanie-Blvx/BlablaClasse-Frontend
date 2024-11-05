@@ -26,7 +26,7 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
         onUpdatePost(postId, editedTitle, editedContent);
         setIsEditing(false);
     };
-
+    //-------------------------------------------------JSX------------------------------------------
     return (
         <View style={classeStyles.messageContainer}>
             <View style={classeStyles.headerContainer}>
@@ -36,13 +36,17 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
                         {post.author.firstname} @{post.author.username} - {new Date(post.creationDate).toLocaleString()}
                     </Text>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={handleEditPress} style={classeStyles.editIcon}>
+                <View style={classeStyles.iconContainer}>
+                    <View>
+                    <TouchableOpacity onPress={handleEditPress} style={classeStyles.editIcon} >
                         <FontAwesome name="edit" size={24} color="#4A7B59" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleDeletePress} style={classeStyles.deleteIcon}>
+                    </View>
+                    <View>
+                    <TouchableOpacity onPress={handleDeletePress} >
                         <FontAwesome name="trash" size={24} color="#4A7B59" />
                     </TouchableOpacity>
+                    </View>
                 </View>
             </View>
             <View style={classeStyles.messageContentContainerTeacher}>
@@ -59,8 +63,20 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
                         <Text style={classeStyles.modalTitle}>Suppression</Text>
                         <Text color='white'>Voulez-vous vraiment supprimer ce post ?</Text>
                         <View style={classeStyles.buttonContainer}>
-                            <Button title="Oui" color="#67AFAC" onPress={handleConfirmDelete} />
-                            <Button title="Non" color="#67AFAC" onPress={handleCancelDelete} />
+                            <TouchableOpacity
+                                style={buttonStyles.button}
+                                onPress={handleConfirmDelete}
+                                activeOpacity={0.8}
+                            >
+                                <Text style={buttonStyles.buttonText}>Oui</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={buttonStyles.button}
+                                onPress={handleCancelDelete}
+                                activeOpacity={0.8}
+                            >
+                                <Text style={buttonStyles.buttonText}>Non</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -83,8 +99,21 @@ const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
                             style={classeStyles.input}
                             multiline
                         />
-                        <Button style={buttonStyles.button} title="Sauvegarder" color="#67AFAC" onPress={handleConfirmEdit} />
-                        <Button style={buttonStyles.button} title="Annuler" color="#67AFAC" onPress={() => setIsEditing(false)} />
+                        <TouchableOpacity
+                            style={buttonStyles.button}
+                            onPress={handleConfirmEdit}
+                            activeOpacity={0.8}
+                        >
+                            <Text style={buttonStyles.buttonText}>Sauvegarder</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={buttonStyles.button}
+                            onPress={() => setIsEditing(false)}
+                            activeOpacity={0.8}
+                        >
+                            <Text style={buttonStyles.buttonText}>Annuler</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
@@ -106,7 +135,7 @@ export default function ClassScreen() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
-                    const sortedPosts = data.posts.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+                    const sortedPosts = data.posts.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate)); // tri du plus récent au plus ancien
                     setPosts(sortedPosts);
                 } else {
                     console.error(data.error);
@@ -181,8 +210,6 @@ export default function ClassScreen() {
         } else {
             console.log("Aucune image sélectionnée.");
         }
-
-        console.log("Données à envoyer :", formData);
 
         fetch(`${BACK_URL}/posts`, {
             method: 'POST',
@@ -261,7 +288,7 @@ export default function ClassScreen() {
             console.log("Camera action canceled.");
         }
     };
-
+    //-------------------------------------------------JSX------------------------------------------
     return (
         <SafeAreaView style={globalStyles.safeArea}>
             <StatusBar barStyle="light-content" backgroundColor="#8DBFA9" />
@@ -269,16 +296,20 @@ export default function ClassScreen() {
                 style={{ flex: 1 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 keyboardVerticalOffset={40}
-                >
-                <View style={buttonStyles.buttonContainer}>
-                    <Text style={globalStyles.title} >Classe</Text>
-                    <TouchableOpacity
-                        onPress={() => setModalVisible(true)}
-                        style={[buttonStyles.button, buttonStyles.buttonSecondary]}
-                        activeOpacity={0.8}
-                    >
-                        <Text style={buttonStyles.buttonText}>Ajouter un Post</Text>
-                    </TouchableOpacity>
+            >
+                <View style={globalStyles.container}>
+                    <View style={buttonStyles.buttonContainer}>
+                        <Text style={globalStyles.title} >Classe</Text>
+                    </View>
+                    <View style={buttonStyles.buttonContainer}>
+                        <TouchableOpacity
+                            onPress={() => setModalVisible(true)}
+                            style={classeStyles.postButton}
+                            activeOpacity={0.8}
+                        >
+                            <Text style={buttonStyles.buttonText}>Ajouter un Post</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 <ScrollView contentContainerStyle={{ paddingBottom: 15 }}>
@@ -295,7 +326,6 @@ export default function ClassScreen() {
                     </View>
                 </ScrollView>
 
-                {/* Modal for adding a post */}
                 <Modal transparent={true} visible={modalVisible} animationType="slide">
                     <View style={globalStyles.modalContainer}>
                         <View style={globalStyles.modalContent}>
@@ -340,18 +370,20 @@ export default function ClassScreen() {
                                         style={buttonStyles.button}
                                         onPress={handleAddPost}
                                         activeOpacity={0.8}
-                                    />
-                                    <Text style={buttonStyles.buttonText}>Ajouter</Text>
+                                    >
+                                        <Text style={buttonStyles.buttonText}>Ajouter</Text>
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={buttonStyles.buttonContainer}>
                                     <TouchableOpacity
                                         style={buttonStyles.button}
                                         onPress={() => setModalVisible(false)}
                                         activeOpacity={0.8}
-                                    />
-                                    <Text style={buttonStyles.buttonText}>Annuler</Text>
+                                    >
+                                        <Text style={buttonStyles.buttonText}>Annuler</Text>
+                                    </TouchableOpacity>
                                 </View>
-                            </View>
+                            </View >
                         </View>
                     </View>
                 </Modal>
