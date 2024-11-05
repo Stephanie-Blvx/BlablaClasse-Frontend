@@ -28,7 +28,7 @@ import { globalStyles } from "../styles/globalStyles";
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
 
-const BACK_URL = 'http://192.168.3.174:3000';
+const BACK_URL = 'http://192.168.1.30:3000';
 
 
 //const BACK_URL = "http://192.168.1.30:3000";

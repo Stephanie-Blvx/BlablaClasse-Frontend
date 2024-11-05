@@ -30,7 +30,7 @@ export const teacherSlice = createSlice({
         state.value.isAdmin= false;
         state.value.userType =null; // Mettre à jour le type d'utilisateur
     },
-    setUserType: (state, action) => {
+    setUserTypeTeacher: (state, action) => {
       console.log('Updating user type:', action.payload); 
       state.value.userType = action.payload;
     },
@@ -40,5 +40,5 @@ export const teacherSlice = createSlice({
   },
 });
 
-export const { login, logout, updateEmail, setUserType } = teacherSlice.actions;
+export const { login, logout, updateEmail, setUserTypeTeacher } = teacherSlice.actions;
 export default teacherSlice.reducer;

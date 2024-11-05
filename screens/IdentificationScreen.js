@@ -10,12 +10,12 @@ import {
   Button
 } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserType as setParentUserType } from '../reducers/parent';
-import { setUserType as setTeacherUserType } from '../reducers/teacher';
+import { setUserTypeParent  } from '../reducers/parent';
+import { setUserTypeTeacher } from '../reducers/teacher';
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
-const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 // Composant principal pour l'écran d'identification
@@ -26,13 +26,15 @@ export default function IdentificationScreen({ navigation }) {
 //----------------------   Fonction pour sélectionner le type d'utilisateur   ----------------------
   const handleUserTypeSelect = (type) => {
     console.log(`selected user type: ${type}`);
-    
+
     if (type === 'parent') { // si parent   
-      dispatch(setParentUserType(type));  // appel de la fonction setUserType du reducer parent
+      console.log('Bonjour parent');
+      dispatch(setUserTypeParent (type));  // appel de la fonction setUserType du reducer parent
     } else if (type === 'teacher') { // si enseignant
-      dispatch(setTeacherUserType(type)); // appel de la fonction setUserType du reducer teacher
+      console.log('Bonjour enseignant');
+      dispatch(setUserTypeTeacher (type)); // appel de la fonction setUserType du reducer teacher
     }
-  
+
   //----------------------  setTimeout pour naviguer vers la page de connexion pour éviter conflits de nav et assurer une expérience fluide. La nav doit se déclencer après la mise à jour de l'état ----------------------
     setTimeout(() => {  // délai de 0 ms
       if (type === 'parent') { // si parent naviguer vers page LoginParent
@@ -42,6 +44,8 @@ export default function IdentificationScreen({ navigation }) {
       }
     }, 0);
   };
+
+
 
 
   //-------------------------------------------------JSX------------------------------------------

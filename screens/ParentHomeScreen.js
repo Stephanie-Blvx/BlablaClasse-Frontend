@@ -18,7 +18,7 @@ import * as FileSystem from "expo-file-system";
 
 import * as MediaLibrary from "expo-media-library";
 import { globalStyles } from "../styles/globalStyles";
-const BACK_URL = 'http://192.168.3.174:3000';
+const BACK_URL = 'http://192.168.1.30:3000';
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
 
