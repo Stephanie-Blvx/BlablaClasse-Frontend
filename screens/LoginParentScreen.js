@@ -18,8 +18,8 @@ import { globalStyles } from "../styles/globalStyles";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
-const BACKEND_ADDRESS = 'http://192.168.3.174:3000'; //-------> url Backend
+// const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =

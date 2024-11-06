@@ -18,11 +18,11 @@ import * as FileSystem from "expo-file-system";
 
 import * as MediaLibrary from "expo-media-library";
 import { globalStyles } from "../styles/globalStyles";
-const BACK_URL = 'http://192.168.3.174:3000';
+const BACKEND_ADDRESS = 'http://192.168.3.174:3000';
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
 
-const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 //Lien pour dl menu
@@ -33,7 +33,7 @@ export default function ParentHomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [lastActu, setLastActu] = useState([]);
-  const [menu, setMenu] = useState("");
+ 
   const [currentDate, setCurrentDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -173,45 +173,45 @@ export default function ParentHomeScreen() {
       }
     })();
   }, []);
-  ///----- Fonction pour DOWNLOAD menu cantine------
+  
 
-  const downloadMenu = async () => {
-    //utiiser await
-    const response = await fetch(`${BACK_URL}/menus`);
-    const data = await response.json();
+ 
 
-    if (data.result) {
-      console.log("LAST MENU URL", data);
-      const lastMenuUrl = data;
-      setMenu(lastMenuUrl);
-      console.log("LAST MENU", menu.menu.url);
-    } else {
-      console.error(data.error);
-    }
-    // Demander la permission d'accéder à la galerie
-    const { status } = await MediaLibrary.requestPermissionsAsync();
+// Fonction pour télécharger le menu
+const downloadMenu = async () => {
+  const response = await fetch(`${BACKEND_ADDRESS}/menus`);
+  const data = await response.json();
+  if (data.result) {
+    console.log(data.menu.url); // Enregistrer l'URL du menu dans l'état
+  } else {
+    console.error(data.error);
+  }
 
-    if (status === "granted") {
-      console.log("WHAT", menu.menu.url);
+  if (!data.menu.url) {
+    Alert.alert("Erreur", "L'URL du menu est indisponible.");
+    return;
+  }
 
-      // ---Télécharger le fichier---
-      const result = await FileSystem.downloadAsync(menu.menu.url, fileUri);
-      console.log("RESULT", result);
+  // Demander la permission d'accéder à la galerie
+  const { status } = await MediaLibrary.requestPermissionsAsync();
+  if (status === "granted") {
+    
+      // Téléchargement du fichier
+      const result = await FileSystem.downloadAsync(data.menu.url, fileUri);
       console.log("Fichier téléchargé avec succès :", result.uri);
 
-      // Enregistrer le fichier dans la galerie
+      // Enregistrement dans la galerie
       const asset = await MediaLibrary.createAssetAsync(result.uri);
-      Alert.alert(
-        "Téléchargement terminé",
-        `Le fichier a été enregistré dans la galerie : ${asset.uri}`
-      );
-    } else {
-      Alert.alert(
-        "Permission refusée",
-        "Vous devez autoriser l'accès à la galerie pour enregistrer le fichier."
-      );
-    }
-  };
+      Alert.alert("Téléchargement terminé", `Le fichier a été enregistré dans la galerie : ${asset.uri}`);
+    } 
+   else {
+    Alert.alert("Permission refusée", "Vous devez autoriser l'accès à la galerie pour enregistrer le fichier.");
+  
+};
+}
+  
+
+
   ///JSX///
 
   return (
@@ -228,7 +228,7 @@ export default function ParentHomeScreen() {
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.containerFull}>
             <Calendar
-             style={{ width: '100%' }}
+              style={{ width: '100%' }}
               firstDay={1}
               onDayPress={onDayPress}
               current={currentDate}

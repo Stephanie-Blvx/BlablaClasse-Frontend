@@ -16,7 +16,7 @@ export const parentSlice = createSlice({
       state.value.username= action.payload.username;
       state.value.kids= action.payload.kids; // Mettre à jour les enfants
       state.value.id = action.payload.id; //  Mettre à jour l'id    
-      state.value.userType = action.payload.userType; //  Mettre à jour le userType    
+     state.value.userType = action.payload.userType; //  Mettre à jour le userType    
     },
     logout: (state) => {
       state.value.token = null; // Mettre à jour le token
@@ -29,7 +29,7 @@ export const parentSlice = createSlice({
       state.value.id = null; //  Mettre à jour l'id    
       
     },
-  },
+  
     setUserType: (state, action) => {
       console.log('Updating user type:', action.payload);
       state.value.userType = action.payload;
@@ -44,6 +44,7 @@ export const parentSlice = createSlice({
         state.value.kids[kidIndex] = updatedKid; // Met à jour l'enfant dans l'état
       }
     },
+  }
 });
 
 export const { login, logout, updateEmail, updateKidInfo, setUserType } = parentSlice.actions;
