@@ -19,8 +19,8 @@ import { updateEmail, logout } from "../reducers/teacher";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
 
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
-const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "https://blabla-classe-backend.vercel.app"; //-------> url Backend
+
 
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

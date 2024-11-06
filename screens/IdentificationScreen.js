@@ -7,13 +7,16 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
-  Image,
+
+  Image
+
+
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
-const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+const BACKEND_ADDRESS =  "https://blabla-classe-backend.vercel.app"; //-------> url Backend
+
 
 // Composant principal pour l'écran d'identification
 export default function IdentificationScreen({ navigation }) {
