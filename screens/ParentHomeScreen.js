@@ -179,10 +179,9 @@ export default function ParentHomeScreen() {
   const data = await response.json();
 
   if (data.result) {
-    console.log("LAST MENU URL", data);
-    const lastMenuUrl = data;
-    setMenu(lastMenuUrl);
-    console.log("LAST MENU", menu.menu.url);
+    console.log("DATA RESULT", data);
+ 
+    console.log("LAST MENU", data.menu.url);
   } else {
     console.error(data.error);
   }
@@ -190,10 +189,10 @@ export default function ParentHomeScreen() {
   const { status } = await MediaLibrary.requestPermissionsAsync();
 
   if (status === "granted") {
-    console.log("WHAT", menu.menu.url);
+    console.log("WHAT", data.menu.url);
 
     // ---Télécharger le fichier---
-    const result = await FileSystem.downloadAsync(menu.menu.url, fileUri);
+    const result = await FileSystem.downloadAsync(data.menu.url, fileUri);
     console.log("RESULT", result);
     console.log("Fichier téléchargé avec succès :", result.uri);
 
