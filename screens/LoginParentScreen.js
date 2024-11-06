@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../reducers/parent";
+import { login } from "../reducers/parent";
 
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
@@ -19,7 +19,7 @@ import { globalStyles } from "../styles/globalStyles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
-const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -83,18 +83,19 @@ export default function LoginParentScreen({ navigation }) {
             .then(() => {
               console.log('Token de la BDD stocké:', dbData.token);
               dispatch(
-                login({
-                  // dispatch de l'action login
-                  token: dbData.token, // Utiliser le token existant de la BDD
-                  email: dbData.email,
-                  firstname: dbData.firstname,
-                  lastname: dbData.lastname,
-                  kids: dbData.kids,
-                  username: dbData.username,
-                  id: dbData.id,
-                  userType: dbData.userType,
+                // login({
+                //   // dispatch de l'action login
+                //   token: dbData.token, // Utiliser le token existant de la BDD
+                //   email: dbData.email,
+                //   firstname: dbData.firstname,
+                //   lastname: dbData.lastname,
+                //   kids: dbData.kids,
+                //   username: dbData.username,
+                //   id: dbData.id,
+                //   userType: dbData.userType,
                   
-                })
+                // })
+                login(dbData) // dispatch de l'action login
               ); // si result = OK, MàJ reducer "parent" avec token et email et kids
               console.log('Dispatch effectué');
               navigation.navigate("ParentTabNavigator");

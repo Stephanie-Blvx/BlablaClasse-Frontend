@@ -53,7 +53,7 @@ export const chatStyles = StyleSheet.create({
    // marginBottom: 20,
   },
   messageRecieved: {
-    //alignSelf: "flex-end",
+    alignSelf: "flex-end",
     alignItems: "flex-end",
   },
   messageSent: {
@@ -136,10 +136,4 @@ export const chatStyles = StyleSheet.create({
     flexGrow: 1,
     
   },
-  test: {
-    display: "flex",
-    flex: 1,
-    flexGrow: 1,
-    height: "100%",
-  }
 });

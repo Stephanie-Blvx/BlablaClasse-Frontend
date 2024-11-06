@@ -4,11 +4,8 @@ import {
   Text,
   Modal,
   TouchableOpacity,
-  StyleSheet,
   TextInput,
   Alert,
-  Image,
-  Button,
   StatusBar,
   SafeAreaView,
   ScrollView,
@@ -22,16 +19,14 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import * as DocumentPicker from "expo-document-picker";
 import * as MediaLibrary from "expo-media-library";
-import * as FileSystem from "expo-file-system";
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../styles/globalStyles";
-import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
 
-const BACK_URL = 'http://192.168.3.174:3000';
+const BACK_URL = 'http://192.168.1.30:3000';
 
 
-//const BACK_URL = "http://192.168.1.30:3000";
+//const BACK_URL = "http://192.168.5.28:3000";
 
 export default function TeacherHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});

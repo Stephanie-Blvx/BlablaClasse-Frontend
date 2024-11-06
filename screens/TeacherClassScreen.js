@@ -1,6 +1,4 @@
 import {
-  Button,
-  StyleSheet,
   Text,
   View,
   Image,
@@ -20,7 +18,8 @@ import { useSelector } from "react-redux";
 import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
 import { buttonStyles } from "../styles/buttonStyles";
-const BACK_URL = 'http://192.168.3.174:3000';
+import { homeStyles } from "../styles/homeStyles";
+const BACK_URL = "http://192.168.1.30:3000";
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -158,16 +157,16 @@ export default function TeacherClassScreen({ navigation }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const teacher = useSelector((state) => state.teacher.value);
 
-  // Récupérer les posts depuis la db
+//----------------------  Récupérer les posts depuis la db ----------------------
   const fetchPosts = () => {
     fetch(`${BACK_URL}/posts`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          const sortedPosts = data.posts.sort(
-            (a, b) => new Date(b.creationDate) - new Date(a.creationDate)
+          const sortedPosts = data.posts.sort( // tri des posts
+            (a, b) => new Date(b.creationDate) - new Date(a.creationDate) // tri du plus récent au plus ancien
           ); // tri du plus récent au plus ancien
-          setPosts(sortedPosts);
+          setPosts(sortedPosts); // Mettre à jour les posts
         } else {
           console.error(data.error);
         }
@@ -175,25 +174,25 @@ export default function TeacherClassScreen({ navigation }) {
   };
   // Faire un render au chargement du code
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    fetchPosts(); // Récupérer les posts
+  }, []); // [] pour ne pas boucler
 
-  // Supprimer un post
+//----------------------  Supprimer un post ----------------------
   const handleDeletePost = (postId) => {
     fetch(`${BACK_URL}/posts/${postId}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
       .then((result) => {
-        if (result.success) {
-          setPosts(posts.filter((post) => post._id !== postId));
+        if (result.success) {  // Si la suppression est un succès
+          setPosts(posts.filter((post) => post._id !== postId));  // Mettre à jour les posts
         } else {
           console.error("Erreur de suppression :", result.error);
         }
       });
   };
 
-  // Modifier un post
+//----------------------  Modifier un post ----------------------
   const handleUpdatePost = (postId, newTitle, newContent) => {
     fetch(`${BACK_URL}/posts/${postId}`, {
       method: "PUT",
@@ -212,7 +211,7 @@ export default function TeacherClassScreen({ navigation }) {
       });
   };
 
-  // Ajouter un post avec ou sans Image
+  //----------------------  Ajouter un post avec ou sans Image ----------------------
   const handleAddPost = () => {
     if (newTitle.length > 40 || newContent.length > 180) {
       alert(
@@ -285,7 +284,7 @@ export default function TeacherClassScreen({ navigation }) {
       });
   };
 
-  // Ouvrir la bibliothèque  pour ajouter une image au post
+  //----------------------  Ouvrir la bibliothèque  pour ajouter une image au post ----------------------
   const pickImage = async () => {
     // Demander la permission d'accéder à la bibliothèque de médias
     const permissionResult =
@@ -312,7 +311,7 @@ export default function TeacherClassScreen({ navigation }) {
     }
   };
 
-  // Prendre une photo avec son appareil pour l'ajouter au post
+//----------------------  Prendre une photo avec son appareil pour l'ajouter au post ----------------------
   const takePhoto = async () => {
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
@@ -389,7 +388,7 @@ export default function TeacherClassScreen({ navigation }) {
                 onChangeText={setNewTitle}
                 style={buttonStyles.input}
               />
-              <Text>{40 - newTitle.length} caractères restants</Text>
+              <Text style={homeStyles.titleLength}>{40 - newTitle.length} caractères restants</Text>
 
               <TextInput
                 placeholder="Contenu"
@@ -398,7 +397,7 @@ export default function TeacherClassScreen({ navigation }) {
                 style={buttonStyles.input}
                 multiline
               />
-              <Text>{180 - newContent.length} caractères restants</Text>
+              <Text style={homeStyles.titleLength}>{180 - newContent.length} caractères restants</Text>
               <View style={buttonStyles.iconsContainer}>
                 <TouchableOpacity onPress={pickImage}>
                   <FontAwesome name="paperclip" size={24} color="#67AFAC" />
@@ -417,7 +416,7 @@ export default function TeacherClassScreen({ navigation }) {
                 </View>
               )}
 
-              <View style={globalStyles.modalContent}>
+              <View style={globalStyles.container}>
                 <View style={buttonStyles.buttonContainer}>
                   <TouchableOpacity
                     style={buttonStyles.button}
@@ -426,14 +425,13 @@ export default function TeacherClassScreen({ navigation }) {
                   >
                     <Text style={buttonStyles.buttonText}>Ajouter</Text>
                   </TouchableOpacity>
-                </View>
-                <View style={buttonStyles.buttonContainer}>
+      
                   <TouchableOpacity
-                    style={buttonStyles.button}
+                    style={buttonStyles.cancelButton}
                     onPress={() => setModalVisible(false)}
                     activeOpacity={0.8}
                   >
-                    <Text style={buttonStyles.buttonText}>Annuler</Text>
+                     <Text style={buttonStyles.cancelButtonText}>Annuler</Text>
                   </TouchableOpacity>
                 </View>
               </View>
