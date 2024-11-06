@@ -21,7 +21,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome6";
 
 const BACKEND_ADDRESS = "https://blabla-classe-backend.vercel.app"; //-------> url Backend
 
-
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
