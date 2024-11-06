@@ -171,7 +171,7 @@ export default function ParentHomeScreen() {
   //   })();
   // }, []);
   
- ///----- Fonction pour DOWNLOAD menu cantine------
+ ///----- Fonction pour DOWNLOAD le menu cantine------
 
  const downloadMenu = async () => {
   //utiiser await
