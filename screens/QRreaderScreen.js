@@ -9,7 +9,11 @@ import { login as loginTeacher } from "../reducers/teacher";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 //const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //===> URL à adapter
+<<<<<<< HEAD
 const BACKEND_ADDRESS = 'http://localhost:3000';
+=======
+const BACKEND_ADDRESS = "http://192.168.1.30:3000";
+>>>>>>> f56f61ae0e598cae217ca6d049deb3377e79248b
 
 export default function QRreaderScreen({ navigation }) 
 {

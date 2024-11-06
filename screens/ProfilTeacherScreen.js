@@ -19,8 +19,13 @@ import { updateEmail, logout } from "../reducers/teacher";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
 
+<<<<<<< HEAD
 //const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+=======
+const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+>>>>>>> f56f61ae0e598cae217ca6d049deb3377e79248b
 
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -250,7 +255,7 @@ export default function ProfilTeacherScreen({ navigation }) {
                 onPress={() => setEmailModalVisible(true)}
                 activeOpacity={0.8}
               >
-                <Text style={buttonStyles.buttonText}>Changer son email</Text>
+                <Text style={buttonStyles.buttonText}>Changer mon email</Text>
               </TouchableOpacity>
             </View>
 
@@ -313,7 +318,7 @@ export default function ProfilTeacherScreen({ navigation }) {
                 activeOpacity={0.8}
               >
                 <Text style={buttonStyles.buttonText}>
-                  Changer son mot de passe
+                  Changer mon mot de passe
                 </Text>
               </TouchableOpacity>
             </View>

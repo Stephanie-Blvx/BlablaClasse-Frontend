@@ -19,7 +19,11 @@ import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
+<<<<<<< HEAD
 const BACK_URL = "http://localhost:3000";
+=======
+const BACK_URL = "http://192.168.3.174:3000";
+>>>>>>> f56f61ae0e598cae217ca6d049deb3377e79248b
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
