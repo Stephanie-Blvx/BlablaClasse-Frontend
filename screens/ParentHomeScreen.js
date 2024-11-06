@@ -158,18 +158,18 @@ export default function ParentHomeScreen() {
     fetchActu();
   }, [lastActu]);
 
-  // PERMISSION GESTIONNAIRE FICHIERS
-  useEffect(() => {
-    (async () => {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          "Permission refusée",
-          "Vous devez autoriser l'accès à la galerie pour enregistrer le fichier."
-        );
-      }
-    })();
-  }, []);
+  // // PERMISSION GESTIONNAIRE FICHIERS
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await MediaLibrary.requestPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       Alert.alert(
+  //         "Permission refusée",
+  //         "Vous devez autoriser l'accès à la galerie pour enregistrer le fichier."
+  //       );
+  //     }
+  //   })();
+  // }, []);
   
  ///----- Fonction pour DOWNLOAD menu cantine------
 
