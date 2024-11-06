@@ -19,7 +19,7 @@ import { updateEmail, logout } from "../reducers/teacher";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome6";
 
-const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 const emailRegex =
