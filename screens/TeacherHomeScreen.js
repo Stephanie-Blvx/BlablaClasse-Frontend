@@ -1,74 +1,119 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, TextInput, Alert, Image, Button, StatusBar, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, } from 'react-native';
-import { Calendar, LocaleConfig } from 'react-native-calendars';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  StatusBar,
+  SafeAreaView,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import { Calendar, LocaleConfig } from "react-native-calendars";
 
-
-import { useSelector } from 'react-redux';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker'
-import * as DocumentPicker from 'expo-document-picker';
-import * as Permissions from 'expo-permissions';
-import FontAwesome from 'react-native-vector-icons/FontAwesome6';
+import { useSelector } from "react-redux";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
+import * as DocumentPicker from "expo-document-picker";
+import * as MediaLibrary from "expo-media-library";
+import FontAwesome from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../styles/globalStyles";
+import { homeStyles } from "../styles/homeStyles";
 
 const BACK_URL = 'http://localhost:3000';
 
 
+//const BACK_URL = "http://192.168.5.28:3000";
+
 export default function TeacherHomeScreen() {
-  const [markedDates, setMarkedDates] = useState({})
+  const [markedDates, setMarkedDates] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [lastActu, setLastActu] = useState([])
-  const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
+  const [lastActu, setLastActu] = useState([]);
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   // Teacher View
   const [modalEventVisible, setModalEventVisible] = useState(false);
   const [modalActuVisible, setModalActuVisible] = useState(false);
   const [newEvent, setNewEvent] = useState([]);
-  const [newDate, setNewDate] = useState('');
-  const [classe, setClasse] = useState('');
+  const [newDate, setNewDate] = useState("");
+  const [classe, setClasse] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [classes, setClasses] = useState([]);
-  const [hasPermission, setHasPermission] = useState(false);
-  const [actus, setActus] = useState([]);
 
+  const [actus, setActus] = useState([]);
 
   //USESELECTOR à utiliser pour teacher ADMIN TO DO !!!
   const teacher = useSelector((state) => state.teacher.value);
-  console.log("TEACHER ADMIN USE SELECTOR???", teacher)
+  console.log("TEACHER ADMIN USE SELECTOR???", teacher);
   //-------------------------------------------------------------
 
-// Configuration Calendar en FR
-LocaleConfig.locales['fr'] = {
-  monthNames: [
-    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
-  ],
-  monthNamesShort: [
-    'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
-    'Jul', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'
-  ],
-  dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-  dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-  today: 'Aujourd\'hui',
-};
+  // Configuration Calendar en FR
+  LocaleConfig.locales["fr"] = {
+    monthNames: [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre",
+    ],
+    monthNamesShort: [
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Août",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc",
+    ],
+    dayNames: [
+      "Dimanche",
+      "Lundi",
+      "Mardi",
+      "Mercredi",
+      "Jeudi",
+      "Vendredi",
+      "Samedi",
+    ],
+    dayNamesShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+    today: "Aujourd'hui",
+  };
 
-// Définir la locale actuelle
-LocaleConfig.defaultLocale = 'fr';
+  // Définir la locale actuelle
+  LocaleConfig.defaultLocale = "fr";
 
   //------------CALENDAR---------------------//
-  // Transformer les événements en dates marquées en dot 
+  // Transformer les événements en dates marquées en dot
   const transformEventsToMarkedDates = (events) => {
     const dates = {};
 
-    events.forEach(e => {
-      const date = new Date(e.date).toISOString().split('T')[0];
+    events.forEach((e) => {
+      const date = new Date(e.date).toISOString().split("T")[0];
 
       //console.log("DATE", date)
-      //toutes les dates des events qui ont été ajoutées 
-
+      //toutes les dates des events qui ont été ajoutées
       // Création d'un dot pour la classe associée à l'événement
-      const dot = e.classe && e.classe.color ? { color: e.classe.color } : { color: 'blue' };
-      console.log("DOTS", e)
+      const dot =
+        e.classe && e.classe.color
+          ? { color: e.classe.color }
+          : { color: "blue" };
+      console.log("DOTS", e);
       // Initialiser la date si elle n'existe pas encore dans `dates`
       if (!dates[date]) {
         dates[date] = { marked: true, dots: [], events: [] };
@@ -77,22 +122,33 @@ LocaleConfig.defaultLocale = 'fr';
       // Ajouter le dot et l'événement
       dates[date].dots.push(dot);
       dates[date].events.push(e);
-      console.log('DATES', dates)
+      console.log("DATES", dates);
     });
 
     return dates;
   };
+ // PERMISSION GESTIONNAIRE FICHIERS
+ useEffect(() => {
+  (async () => {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert(
+        "Permission refusée",
+        "Vous devez autoriser l'accès à la galerie pour enregistrer le fichier."
+      );
+    }
+  })();
+}, []);
 
-  //Route get : all events à afficher 
+
+
+  //Route get : all events à afficher
   useEffect(() => {
     const fetchEvents = async () => {
-
-
       const response = await fetch(`${BACK_URL}/events`);
       const data = await response.json();
       const dates = transformEventsToMarkedDates(data.events);
       setMarkedDates(dates);
-
     };
     fetchEvents();
   }, []);
@@ -104,93 +160,96 @@ LocaleConfig.defaultLocale = 'fr';
       .then((data) => {
         // console.log("classes", data)
         setClasses(data.classes);
-      })
-
+      });
   }, []);
-
 
   const onDayPress = (day) => {
     setSelectedDate(day.dateString);
     setModalVisible(true);
   };
-    //modifier formate de date en JJ-MM-AA
-    const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, '0'); 
-      const month = String(date.getMonth() + 1).padStart(2, '0'); 
-      const year = String(date.getFullYear()).slice(-2); 
-      return `${day}-${month}-${year}`;
-    };
-    
+  //modifier formate de date en JJ-MM-AA
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = String(date.getFullYear()).slice(-2);
+    return `${day}-${month}-${year}`;
+  };
+
   const selectedDateEvents = markedDates[selectedDate]?.events || [];
   //-----------MODALS------------------
-  // Ouvre le modal 
+  // Ouvre le modal
   const handleOpenModal = () => {
     setModalEventVisible(true);
   };
 
-  // Ferme le modal 
+  // Ferme le modal
   const handleClose = () => {
     setModalEventVisible(false);
-    setNewEvent('');
-    setClasse('');
-    setNewDate('');
+    setNewEvent("");
+    setClasse("");
+    setNewDate("");
   };
 
   // Ouvre le modal new Actu
   const handleOpenActu = () => {
-    console.log("TEACHER ADMIN ???", teacher.isAdmin)
-    // Teacher isAdmin : true ? 
+    console.log("TEACHER ADMIN ???", teacher.isAdmin);
+    // Teacher isAdmin : true ?
     if (teacher.isAdmin) {
-     
       setModalActuVisible(true);
     } else {
-      Alert.alert("Accès refusé", "Seule la direction peut ajouter des actualités.");
+      Alert.alert(
+        "Accès refusé",
+        "Seule la direction peut ajouter des actualités."
+      );
     }
   };
 
   // Ferme le modal  new Actu
   const handleCloseActu = () => {
     setModalActuVisible(false);
-    setActus('');
-
+    setActus("");
   };
   //-------------------------------------
 
   // Route POST Ajoute un nouvel événement en BDD
   const handleNewEvent = () => {
     fetch(`${BACK_URL}/events`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ classe: classe, date: newDate, description: newEvent })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        classe: classe,
+        date: newDate,
+        description: newEvent,
+      }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.result) {
           // Ici, vous devez également récupérer la classe correspondante
-          const selectedClass = classes.find(item => item._id === classe);
+          const selectedClass = classes.find((item) => item._id === classe);
           const newEventData = {
             _id: data.event._id,
             classe: selectedClass, // Incluez l'objet classe complet
             date: newDate,
-            description: newEvent
+            description: newEvent,
           };
 
           // Mettre à jour les markedDates
           const updatedMarkedDates = {
             ...markedDates,
-            ...transformEventsToMarkedDates([newEventData]) // Ajouter le nouvel événement pour le marquer
+            ...transformEventsToMarkedDates([newEventData]), // Ajouter le nouvel événement pour le marquer
           };
           setMarkedDates(updatedMarkedDates);
 
           // Réinitialiser les champs du modal
           setModalEventVisible(false);
-          setNewEvent('');
-          setClasse('');
-          setNewDate('');
+          setNewEvent("");
+          setClasse("");
+          setNewDate("");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Erreur lors de l'ajout de l'événement :", error);
       });
   };
@@ -204,7 +263,7 @@ LocaleConfig.defaultLocale = 'fr';
   const onDateChange = (event, selected) => {
     setShowDatePicker(false);
     if (selected) {
-      const formattedDate = selected.toISOString().split('T')[0];
+      const formattedDate = selected.toISOString().split("T")[0];
       setNewDate(formattedDate);
     }
   };
@@ -212,13 +271,13 @@ LocaleConfig.defaultLocale = 'fr';
   //-------DELETE UN EVENT
   const deleteEvent = (eventId) => {
     fetch(`${BACK_URL}/events/${eventId}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.result) {
           // Mettre à jour les événements marqués après la suppression
           const updatedMarkedDates = { ...markedDates };
@@ -226,7 +285,9 @@ LocaleConfig.defaultLocale = 'fr';
           // Parcourir chaque date marquée
           for (const date in updatedMarkedDates) {
             // Filtrer les événements pour enlever celui qui a été supprimé
-            updatedMarkedDates[date].events = updatedMarkedDates[date].events.filter(event => event._id !== eventId);
+            updatedMarkedDates[date].events = updatedMarkedDates[
+              date
+            ].events.filter((event) => event._id !== eventId);
 
             // Si aucun événement ne reste pour cette date, supprimer la date des dates marquées
             if (updatedMarkedDates[date].events.length === 0) {
@@ -236,12 +297,11 @@ LocaleConfig.defaultLocale = 'fr';
 
           // Mettre à jour le MarkedDates
           setMarkedDates(updatedMarkedDates);
-          Alert.alert('Succès', 'Événement supprimé avec succès');
+          Alert.alert("Succès", "Événement supprimé avec succès");
         } else {
-          Alert.alert('Erreur', data.error || 'Erreur de suppression');
+          Alert.alert("Erreur", data.error || "Erreur de suppression");
         }
-      })
-
+      });
   };
 
   // ----------------ROUTE GET DERNIèRE ACTU A AFFICHER-----------
@@ -252,72 +312,59 @@ LocaleConfig.defaultLocale = 'fr';
       .then((data) => {
         if (data.result) {
           // console.log("LAST ACTU", data.actu.content)
-          const lastActuToShow = data.actu.content
-          setLastActu(lastActuToShow)
+          const lastActuToShow = data.actu.content;
+          setLastActu(lastActuToShow);
           // console.log("LAST ACTU", data)
         } else {
           console.error(data.error);
         }
       });
-  }
+  };
 
-  // appeler last actu 
+  // appeler last actu
   useEffect(() => {
     fetchActu();
   }, [actus]);
 
-  // PERMISSION GESTIONNAIRE FICHIERS
-  useEffect(() => {
-    (async () => {
-      const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);;
-      if (result) {
-        setHasPermission(result.status === "granted");
-      }
-    })();
-  }, []);
-
+ 
 
   /// Fonction pour UPLOAD menu cantine
 
   const uploadMenu = async () => {
-
     const newMenu = await DocumentPicker.getDocumentAsync({
-      type: 'image/jpeg',
+      type: "image/jpeg",
     });
     const formData = new FormData();
-    console.log("MENU.URI", newMenu)
-    formData.append('menuFromFront', {
+    console.log("MENU.URI", newMenu);
+    formData.append("menuFromFront", {
       uri: newMenu.assets[0].uri,
-      name: 'menu.jpg',
-      type: 'image/jpeg',
+      name: "menu.jpg",
+      type: "image/jpeg",
     });
 
-
     fetch(`${BACK_URL}/menus`, {
-      method: 'POST',
+      method: "POST",
       body: formData,
-    }).then((response) => response.json())
+    })
+      .then((response) => response.json())
       .then((data) => {
         if (data.result) {
           //  console.log("DATA>>>>>>>>>>", data)
-          Alert.alert('Info', 'menu ajouté avec succès');
+          Alert.alert("Info", "menu ajouté avec succès");
         }
-
       });
-  }
-
-
+  };
 
   //PUBLICATION D'UNE ACTU
 
   const handleAddActu = () => {
     const newActu = {
       content: actus,
-    }
+    };
 
     fetch(`${BACK_URL}/actus`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newActu),
     })
       .then((response) => response.json())
@@ -325,7 +372,7 @@ LocaleConfig.defaultLocale = 'fr';
         if (data.result) {
           setActus([actus]);
           setModalActuVisible(false);
-          setActus('');
+          setActus("");
         } else {
           console.error("Erreur d'ajout :", data.error);
         }
@@ -336,281 +383,213 @@ LocaleConfig.defaultLocale = 'fr';
 
   return (
     <SafeAreaView style={[globalStyles.safeArea]}>
-    <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={40}
-    >
-       <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
-  <View style={globalStyles.container}>
-    <View style={[styles.header, globalStyles.container]}>
-      <Image style={styles.logo} source={require('../assets/logo.png')} />
-      <Text style={globalStyles.title}>Quoi de neuf ?</Text>
-    </View>
-
-      <Calendar
-      
-        firstDay={1}
-        onDayPress={onDayPress}
-        markedDates={markedDates}
-        markingType={'multi-dot'}
-        current={currentDate}
-        theme={{
-          selectedDayBackgroundColor: '#67AFAC',
-          todayTextColor: '#67AFAC',
-          arrowColor: '#67AFAC',
-        }}
-        locale={"fr"}
-
-      />
-
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
+      <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+      <View style={globalStyles.header}>
+        <Text style={globalStyles.headerTitleNoReturn}>Quoi de neuf ?</Text>
+      </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={40}
       >
-        <View style={{ flex: 1, padding: 20, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-            Événements du {formatDate(selectedDate)}
-          </Text>
+        <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+        <View style={globalStyles.containerFull}>
+            <Calendar
+              firstDay={1}
+              onDayPress={onDayPress}
+              markedDates={markedDates}
+              markingType={"multi-dot"}
+              current={currentDate}
+              theme={{
+                selectedDayBackgroundColor: "#67AFAC",
+                todayTextColor: "#67AFAC",
+                arrowColor: "#67AFAC",
+              }}
+              locale={"fr"}
+            />
 
-          {selectedDateEvents.length > 0 ? (
-            selectedDateEvents.map((event, index) => (
-              <View key={index} style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
-                <Text>Classe : {event.classe?.name} </Text>
-                <Text>Événement : {event.description}</Text>
-                <TouchableOpacity onPress={() => deleteEvent(event._id)} style={styles.deleteIcon}>
-                  <FontAwesome name="trash" size={24} color="#4A7B59" />
+            <Modal
+              visible={modalVisible}
+              animationType="slide"
+              onRequestClose={() => setModalVisible(false)}
+            >
+              <View
+                style={homeStyles.containerAgenda}
+              >
+                <Text style={homeStyles.title}>
+                  Événements du {formatDate(selectedDate)}
+                </Text>
+
+                {selectedDateEvents.length > 0 ? (
+                  selectedDateEvents.map((event, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        padding: 10,
+                        borderBottomWidth: 1,
+                        borderBottomColor: "#ccc",
+                      }}
+                    >
+                      <Text>Classe : {event.classe?.name} </Text>
+                      <Text>Événement : {event.description}</Text>
+                      <TouchableOpacity
+                        onPress={() => deleteEvent(event._id)}
+                        
+                      >
+                        <FontAwesome style={homeStyles.deleteIcon} name="trash" size={24} color="#4A7B59" />
+                      </TouchableOpacity>
+                    </View>
+                  ))
+                ) : (
+                  <Text>Aucun événement pour cette date.</Text>
+                )}
+
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  style={{ marginTop: 20 }}
+                >
+                  <Text style={{ color: "#67AFAC" }}>Fermer</Text>
                 </TouchableOpacity>
-
               </View>
-            ))
-          ) : (
-            <Text>Aucun événement pour cette date.</Text>
-          )}
+            </Modal>
+            {/* Dernière actu de l'école */}
+            <View style={homeStyles.lastActuContainer}>
+              <Text style={homeStyles.lastActuTitle}> Dernière actu : </Text>
+              <Text style={homeStyles.lastActuContent}>{lastActu}</Text>
+            </View>
 
-
-          <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 20 }}>
-            <Text style={{ color: '#67AFAC' }}>Fermer</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-      {/* Dernière actu de l'école */}
-      <View style={styles.lastActuContainer}>
-        <Text style={styles.actuTitle}> Dernière actu : </Text>
-        <Text style={styles.actuContent}>{lastActu}</Text>
-      </View>
-
-      {/* TEACHER VIEW  ---- Modal pour nouvel événement */}
-      <View style={styles.teacherButtons}>
-        <TouchableOpacity onPress={() => handleOpenModal()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}> Ajouter un évenement</Text>
-        </TouchableOpacity>
-
-        <Modal visible={modalEventVisible} animationType="fade" transparent>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={{ marginBottom: 10 }}>Nouvel évenement :</Text>
-              <Picker selectedValue={classe} onValueChange={(itemValue) => setClasse(itemValue)} style={styles.input}>
-                <Picker.Item label="Classe" value="" />
-                {classes.map((classe) => (
-                  <Picker.Item key={classe._id} label={classe.name} value={classe._id} />
-                ))}
-              </Picker>
-              <TouchableOpacity onPress={openDatePicker} style={styles.input}>
-                <Text style={{ color: newDate ? '#000' : '#888' }}>{newDate || "Sélectionner une date"}</Text>
+            {/* TEACHER VIEW  ---- Modal pour nouvel événement */}
+            <View style={homeStyles.teacherButtons}>
+              <TouchableOpacity
+                onPress={() => handleOpenModal()}
+                style={homeStyles.button}
+                activeOpacity={0.8}
+              >
+                <Text style={homeStyles.addButton}> Ajouter un évenement</Text>
               </TouchableOpacity>
-              {showDatePicker && (
 
-                <DateTimePicker
-                  value={new Date()}
-                  mode="date"
-                  display="default"
-                  onChange={onDateChange}
-                />
+              <Modal
+                visible={modalEventVisible}
+                animationType="fade"
+                transparent
+              >
+                <View style={homeStyles.centeredView}>
+                  <View style={homeStyles.modalView}>
+                    <Text style={{ marginBottom: 10 }}>Nouvel évenement :</Text>
+                    <Picker
+                      selectedValue={classe}
+                      onValueChange={(itemValue) => setClasse(itemValue)}
+                      style={homeStyles.input}
+                    >
+                      <Picker.Item label="Classe" value="" />
+                      {classes.map((classe) => (
+                        <Picker.Item
+                          key={classe._id}
+                          label={classe.name}
+                          value={classe._id}
+                        />
+                      ))}
+                    </Picker>
+                    <TouchableOpacity
+                      onPress={openDatePicker}
+                      style={homeStyles.input}
+                    >
+                      <Text style={{ color: newDate ? "#000" : "#888" }}>
+                        {newDate || "Sélectionner une date"}
+                      </Text>
+                    </TouchableOpacity>
+                    {showDatePicker && (
+                      <DateTimePicker
+                        value={new Date()}
+                        mode="date"
+                        display="default"
+                        onChange={onDateChange}
+                      />
+                    )}
+                    <TextInput
+                      placeholder="Description de l'événement"
+                      onChangeText={(value) => setNewEvent(value)}
+                      value={newEvent}
+                      style={homeStyles.input}
+                    />
+                    <View style={homeStyles.validationButtons}>
+                      <TouchableOpacity
+                        onPress={() => handleNewEvent()}
+                        style={homeStyles.button}
+                        activeOpacity={0.8}
+                      >
+                        <Text style={homeStyles.addButton}> Ajouter </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => handleClose()}
+                        style={homeStyles.button}
+                        activeOpacity={0.8}
+                      >
+                        <Text style={homeStyles.closedButton}> Fermer </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
 
-              )}
-              <TextInput placeholder="Description de l'événement" onChangeText={(value) => setNewEvent(value)} value={newEvent} style={styles.input} />
-              <View style={styles.validationButtons}>
-                <TouchableOpacity onPress={() => handleNewEvent()} style={styles.button} activeOpacity={0.8}>
-                  <Text style={styles.textButton}>   Ajouter   </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleClose()} style={styles.button} activeOpacity={0.8}>
-                  <Text style={styles.textButton}>   Fermer   </Text>
-                </TouchableOpacity>
-              </View>
+              {/* POST NOUVELLE ACTU*/}
+
+              <TouchableOpacity
+                onPress={() => handleOpenActu()}
+                style={homeStyles.button}
+                activeOpacity={0.8}
+              >
+                <Text style={homeStyles.addButton}>Ajouter une actualité</Text>
+              </TouchableOpacity>
+
+              <Modal
+                visible={modalActuVisible}
+                animationType="fade"
+                transparent
+              >
+                <View style={homeStyles.centeredView}>
+                  <View style={homeStyles.modalView}>
+                    <TextInput
+                      maxLength={250}
+                      placeholder=" Nouvelle actualité... "
+                      onChangeText={(value) => setActus(value)}
+                      value={actus}
+                      style={homeStyles.inputActu}
+                      multiline={true}
+                      numberOfLines={4}
+                    />
+                    <View style={homeStyles.validationButtons}>
+                      <TouchableOpacity
+                        onPress={() => handleAddActu()}
+                        style={homeStyles.button}
+                        activeOpacity={0.8}
+                      >
+                        <Text style={homeStyles.addButton}> Ajouter </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => handleCloseActu()}
+                        style={homeStyles.button}
+                        activeOpacity={0.8}
+                      >
+                        <Text style={homeStyles.closedButton}> Fermer </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+
+              {/* UPLOAD MENU CANTINE*/}
+              <TouchableOpacity
+                onPress={() => uploadMenu()}
+                style={homeStyles.button}
+                activeOpacity={0.8}
+              >
+                 <Text style={homeStyles.addButton}>Ajouter un menu</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </Modal>
-
-        {/* POST NOUVELLE ACTU*/}
-
-        <TouchableOpacity onPress={() => handleOpenActu()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}> Ajouter une actualité </Text>
-        </TouchableOpacity>
-
-        <Modal visible={modalActuVisible} animationType="fade" transparent>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <TextInput maxLength={250} placeholder=" Nouvelle actualité... " onChangeText={(value) => setActus(value)} value={actus} style={styles.inputActu} multiline={true} numberOfLines={4} />
-              <View style={styles.validationButtons}>
-                <TouchableOpacity onPress={() => handleAddActu()} style={styles.button} activeOpacity={0.8}>
-                  <Text style={styles.textButton}>   Ajouter   </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleCloseActu()} style={styles.button} activeOpacity={0.8}>
-                  <Text style={styles.textButton}>   Fermer   </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-
-
-
-        {/* UPLOAD MENU CANTINE*/}
-        <TouchableOpacity onPress={() => uploadMenu()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}> Ajouter un menu </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-    </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  header: {
-
-    // height: 60,
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // marginBottom: 20,
-
-
-  },
-  titleHome: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#69AFAC',
-    flex: 1,
-    textAlign: 'center',
-    marginRight: 40,
-
-  },
-  logo: {
-    width: 70,
-    height: 70,
-    marginRight: 10,
-  },
- 
-  modalView: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 30,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  input: {
-    width: 200,
-    borderBottomColor: '#69AFAC',
-    borderBottomWidth: 1,
-    fontSize: 16,
-    paddingVertical: 8,
-  },
-  button: {
-    width: '20%',
-    backgroundColor: "#69AFAC",
-    paddingVertical: 8,
-    borderRadius: 8,
-    alignItems: "center",
-    marginHorizontal: 5,
-
-  },
-
-  textButton: {
-    color: "#FFFFFF",
-    fontSize: 10,
-    fontWeight: "600",
-    textAlign: 'center',
-    padding: 3
-  },
-  modalContent: {
-    backgroundColor: '#67AFAC',
-    padding: 20,
-    borderRadius: 10,
-    width: '80%',
-    color: 'white',
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: 'white',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  inputActu: {
-    width: 200,
-    borderBottomColor: '#69AFAC',
-    borderBottomWidth: 1,
-    fontSize: 16,
-    paddingVertical: 8,
-    padding: 40,
-  },
-  lastActuContainer: {
-    backgroundColor: "white",
-    borderWidth: 1.5,
-    borderColor: "#69AFAC",
-    borderRadius: 10,
-    padding: 20,
-    marginTop: 20,
-    alignItems: 'center',
-
-
-  },
-  actuTitle: {
-    textDecorationLine: 'underline',
-    color: "#69AFAC",
-    fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 10,
-
-  },
-  actuContent: {
-    color: "#69AFAC",
-    fontSize: 12,
-    fontWeight: "600",
-
-  },
-  teacherButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 20,
-    marginBottom: 5,
-
-  },
-  validationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 20,
-    marginBottom: 5,
-
-
-
-  }
-});

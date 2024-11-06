@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { Camera } from "expo-camera/legacy";
-import { buttonStyles } from "../styles/buttonStyles.js";
-import { globalStyles } from '../styles/globalStyles.js';
-import { useDispatch, useSelector } from "react-redux";
-import { login as loginParent } from "../reducers/parent.js";
-import { login as loginTeacher } from "../reducers/teacher.js";
+import { buttonStyles } from "../styles/buttonStyles";
+import { globalStyles } from '../styles/globalStyles';
+import { useDispatch } from "react-redux";
+import { login as loginParent } from "../reducers/parent";
+import { login as loginTeacher } from "../reducers/teacher";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 //const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //===> URL à adapter
-const BACKEND_ADDRESS = "http://localhost:3000";
+const BACKEND_ADDRESS = 'http://localhost:3000';
 
 export default function QRreaderScreen({ navigation }) 
 {
@@ -35,12 +35,10 @@ export default function QRreaderScreen({ navigation })
 			setScannedInfo(data); // Mettre l'info scannée dans l'état
 		}
 		console.log('data', data);
-		console.log('scannedInfo', scannedInfo);
+		// console.log('scannedInfo', scannedInfo);
 	};
 
 	const dispatch = useDispatch();
-	const parent = useSelector((state) => state.parent.value);
-	const teacher = useSelector((state) => state.teacher.value);
 
 	//-------------------------- Click Connexion ---------------------------------------------
 	const handleConnexion = () => {
@@ -51,9 +49,6 @@ export default function QRreaderScreen({ navigation })
 		const email = url.searchParams.get('email'); // Isoler paramètre email
 		const userType = url.searchParams.get('userType'); // Isoler paramètre userType
 
-		console.log('token', token);
-		console.log('email', email);
-		console.log('userType', userType);
 
 		if (!token || !email || !userType) {
 			setIsValidInfo(false);
@@ -70,7 +65,7 @@ export default function QRreaderScreen({ navigation })
 		})
 		.then((response) => response.json())
 		.then((dbData) => {
-			console.log("dbData", dbData); // console log de la réponse de la route / dataBase
+			// console.log("dbData", dbData); // console log de la réponse de la route / dataBase
 
 			if (!dbData.result) {
 				setIsValidInfo(false); // Si result : false, setIsValidInfo à false pour message d'erreur
@@ -78,30 +73,32 @@ export default function QRreaderScreen({ navigation })
 				console.log('dbDataOK');
 
 				if (userType === "parent") { // Si parent, MàJ reducer "parent" avec infos DB
-					dispatch(loginParent({
-						token: dbData.token,
-						email: dbData.email,
-						firstname: dbData.firstname,
-						lastname: dbData.lastname,
-						kids: dbData.kids,
-						id: dbData.id,
-						userType: dbData.userType,
-						username:dbData.username,
-					}));
+					// dispatch(loginParent({
+					// 	token: dbData.token,
+					// 	email: dbData.email,
+					// 	firstname: dbData.firstname,
+					// 	lastname: dbData.lastname,
+					// 	kids: dbData.kids,
+					// 	id: dbData.id,
+					// 	userType: dbData.userType,
+					// 	username:dbData.username,
+					// }));
+					dispatch(loginParent(dbData));
 					navigation.navigate("ParentTabNavigator");
 				} else { // Sinon, MàJ reducer "teacher" avec infos DB
-					dispatch(loginTeacher({ 
-						token: dbData.token,
-						email: dbData.email,
-						firstname: dbData.firstname,
-						lastname: dbData.lastname,
-						username: dbData.username,
-						classes: dbData.classes,
-						isAdmin: dbData.isAdmin,
-						id: dbData.id,
-						userType: dbData.userType,
-						username:dbData.username,
-					}));
+					// dispatch(loginTeacher({ 
+					// 	token: dbData.token,
+					// 	email: dbData.email,
+					// 	firstname: dbData.firstname,
+					// 	lastname: dbData.lastname,
+					// 	username: dbData.username,
+					// 	classes: dbData.classes,
+					// 	isAdmin: dbData.isAdmin,
+					// 	id: dbData.id,
+					// 	userType: dbData.userType,
+					// 	username:dbData.username,
+					// }));
+					dispatch(loginTeacher(dbData));
 					navigation.navigate("TeacherTabNavigator");
 				}
 			}
@@ -112,8 +109,8 @@ export default function QRreaderScreen({ navigation })
 		});
 	}
 
-		console.log("parent", parent);
-		console.log("teacher", teacher);
+		// console.log("reducer PARENT from page QRReader apres identification", parent);
+		// console.log("reducer TEACHER from page QRReader apres identification", teacher);
 
 		const handleReset = () => {setScannedInfo(null);} // Fonction callback bouton "Nouveau scan" = réinitialiser l'état scannedInfo
 	

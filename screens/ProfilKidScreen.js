@@ -12,10 +12,9 @@ import {
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles"; // Importation des styles pour les boutons
 import { globalStyles } from "../styles/globalStyles"; // Importation des styles globaux
-const BACKEND_ADDRESS = "http://localhost:3000"; // URL Backend
+const BACKEND_ADDRESS = 'http://localhost:3000'; // URL Backend
 import { useDispatch, useSelector } from "react-redux";
 import { updateKidInfo } from "../reducers/parent"; // Assurez-vous d'importer l'action
-import FontAwesome from "react-native-vector-icons/FontAwesome6";
 
 // Composant principal pour l'écran de profil
 export default function ProfilKidScreen({ navigation }) {
@@ -128,6 +127,12 @@ export default function ProfilKidScreen({ navigation }) {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
+      <View style={globalStyles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={globalStyles.backButton}>
+          <Text style={globalStyles.backText}>←</Text> 
+        </TouchableOpacity>
+        <Text style={globalStyles.headerTitle}>Profil de {parent.kids[0].firstname}</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -136,17 +141,20 @@ export default function ProfilKidScreen({ navigation }) {
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
             {/* Bouton de retour */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               
               onPress={() => navigation.navigate("Profil")}
             >
               <FontAwesome name="arrow-left" size={20} color="#4A7B59" solid />
             </TouchableOpacity>
 
-            <Text style={globalStyles.title}>Profil enfant</Text>
+            <Text style={globalStyles.title}>Profil enfant</Text> */}
             {/* Titre de la page */}
             {/* Champ de saisie pour le prénom de l'enfant */}
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                  Prénom
+            </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Prénom de l'enfant"
@@ -157,6 +165,9 @@ export default function ProfilKidScreen({ navigation }) {
             </View>
             {/* Champ de saisie pour le nom de l'enfant */}
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                  Nom
+            </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Nom de l'enfant"
@@ -167,6 +178,9 @@ export default function ProfilKidScreen({ navigation }) {
             </View>
             {/* Champ de saisie pour la date de naissance */}
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                  Date de naissance
+            </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Date de naissance"
@@ -177,6 +191,9 @@ export default function ProfilKidScreen({ navigation }) {
             </View>
             {/* Champ de saisie pour les allergies */}
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                  Entrer ses allergies
+            </Text>
               <TextInput
                 style={buttonStyles.input}
                 placeholder="Allergies"
@@ -187,6 +204,9 @@ export default function ProfilKidScreen({ navigation }) {
             </View>
             {/* Champ de saisie pour les habitudes */}
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                  Entrer ses habitudes de vie
+            </Text>
               <TextInput
                 style={buttonStyles.input}
                 placeholder="Habitudes"
@@ -197,6 +217,9 @@ export default function ProfilKidScreen({ navigation }) {
             </View>
             {/* Champ de saisie pour les informations supplémentaires */}
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                  Entrer toutes autres informations
+            </Text>
               <TextInput
                 style={buttonStyles.input}
                 placeholder="Informations diverses"
@@ -225,3 +248,55 @@ export default function ProfilKidScreen({ navigation }) {
     </SafeAreaView>
   );
 }
+
+// const styles = StyleSheet.create({
+//   header: {
+//     backgroundColor: '#67AFAC',
+//     height: 60,
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     paddingHorizontal: 15,
+//     elevation: 4, // Ombre pour l'en-tête
+//     // borderBottomLeftRadius: 20, // Arrondi en bas à gauche
+//     // borderBottomRightRadius: 20, // Arrondi en bas à droite
+//   },
+//   backButton: {
+//     marginRight: 0,
+//   },
+//   backText: {
+//     color: '#fff',
+//     fontSize: 28,
+//   },
+//   headerTitle: {
+//     color: '#fff',
+//     fontSize: 30,
+//     fontWeight: 'bold',
+//     flex: 0.9, // Permet d'utiliser l'espace disponible pour centrer le texte
+//     textAlign: 'center', // Centre le texte dans l'espace disponible
+//   },
+//   button: {
+//     paddingVertical: 8,
+//     borderRadius: 8,
+//     alignItems: "center",
+//     marginHorizontal: 5,
+//     flexDirection: 'row',
+
+//   },
+//   textButton: {
+//     color: "#121212",
+//     fontSize: 18,
+//     fontWeight: "600",
+//     textAlign: 'center',
+//     padding: 3
+//   },
+//   buttonContainerlogout: {
+//     marginTop: 20,
+//     flexDirection: 'row',
+//   },
+//   Text: {
+//     fontSize: 18,
+//     fontWeight: "600",
+//     textAlign: 'center',
+//     padding: 3
+//   }
+// });

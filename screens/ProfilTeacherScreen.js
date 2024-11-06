@@ -10,13 +10,16 @@ import {
   ScrollView,
   StatusBar,
   Modal,
+  Alert,
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEmail, logout } from "../reducers/teacher";
 
-//const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
+import FontAwesome from "react-native-vector-icons/FontAwesome6";
+
+//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 const emailRegex =
@@ -33,7 +36,9 @@ export default function ProfilTeacherScreen({ navigation }) {
   const [currentPassword, setCurrentPassword] = useState(""); // Ajouter un état pour le mot de passe actuel
   const [newPassword, setNewPassword] = useState(""); // Ajouter un état pour le nouveau mot de passe
   const [emailError, setEmailError] = useState(""); // Ajouter un état pour le message d'erreur de l'email
-
+  const [emailSuccessMessage, setEmailSuccessMessage] = useState(""); // Message de succès pour l'email
+  const [passwordSuccessMessage, setPasswordSuccessMessage] = useState(""); // Message de succès pour le mot de passe
+  const [error, setError] = useState(""); // Ajouter un état pour le message d'erreur du mot de passe
   // Accéder aux informations du teacher connecté depuis le Redux store
   const teacher = useSelector((state) => state.teacher.value); // Récupère les informations du teacher
   console.log(teacher); // Affiche les informations du teacher
@@ -42,11 +47,27 @@ export default function ProfilTeacherScreen({ navigation }) {
 
 
     // Fonction de déconnexion
-    const handleLogout = () => {
-      dispatch(logout()); // Appel de la fonction logout du reducer parent
-      navigation.navigate("Identification"); // Naviguer vers l'écran de connexion
-      console.log("teacher déconnecté"); //    Pour le débogage
-    };
+  // Fonction de déconnexion
+  const handleLogout = () => {
+    Alert.alert(
+      "Déconnexion",
+      "Êtes-vous sûr de vouloir vous déconnecter ?",
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        {
+          text: "Déconnexion",
+          onPress: () => {
+            dispatch(logout()); // Dispatcher l'action logout
+            navigation.navigate('Identification'); // Naviguer vers l'écran d'identification
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  };
 
   //---------------------- Fonction pour changer le mot de passe ------------------------------------------------------------------
   const handleChangePassword = () => {
@@ -162,7 +183,15 @@ export default function ProfilTeacherScreen({ navigation }) {
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-
+      <View style={globalStyles.header}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={globalStyles.backButton}
+        >
+          <Text style={globalStyles.backText}>←</Text>
+        </TouchableOpacity>
+        <Text style={globalStyles.headerTitle}>Mon profil</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -170,10 +199,12 @@ export default function ProfilTeacherScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Profil Enseignant</Text>
             {/* <View style={globalStyles.lineTitle} /> */}
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Prénom
+              </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Prénom de l'enseignant"
@@ -185,6 +216,9 @@ export default function ProfilTeacherScreen({ navigation }) {
             </View>
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Nom
+              </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Nom de l'enseignant"
@@ -196,6 +230,9 @@ export default function ProfilTeacherScreen({ navigation }) {
             </View>
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Email
+              </Text>
               <TextInput
                 style={[buttonStyles.input, buttonStyles.inputDisabled]}
                 placeholder="Email de l'enseignant"
@@ -226,6 +263,10 @@ export default function ProfilTeacherScreen({ navigation }) {
             >
               <View style={globalStyles.modalContainer}>
                 <View style={globalStyles.modalContent}>
+                <View style={buttonStyles.buttonContainer}>
+                  <Text style={buttonStyles.label}>
+                    Taper votre nouvel email
+                  </Text>
                   <TextInput
                     style={buttonStyles.input}
                     placeholder="Nouveau email"
@@ -233,10 +274,14 @@ export default function ProfilTeacherScreen({ navigation }) {
                     onChangeText={setNewEmail}
                     placeholderTextColor="#5e5e5e8a"
                   />
+                  </View>
                   {/* Affichage du message d'erreur pour l'email */}
                   {emailError ? (
-                    <Text style={{ color: "red", marginTop: 3 }}>
-                      {emailError}
+                    <Text style={globalStyles.errorMessage}>{emailError}</Text>
+                  ) : null}
+                  {emailSuccessMessage ? (
+                    <Text style={globalStyles.successMessage}>
+                      {emailSuccessMessage}
                     </Text>
                   ) : null}
                   <View style={buttonStyles.buttonContainer}>
@@ -244,7 +289,7 @@ export default function ProfilTeacherScreen({ navigation }) {
                       style={buttonStyles.button}
                       onPress={() => {
                         handleChangeEmail();
-                        setEmailModalVisible(false);
+                        //setEmailModalVisible(false);
                       }}
                     >
                       <Text style={buttonStyles.buttonText}>Valider</Text>
@@ -260,8 +305,7 @@ export default function ProfilTeacherScreen({ navigation }) {
                 </View>
               </View>
             </Modal>
-
-            {/* Bouton pour changer le mot de passe */}
+                        {/* Bouton pour changer le mot de passe */}
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity
                 style={buttonStyles.button}
@@ -274,8 +318,8 @@ export default function ProfilTeacherScreen({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            {/* Modal pour changer le mot de passe */}
-            <Modal
+           {/* Modal pour changer le mot de passe */}
+           <Modal
               transparent={true}
               visible={passwordModalVisible}
               onRequestClose={() => setPasswordModalVisible(false)}
@@ -283,10 +327,14 @@ export default function ProfilTeacherScreen({ navigation }) {
             >
               <View style={globalStyles.modalContainer}>
                 <View style={globalStyles.modalContent}>
-                  <Text style={globalStyles.modalTitle}>
+                  {/* <Text style={globalStyles.modalTitle}>
                     Changer le mot de passe
-                  </Text>
+                  </Text> */}
+
                   <View style={buttonStyles.buttonContainer}>
+                    <Text style={buttonStyles.label}>
+                      Taper votre ancien mot de passe
+                    </Text>
                     <TextInput
                       style={buttonStyles.input}
                       placeholder="Mot de passe actuel"
@@ -297,6 +345,9 @@ export default function ProfilTeacherScreen({ navigation }) {
                     />
                   </View>
                   <View style={buttonStyles.buttonContainer}>
+                    <Text style={buttonStyles.label}>
+                      Taper votre nouveau mot de passe
+                    </Text>
                     <TextInput
                       style={buttonStyles.input}
                       placeholder="Nouveau mot de passe"
@@ -305,13 +356,21 @@ export default function ProfilTeacherScreen({ navigation }) {
                       secureTextEntry={true}
                       placeholderTextColor="#5e5e5e8a"
                     />
+                    {error ? (
+                      <Text style={globalStyles.errorMessage}>{error}</Text>
+                    ) : null}
+                    {passwordSuccessMessage ? (
+                      <Text style={globalStyles.successMessage}>
+                        {passwordSuccessMessage}
+                      </Text>
+                    ) : null}
                   </View>
                   <View style={buttonStyles.buttonContainer}>
                     <TouchableOpacity
                       style={buttonStyles.button}
                       onPress={() => {
                         handleChangePassword();
-                        setPasswordModalVisible(false);
+                        //setPasswordModalVisible(false);
                       }}
                     >
                       <Text style={buttonStyles.buttonText}>Valider</Text>
@@ -326,28 +385,21 @@ export default function ProfilTeacherScreen({ navigation }) {
                 </View>
               </View>
             </Modal>
-            <View
-              style={[
-                buttonStyles.buttonContainer,
-                buttonStyles.buttonContainerlogout,
-              ]}
-            >
-              <TouchableOpacity
-                style={buttonStyles.button}
-                onPress={() => handleLogout()} 
-              >
-                <Text
-                  style={[
-                    buttonStyles.buttonText,
-                    buttonStyles.buttonTextLogout,
-                  ]}
-                >
-                  Deconnexion
-                </Text>
-              </TouchableOpacity>
             </View>
-          </View>
+            
         </ScrollView>
+            {/* Bouton de déconnexion fixe en bas */}
+    <View style={buttonStyles.logoutContainer}>
+      <TouchableOpacity
+        style={buttonStyles.logoutButton}
+        onPress={handleLogout}
+      >
+         <FontAwesome name="right-from-bracket" size={20} color="#4A7B59" solid />
+        <Text style={[buttonStyles.buttonText, buttonStyles.buttonTextLogout, buttonStyles.logouttext]}>
+          Deconnexion
+        </Text>
+      </TouchableOpacity>
+    </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

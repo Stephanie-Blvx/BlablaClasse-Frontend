@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../reducers/parent";
+import { login } from "../reducers/parent";
 
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
@@ -19,7 +19,7 @@ import { globalStyles } from "../styles/globalStyles";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = 'http://192.168.5.28:3000'; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -83,18 +83,19 @@ export default function LoginParentScreen({ navigation }) {
             .then(() => {
               console.log('Token de la BDD stocké:', dbData.token);
               dispatch(
-                login({
-                  // dispatch de l'action login
-                  token: dbData.token, // Utiliser le token existant de la BDD
-                  email: dbData.email,
-                  firstname: dbData.firstname,
-                  lastname: dbData.lastname,
-                  kids: dbData.kids,
-                  username: dbData.username,
-                  id: dbData.id,
-                  userType: dbData.userType,
+                // login({
+                //   // dispatch de l'action login
+                //   token: dbData.token, // Utiliser le token existant de la BDD
+                //   email: dbData.email,
+                //   firstname: dbData.firstname,
+                //   lastname: dbData.lastname,
+                //   kids: dbData.kids,
+                //   username: dbData.username,
+                //   id: dbData.id,
+                //   userType: dbData.userType,
                   
-                })
+                // })
+                login(dbData) // dispatch de l'action login
               ); // si result = OK, MàJ reducer "parent" avec token et email et kids
               console.log('Dispatch effectué');
               navigation.navigate("ParentTabNavigator");
@@ -123,7 +124,9 @@ export default function LoginParentScreen({ navigation }) {
     <SafeAreaView style={globalStyles.safeArea}>
       {/* Modifier la couleur de la barre d'état */}
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-
+      <View style={globalStyles.header}>
+        <Text style={globalStyles.headerTitleNoReturn}>Se connecter</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -131,16 +134,19 @@ export default function LoginParentScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter</Text>
+        
 
 {/* RETRAIT ICI DU QR CODE SCREEN   */}
 
             {!isValidEmail && (
-              <Text style={buttonStyles.error}>
+              <Text style={globalStyles.errorMessage}>
                 Email ou mot de passe invalide, veuillez réessayer
               </Text>
             )}
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Email
+              </Text>
               <TextInput //champ d'input email
                 style={[
                   buttonStyles.input,
@@ -158,6 +164,9 @@ export default function LoginParentScreen({ navigation }) {
             </View>
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Mot de passe
+              </Text>
               <TextInput //champ d'input password
                 style={[
                   buttonStyles.input,

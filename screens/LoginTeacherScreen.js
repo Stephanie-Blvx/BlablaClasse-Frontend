@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   TextInput,
@@ -12,13 +11,13 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../reducers/teacher";
+import { login } from "../reducers/teacher";
 
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
-const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+const BACKEND_ADDRESS = 'http://localhost:3000'; //-------> url Backend
 
 // email Regex
 const emailRegex =
@@ -64,18 +63,19 @@ export default function LoginTeacherScreen({ navigation }) {
         else {
           console.log(dbData);
           dispatch( // dispatch pour appeler les actions du reducer
-            login({
-              token: dbData.token,
-              email: dbData.email,
-              firstname: dbData.firstname,
-              lastname: dbData.lastname,
-              username: dbData.username,
-              classes: dbData.classes,
-              isAdmin: dbData.isAdmin,
-              id: dbData.id,
-              userType: dbData.userType,
-              isAdmin: dbData.isAdmin,
-            })
+            // login({
+            //   token: dbData.token,
+            //   email: dbData.email,
+            //   firstname: dbData.firstname,
+            //   lastname: dbData.lastname,
+            //   username: dbData.username,
+            //   classes: dbData.classes,
+            //   isAdmin: dbData.isAdmin,
+            //   id: dbData.id,
+            //   userType: dbData.userType,
+            //   isAdmin: dbData.isAdmin,
+            // })
+            login(dbData)
           ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");
         }
@@ -86,7 +86,9 @@ export default function LoginTeacherScreen({ navigation }) {
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#67AFAC" />
-
+      <View style={globalStyles.header}>
+        <Text style={globalStyles.headerTitleNoReturn}>Se connecter</Text>
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -94,7 +96,7 @@ export default function LoginTeacherScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            <Text style={globalStyles.title}>Se connecter</Text>
+
 
  {/* //-----------Lien QR Reader tranféré vers IdentificationScreen------------------------- */}
             {/* <View style={buttonStyles.buttonContainer}>
@@ -113,12 +115,15 @@ export default function LoginTeacherScreen({ navigation }) {
             </View> */}
 
             {!isValidEmail && (
-              <Text style={buttonStyles.error}>
+              <Text style={globalStyles.errorMessage}>
                 Email ou mot de passe invalide, veuillez réessayer
               </Text>
             )}
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Email
+              </Text>
               <TextInput
                 style={[
                   buttonStyles.input,
@@ -136,6 +141,9 @@ export default function LoginTeacherScreen({ navigation }) {
             </View>
 
             <View style={buttonStyles.inputContainer}>
+            <Text style={buttonStyles.label}>
+                    Mot de passe
+              </Text>
               <TextInput
                 style={[
                   buttonStyles.input,
