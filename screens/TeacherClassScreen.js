@@ -241,13 +241,13 @@ export default function TeacherClassScreen({ navigation }) {
       const base64Data = selectedImage.split(",")[1]; // Enlève le préfixe
       const imageBlob = new Blob(
         [
-          new Uint8Array(
-            atob(base64Data)
-              .split("")
-              .map((c) => c.charCodeAt(0))
+          new Uint8Array( //crée un tableau binaire pour initialiser le blob
+            atob(base64Data) //décode les donnees en base 64 et transforme en chaine de caracteres binaire
+              .split("") //sépare chaque caractère pour la lecture
+              .map((c) => c.charCodeAt(0)) //transforme chque caractère en son code ASP2
           ),
         ],
-        { type: "image/jpeg" }
+        { type: "image/jpeg" } //permet de reconnaîre le blob comme une image jpeg
       );
 
       formData.append("photoFromFront", imageBlob, "upload.jpg");
