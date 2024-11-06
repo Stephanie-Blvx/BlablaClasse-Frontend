@@ -191,7 +191,7 @@ export default function ParentHomeScreen() {
   if (status === "granted") {
     console.log("WHAT", data.menu.url);
 
-    // ---Télécharger le fichier---
+    // ---Télécharger le fichier dans la galerie---
     const result = await FileSystem.downloadAsync(data.menu.url, fileUri);
     console.log("RESULT", result);
     console.log("Fichier téléchargé avec succès :", result.uri);
