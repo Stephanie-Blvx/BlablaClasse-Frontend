@@ -33,7 +33,11 @@ export default function IdentificationScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-     
+            {/*Logo*/}
+            <Image
+              style={globalStyles.image}
+              source={require('../assets/logo.png')}
+            />
              {/*Navigation vers la page de QR Code reader*/}
             <View style={buttonStyles.buttonContainer}>
               <TouchableOpacity
