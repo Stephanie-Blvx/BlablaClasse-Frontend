@@ -18,8 +18,8 @@ import Pusher from "pusher-js/react-native";
 import { useSelector } from "react-redux";
 
 const pusher = new Pusher("62bd3eeee3b805e7b467", { cluster: "eu" });
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000";
-const BACKEND_ADDRESS = 'http://localhost:3000'
+
+const BACKEND_ADDRESS = 'https://blabla-classe-backend.vercel.app/'
 
 export default function ChatScreen({ navigation }) {
   const [messages, setMessages] = useState([]); // Tableau des messages
@@ -35,7 +35,10 @@ export default function ChatScreen({ navigation }) {
   console.log("teacher:", teacher);
   console.log("username:", username);
   console.log("userType:", userType);
-
+  const scrollToBottom = () => { // Fonction pour défiler jusqu'en bas
+    scrollViewRef.current?.scrollToEnd({ animated: true }); // Défiler jusqu'en bas
+  };
+  
   useEffect(() => {
     if (username) { // Si le nom d'utilisateur est défini
       const fetchMessages = async () => {
@@ -108,9 +111,7 @@ export default function ChatScreen({ navigation }) {
     scrollToBottom(); // Défiler jusqu'en bas
   };
 
-  const scrollToBottom = () => { // Fonction pour défiler jusqu'en bas
-    scrollViewRef.current?.scrollToEnd({ animated: true }); // Défiler jusqu'en bas
-  };
+  
 
   const formatDate = (dateString) => { // Fonction pour formater la date
     const date = new Date(dateString); // Créer une nouvelle date
