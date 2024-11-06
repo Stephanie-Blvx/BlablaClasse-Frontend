@@ -81,9 +81,9 @@ export default function ChatScreen({ navigation }) {
     }
   }, [username, userType]); // Déclenché à chaque changement de username ou userType
 
-  useEffect(() => { // Effet déclenché à chaque changement de messages
-    scrollToBottom(); // Défile automatiquement chaque fois que `messages` change
-  }, [messages]); // Déclenché à chaque changement de messages
+  // useEffect(() => { // Effet déclenché à chaque changement de messages
+  //   scrollToBottom(); // Défile automatiquement chaque fois que `messages` change
+  // }, [messages]); // Déclenché à chaque changement de messages
 
   const handleReceiveMessage = (data) => { // Fonction pour recevoir un message
     setMessages((prevMessages) => [...prevMessages, data]); // Ajouter le message reçu à la liste des messages
