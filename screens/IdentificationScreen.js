@@ -7,9 +7,8 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
-  Button
 } from "react-native";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUserTypeParent  } from '../reducers/parent';
 import { setUserTypeTeacher } from '../reducers/teacher';
 import { buttonStyles } from "../styles/buttonStyles";

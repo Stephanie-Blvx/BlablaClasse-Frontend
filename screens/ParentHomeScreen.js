@@ -4,8 +4,6 @@ import {
   Text,
   Modal,
   TouchableOpacity,
-  StyleSheet,
-  Image,
   Alert,
   StatusBar,
   SafeAreaView,
@@ -15,14 +13,12 @@ import {
 } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import * as FileSystem from "expo-file-system";
-
 import * as MediaLibrary from "expo-media-library";
 import { globalStyles } from "../styles/globalStyles";
-const BACK_URL = 'http://192.168.1.30:3000';
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
 
-const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 //Lien pour dl menu
@@ -177,7 +173,7 @@ export default function ParentHomeScreen() {
 
   const downloadMenu = async () => {
     //utiiser await
-    const response = await fetch(`${BACK_URL}/menus`);
+    const response = await fetch(`${BACKEND_ADDRESS}/menus`);
     const data = await response.json();
 
     if (data.result) {
