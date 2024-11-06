@@ -95,11 +95,13 @@ export const homeStyles = StyleSheet.create({
     fontSize: 12,
     marginVertical: 5,
   },
+  deleteButton: {
+    alignItems: "center",
+  },
   deleteIcon: {
     marginBottom: 10,
     marginTop: 10,
     color: "#8DBFA9",
-  
   },
   // Agenda
 

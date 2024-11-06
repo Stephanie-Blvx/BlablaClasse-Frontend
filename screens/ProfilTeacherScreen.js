@@ -250,7 +250,7 @@ export default function ProfilTeacherScreen({ navigation }) {
                 onPress={() => setEmailModalVisible(true)}
                 activeOpacity={0.8}
               >
-                <Text style={buttonStyles.buttonText}>Changer son email</Text>
+                <Text style={buttonStyles.buttonText}>Changer mon email</Text>
               </TouchableOpacity>
             </View>
 
@@ -313,7 +313,7 @@ export default function ProfilTeacherScreen({ navigation }) {
                 activeOpacity={0.8}
               >
                 <Text style={buttonStyles.buttonText}>
-                  Changer son mot de passe
+                  Changer mon mot de passe
                 </Text>
               </TouchableOpacity>
             </View>
