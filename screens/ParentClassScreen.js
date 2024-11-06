@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import Checkbox from "expo-checkbox";
 import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
-const BACK_URL = "http://192.168.1.30:3000";
+const BACK_URL = "http://192.168.5.28:3000";
 
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
   const [isChecked, setIsChecked] = useState(post.isRead);

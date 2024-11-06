@@ -22,26 +22,26 @@ const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
 export default function IdentificationScreen({ navigation }) {
 
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const handleUserTypeSelect = (type) => {
-    console.log(`selected user type: ${type}`);
+  // const handleUserTypeSelect = (type) => {
+  //   console.log(`selected user type: ${type}`);
     
-    if (type === 'parent') { // si parent   
-      dispatch(setParentUserType(type));  // appel de la fonction setUserType du reducer parent
-    } else if (type === 'teacher') { // si enseignant
-      dispatch(setTeacherUserType(type)); // appel de la fonction setUserType du reducer teacher
-    }
+    // if (type === 'parent') { // si parent   
+    //   dispatch(setParentUserType(type));  // appel de la fonction setUserType du reducer parent
+    // } else if (type === 'teacher') { // si enseignant
+    //   dispatch(setTeacherUserType(type)); // appel de la fonction setUserType du reducer teacher
+    // }
   
-    // setTimeout pour naviguer vers la page de connexion
-    setTimeout(() => { 
-      if (type === 'parent') { // si parent naviguer vers page LoginParent
-        navigation.navigate('LoginParent');
-      } else if (type === 'teacher') { // si enseignant naviguer vers page LoginTeacher
-        navigation.navigate('LoginTeacher');
-      }
-    }, 0);
-  };
+    // // setTimeout pour naviguer vers la page de connexion
+  //   setTimeout(() => { 
+  //     if (type === 'parent') { // si parent naviguer vers page LoginParent
+  //       navigation.navigate('LoginParent');
+  //     } else if (type === 'teacher') { // si enseignant naviguer vers page LoginTeacher
+  //       navigation.navigate('LoginTeacher');
+  //     }
+  //   }, 0);
+  // };
 
 
   //-------------------------------------------------JSX------------------------------------------
@@ -61,11 +61,11 @@ export default function IdentificationScreen({ navigation }) {
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
      
-            {/* <View style={globalStyles.lineTitle} /> */}
+             {/*Navigation vers la page de QR Code reader*/}
             <View style={buttonStyles.buttonContainer}>
-              <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
+              <TouchableOpacity
                 style={buttonStyles.transparentButton}
-                onPress={() => navigation.navigate('QRreader')} //naviguer vers page QRCodeScanner
+                onPress={() => navigation.navigate('QRreader')} 
               >
                 <Text style={buttonStyles.input}>Je scanne un QR Code</Text>
               </TouchableOpacity>
@@ -81,7 +81,7 @@ export default function IdentificationScreen({ navigation }) {
               <View style={buttonStyles.buttonContainer}>
                 <TouchableOpacity
                   style={buttonStyles.button}
-                  onPress={() => handleUserTypeSelect('parent')} 
+                  onPress={() =>  navigation.navigate('LoginParent')} 
                   activeOpacity={0.8}
                 >
                   <Text style={buttonStyles.buttonText}>Je suis parent</Text>
@@ -91,12 +91,10 @@ export default function IdentificationScreen({ navigation }) {
               <View style={buttonStyles.buttonContainer}>
                 <TouchableOpacity
                   style={buttonStyles.button}
-                  onPress={() => handleUserTypeSelect('teacher')} 
+                  onPress={() =>  navigation.navigate('LoginTeacher')} 
                   activeOpacity={0.8}
                 >
-                  <Text style={buttonStyles.buttonText}>
-                    Je suis enseignant
-                  </Text>
+                  <Text style={buttonStyles.buttonText}> Je suis enseignant</Text>                
                 </TouchableOpacity>
               </View>
             </View>
