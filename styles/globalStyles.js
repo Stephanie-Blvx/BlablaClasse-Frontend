@@ -158,4 +158,9 @@ export const globalStyles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
   },
+   image: {
+    width: 300, 
+    height: 300, //format carré
+    resizeMode: 'contain',  
+  },
 });
