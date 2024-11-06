@@ -23,11 +23,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../styles/globalStyles";
 import { homeStyles } from "../styles/homeStyles";
 
-<<<<<<< HEAD
 const BACK_URL = 'http://localhost:3000';
-=======
-const BACK_URL = "http://192.168.3.174:3000";
->>>>>>> f56f61ae0e598cae217ca6d049deb3377e79248b
 
 
 //const BACK_URL = "http://192.168.5.28:3000";

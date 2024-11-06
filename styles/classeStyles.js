@@ -150,12 +150,24 @@ export const classeStyles = StyleSheet.create({
     color: "#67AFAC",
     textAlign: "center",
   },
+  imagePreviewContainer: {
+    position: "relative", 
+    width: 100,
+    height: 100,
+    marginTop: 10,
+  },
   imagePreview: {
     width: "100%",
-    height: 200,
-    resizeMode: "cover",
-    borderRadius: 10,
-    marginTop: 10,
+    height: "100%",
+    borderRadius: 8,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 5, 
+    right: 5, 
+    backgroundColor: "rgba(255, 255, 255, 0.7)", 
+    borderRadius: 12,
+    padding: 2, 
   },
   iconContainer: {
     display: "flex",
