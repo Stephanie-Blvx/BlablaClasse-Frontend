@@ -10,6 +10,7 @@ import {
   ScrollView,
   StatusBar,
   Modal,
+  Alert,
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
@@ -46,11 +47,27 @@ export default function ProfilTeacherScreen({ navigation }) {
 
 
     // Fonction de déconnexion
-    const handleLogout = () => {
-      dispatch(logout()); // Appel de la fonction logout du reducer parent
-      navigation.navigate("Identification"); // Naviguer vers l'écran de connexion
-      console.log("teacher déconnecté"); //    Pour le débogage
-    };
+  // Fonction de déconnexion
+  const handleLogout = () => {
+    Alert.alert(
+      "Déconnexion",
+      "Êtes-vous sûr de vouloir vous déconnecter ?",
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        {
+          text: "Déconnexion",
+          onPress: () => {
+            dispatch(logout()); // Dispatcher l'action logout
+            navigation.navigate('Identification'); // Naviguer vers l'écran d'identification
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  };
 
   //---------------------- Fonction pour changer le mot de passe ------------------------------------------------------------------
   const handleChangePassword = () => {

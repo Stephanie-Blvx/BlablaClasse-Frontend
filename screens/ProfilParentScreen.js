@@ -10,13 +10,11 @@ import {
   ScrollView,
   StatusBar,
   Modal,
-  StyleSheet,
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { updateEmail } from "../reducers/parent.js";
-import FontAwesome from "react-native-vector-icons/FontAwesome6";
+import { updateEmail } from "../reducers/parent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BACKEND_ADDRESS = 'http://192.168.1.30:3000'; //-------> url Backend

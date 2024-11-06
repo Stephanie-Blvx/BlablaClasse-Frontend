@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   TextInput,
@@ -12,7 +11,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../reducers/teacher";
+import { login } from "../reducers/teacher";
 
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
@@ -64,18 +63,19 @@ export default function LoginTeacherScreen({ navigation }) {
         else {
           console.log(dbData);
           dispatch( // dispatch pour appeler les actions du reducer
-            login({
-              token: dbData.token,
-              email: dbData.email,
-              firstname: dbData.firstname,
-              lastname: dbData.lastname,
-              username: dbData.username,
-              classes: dbData.classes,
-              isAdmin: dbData.isAdmin,
-              id: dbData.id,
-              userType: dbData.userType,
-              isAdmin: dbData.isAdmin,
-            })
+            // login({
+            //   token: dbData.token,
+            //   email: dbData.email,
+            //   firstname: dbData.firstname,
+            //   lastname: dbData.lastname,
+            //   username: dbData.username,
+            //   classes: dbData.classes,
+            //   isAdmin: dbData.isAdmin,
+            //   id: dbData.id,
+            //   userType: dbData.userType,
+            //   isAdmin: dbData.isAdmin,
+            // })
+            login(dbData)
           ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");
         }

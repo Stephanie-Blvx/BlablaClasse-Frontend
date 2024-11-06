@@ -19,8 +19,7 @@ import Pusher from "pusher-js/react-native";
 import { useSelector } from "react-redux";
 
 const pusher = new Pusher("62bd3eeee3b805e7b467", { cluster: "eu" });
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000";
-const BACKEND_ADDRESS = "http://192.168.3.174:3000"
+const BACKEND_ADDRESS = "http://192.168.1.30:3000";
 
 export default function ChatScreen() {
   const [messages, setMessages] = useState([]); // Tableau des messages
@@ -122,12 +121,17 @@ export default function ChatScreen() {
 
   const handleReceiveMessage = (data) => {
     // Lorsqu'un message est reçu
-    setMessages((messages) => {
-      const updatedMessages = [...messages, data];
+    // setMessages((messages) => {
+    //   const updatedMessages = [...messages, data];
+    //   storeMessages(updatedMessages); // Stocker les messages
+    //   return updatedMessages; // Retourner les messages mis à jour
+    // });
+    setMessages((prevMessages) => {
+      const updatedMessages = [...prevMessages, data];
       storeMessages(updatedMessages); // Stocker les messages
-      return updatedMessages; // Retourner les messages mis à jour
+      return updatedMessages;
     });
-    scrollToBottom(); // Faire défiler vers le bas
+    //scrollToBottom(); // Faire défiler vers le bas
   };
 
   const handleSendMessage = () => {
@@ -142,7 +146,7 @@ export default function ChatScreen() {
       createdAt: new Date(), // Date de création
     };
 
-    fetch(`http://192.168.3.174:3000/message`, {
+    fetch(`${BACKEND_ADDRESS}/messages/`, {
       // Envoi du message au serveur
       method: "POST",
       headers: { "Content-Type": "application/json" },

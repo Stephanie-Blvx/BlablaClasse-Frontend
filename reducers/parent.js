@@ -9,24 +9,11 @@ export const parentSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.value.firstname = action.payload.firstname;
-      state.value.lastname = action.payload.lastname;
-      state.value.token = action.payload.token;
-      state.value.email = action.payload.email;
-      state.value.username = action.payload.username;
-      state.value.kids = action.payload.kids;
-      state.value.id = action.payload.id;
-      state.value.userType = action.payload.userType;
+      state.value = action.payload;
     },
     logout: (state) => {
-      state.value.token = null;
-      state.value.email = null;
-      state.value.kids = [];
-      state.value.userType = null;
-      state.value.firstname = null;
-      state.value.lastname = null;
-      state.value.username = null;
-      state.value.id = null;
+      // state.value.token = null;
+      state.value = initialState.value;
     },
     setUserTypeParent: (state, action) => {
       console.log('Updating user type:', action.payload);

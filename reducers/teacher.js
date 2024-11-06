@@ -8,27 +8,11 @@ export const teacherSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.value.firstname = action.payload.firstname;
-      state.value.lastname = action.payload.lastname;
-      state.value.token = action.payload.token;
-      state.value.email = action.payload.email;
-      state.value.username= action.payload.username;
-      state.value.classes= action.payload.classes;
-      state.value.id= action.payload.id;
-      state.value.isAdmin= action.payload.isAdmin;
-      state.value.userType = action.payload.userType;
+      state.value = action.payload;
 
     },
     logout: (state) => {
-        state.value.firstname = null;
-        state.value.lastname = null;
-        state.value.token = null;
-        state.value.email = null;
-        state.value.username= null;
-        state.value.classes= [];
-        state.value.id= null;
-        state.value.isAdmin= false;
-        state.value.userType =null; // Mettre à jour le type d'utilisateur
+        state.value = initialState.value; // Mettre à jour l 'état
     },
     setUserTypeTeacher: (state, action) => {
       console.log('Updating user type:', action.payload); 

@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import {
   Text,
   View,
-  TextInput,
+  Alert,
   KeyboardAvoidingView,
   SafeAreaView,
   Platform,
   TouchableOpacity,
   ScrollView,
-  StyleSheet,
   StatusBar,
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles";
@@ -24,11 +23,25 @@ export default function ProfilScreen({ navigation }) {
 
   // Fonction de déconnexion
   const handleLogout = () => {
-    dispatch(logout()); // Appel de la fonction logout du reducer parent
-    navigation.navigate("Identification"); // Naviguer vers l'écran de connexion
-    console.log("parent déconnecté"); //    Pour le débogage
+    Alert.alert(
+      "Déconnexion",
+      "Êtes-vous sûr de vouloir vous déconnecter ?",
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        {
+          text: "Déconnexion",
+          onPress: () => {
+            dispatch(logout()); // Dispatcher l'action logout
+            navigation.navigate('Identification'); // Naviguer vers l'écran d'identification
+          }
+        }
+      ],
+      { cancelable: false }
+    );
   };
-
   //-------------------------------------------------JSX------------------------------------------
   return (
     <SafeAreaView style={globalStyles.safeArea}>

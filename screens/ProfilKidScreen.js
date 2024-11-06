@@ -9,14 +9,12 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
-  StyleSheet,
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles"; // Importation des styles pour les boutons
 import { globalStyles } from "../styles/globalStyles"; // Importation des styles globaux
 const BACKEND_ADDRESS = "http://192.168.1.30:3000"; // URL Backend
 import { useDispatch, useSelector } from "react-redux";
 import { updateKidInfo } from "../reducers/parent"; // Assurez-vous d'importer l'action
-import FontAwesome from "react-native-vector-icons/FontAwesome6";
 
 // Composant principal pour l'écran de profil
 export default function ProfilKidScreen({ navigation }) {
