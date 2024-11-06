@@ -434,7 +434,7 @@ export default function TeacherHomeScreen() {
                       <Text>Événement : {event.description}</Text>
                       <TouchableOpacity
                         onPress={() => deleteEvent(event._id)}
-                        
+                        style={homeStyles.deleteButton}
                       >
                         <FontAwesome style={homeStyles.deleteIcon} name="trash" size={24} color="#4A7B59" />
                       </TouchableOpacity>

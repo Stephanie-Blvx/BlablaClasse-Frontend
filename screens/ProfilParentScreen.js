@@ -17,8 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateEmail } from "../reducers/parent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://192.168.5.28:3000"; //-------> url Backend
+// const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
+const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
 //const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 const emailRegex =
@@ -236,7 +236,7 @@ export default function ProfilParentScreen({ navigation }) {
                 onPress={() => setEmailModalVisible(true)}
                 activeOpacity={0.8}
               >
-                <Text style={buttonStyles.buttonText}>Changer son email</Text>
+                <Text style={buttonStyles.buttonText}>Changer mon email</Text>
               </TouchableOpacity>
             </View>
 
@@ -300,7 +300,7 @@ export default function ProfilParentScreen({ navigation }) {
                 activeOpacity={0.8}
               >
                 <Text style={buttonStyles.buttonText}>
-                  Changer son mot de passe
+                  Changer mon mot de passe
                 </Text>
               </TouchableOpacity>
             </View>

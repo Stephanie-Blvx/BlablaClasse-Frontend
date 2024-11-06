@@ -13,7 +13,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
-const BACK_URL = "http://192.168.3.174:3000";
+const BACK_URL = 'http://192.168.1.30:3000';
 import Checkbox from "expo-checkbox";
 
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
@@ -23,6 +23,11 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
     setIsChecked(newValue); // Mettre à jour l’état local de la checkbox
     onToggleReadStatus(postId, newValue); // Appeler la fonction pour mettre à jour dans la DB
   };
+
+  console.log("post.author.firstname", post.author.firstname);
+
+   // Vérification de la présence de `post.author` pour éviter l'erreur
+   const authorName = post.author ? `${post.author.firstname} @${post.author.username}` : "Auteur inconnu";
 
   return (
     <View
@@ -38,7 +43,7 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
         />
         <View style={classeStyles.authorInfo}>
           <Text style={classeStyles.messageInfos}>
-            {post.author.firstname} @{post.author.username}
+            {authorName}
           </Text>
           <Text>{new Date(post.creationDate).toLocaleString()}</Text>
         </View>
@@ -60,10 +65,7 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
           {post.title}
         </Text>
         <Text
-          style={[
-            classeStyles.messageContent,
-            { color: isChecked ? "black" : "#69AFAC" },
-          ]}
+          style={classeStyles.messageContent}
         >
           {post.content}
         </Text>
@@ -81,13 +83,16 @@ const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
 export default function ParentClassScreen({navigation}) {
   const [posts, setPosts] = useState([]);
   const parent = useSelector((state) => state.parent.value);
-  const childName = parent.kids[0].firstname;
+  const childName = parent.kids && parent.kids.length > 0 ? parent.kids[0].firstname : "Enfant"; // Récupérer le prénom du premier enfant de la liste des enfants du parent connecté ou "Enfant" par défaut si pas d'enfant dans la liste 
+
+  console.log("nom de mon enfant",childName);
 
   // Fetch des posts dans la db
   const fetchPosts = () => {
     fetch(`${BACK_URL}/posts`)
       .then((response) => response.json())
       .then((data) => {
+        console.log("data", data.posts);
         if (data.result) {
           const sortedPosts = data.posts.sort(
             (a, b) => new Date(b.creationDate) - new Date(a.creationDate)

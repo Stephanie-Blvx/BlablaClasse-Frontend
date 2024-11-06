@@ -8,9 +8,6 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-import { useDispatch } from 'react-redux';
-import { setUserTypeParent  } from '../reducers/parent';
-import { setUserTypeTeacher } from '../reducers/teacher';
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from "../styles/globalStyles";
 
@@ -19,31 +16,6 @@ const BACKEND_ADDRESS = "http://192.168.3.174:3000"; //-------> url Backend
 
 // Composant principal pour l'écran d'identification
 export default function IdentificationScreen({ navigation }) {
-
-
-  // const dispatch = useDispatch();
-
-  // const handleUserTypeSelect = (type) => {
-  //   console.log(`selected user type: ${type}`);
-    
-    // if (type === 'parent') { // si parent   
-    //   dispatch(setParentUserType(type));  // appel de la fonction setUserType du reducer parent
-    // } else if (type === 'teacher') { // si enseignant
-    //   dispatch(setTeacherUserType(type)); // appel de la fonction setUserType du reducer teacher
-    // }
-  
-    // // setTimeout pour naviguer vers la page de connexion
-  //   setTimeout(() => { 
-  //     if (type === 'parent') { // si parent naviguer vers page LoginParent
-  //       navigation.navigate('LoginParent');
-  //     } else if (type === 'teacher') { // si enseignant naviguer vers page LoginTeacher
-  //       navigation.navigate('LoginTeacher');
-  //     }
-  //   }, 0);
-  // };
-
-
-
 
   //-------------------------------------------------JSX------------------------------------------
   return (
