@@ -18,6 +18,7 @@ import { globalStyles } from "../styles/globalStyles";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 const BACKEND_ADDRESS = "https://blabla-classe-backend.vercel.app"; //-------> url Backend
 
 // email Regex
