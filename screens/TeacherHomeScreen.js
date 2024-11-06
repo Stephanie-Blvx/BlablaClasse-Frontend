@@ -26,7 +26,7 @@ import { homeStyles } from "../styles/homeStyles";
 const BACK_URL = 'http://192.168.1.30:3000';
 
 
-//const BACK_URL = "http://192.168.1.30:3000";
+//const BACK_URL = "http://192.168.5.28:3000";
 
 export default function TeacherHomeScreen() {
   const [markedDates, setMarkedDates] = useState({});

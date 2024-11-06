@@ -134,61 +134,64 @@ const TeacherTabNavigator = () => {
   );
 };
 
-// --------------------------------- StackNavigators Parent ---------------------------------
-const ParentStackNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Identification" component={IdentificationScreen} />
-      <Stack.Screen name="LoginParent" component={LoginParentScreen} />
-      <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
-      <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
-      <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
-      <Stack.Screen name="QRreader" component={QRreaderScreen} />
-    </Stack.Navigator>
-  );
-};
+// // --------------------------------- StackNavigators Parent ---------------------------------
+// const ParentStackNavigator = () => {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name="Identification" component={IdentificationScreen} />
+//       <Stack.Screen name="LoginParent" component={LoginParentScreen} />
+//       <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
+//       <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
+//       <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
+//       <Stack.Screen name="QRreader" component={QRreaderScreen} />
+//     </Stack.Navigator>
+//   );
+// };
 
 
-//  --------------------------------- StackNavigators Teacher ---------------------------------
-const TeacherStackNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Identification" component={IdentificationScreen} />
-      <Stack.Screen name="LoginTeacher" component={LoginTeacherScreen} />
-      <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
-      <Stack.Screen name="QRreader" component={QRreaderScreen} />
-    </Stack.Navigator>
-  );
-};
+// //  --------------------------------- StackNavigators Teacher ---------------------------------
+// const TeacherStackNavigator = () => {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name="Identification" component={IdentificationScreen} />
+//       <Stack.Screen name="LoginTeacher" component={LoginTeacherScreen} />
+//       <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
+//       <Stack.Screen name="QRreader" component={QRreaderScreen} />
+//     </Stack.Navigator>
+//   );
+// };
 
 
 // --------------------------------- AppNavigator ---------------------------------
-const AppNavigator = () => {
-  const parentUserType = useSelector((state) => state.parent.value.userType);
-  const teacherUserType = useSelector((state) => state.teacher.value.userType);
-  console.log('userTypeParent:', parentUserType);
-  console.log('userTypeTeacher:', teacherUserType);
+// const AppNavigator = () => {
+//   const parentUserType = useSelector((state) => state.parent.value.userType);
+//   const teacherUserType = useSelector((state) => state.teacher.value.userType);
+//   console.log('userTypeParent:', parentUserType);
+//   console.log('userTypeTeacher:', teacherUserType);
 
-  // const userType = parentUserType || teacherUserType;
-  const userType = (parentUserType || teacherUserType || '').toLowerCase();
+//   // const userType = parentUserType || teacherUserType;
+//   const userType = (parentUserType || teacherUserType || '').toLowerCase();
 
-  console.log('userType:', userType);
+//   console.log('userType:', userType);
 
  
-  return ( // NavigationContainer pour gérer la navigation dans l'application 
-    <NavigationContainer>
-        {userType === 'parent' ? (<ParentStackNavigator />) 
-      : userType === 'teacher' ? (<TeacherStackNavigator />) 
-      :                          (  <Stack.Navigator screenOptions={{ headerShown: false }}>
-                                    <Stack.Screen name="Identification" component={IdentificationScreen} />
-                                    <Stack.Screen name="QRreader" component={QRreaderScreen} />
-                                    <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
-                                    <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
-                                  </Stack.Navigator>
-                                )}
-    </NavigationContainer>
-  );
-};
+//   return ( // NavigationContainer pour gérer la navigation dans l'application 
+//     <NavigationContainer>
+//         {userType === 'parent' ? (<ParentStackNavigator />) 
+//       : userType === 'teacher' ? (<TeacherStackNavigator />) 
+//       :                          (  <Stack.Navigator screenOptions={{ headerShown: false }}>
+//                                     <Stack.Screen name="Identification" component={IdentificationScreen} />
+//                                     <Stack.Screen name="QRreader" component={QRreaderScreen} />
+//                                     <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
+//                                     <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
+//                                     {/* à enlever :*/}
+//                                     <Stack.Screen name="LoginParent" component={LoginParentScreen} />
+//                                     <Stack.Screen name="LoginTeacher" component={LoginTeacherScreen} />
+//                                   </Stack.Navigator>
+//                                 )}
+//     </NavigationContainer>
+//   );
+// };
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -220,7 +223,19 @@ export default function App() {
   return (
     
     <Provider store={store}> 
-      <AppNavigator />  
+      <NavigationContainer>
+                                 <Stack.Navigator screenOptions={{ headerShown: false }}>
+                                    <Stack.Screen name="Identification" component={IdentificationScreen} />
+                                    <Stack.Screen name="QRreader" component={QRreaderScreen} />
+                                    <Stack.Screen name="LoginParent" component={LoginParentScreen} />
+                                    <Stack.Screen name="LoginTeacher" component={LoginTeacherScreen} />
+                                    <Stack.Screen name="ParentTabNavigator" component={ParentTabNavigator} />
+                                    <Stack.Screen name="TeacherTabNavigator" component={TeacherTabNavigator} />
+                                    <Stack.Screen name="ProfilParent" component={ProfilParentScreen} />
+                                    <Stack.Screen name="ProfilKid" component={ProfilKidScreen} />
+                                  </Stack.Navigator>
+                                
+    </NavigationContainer>
     </Provider>
   );
 }
