@@ -18,11 +18,6 @@ import { globalStyles } from "../styles/globalStyles";
 const BACKEND_ADDRESS = "https://blabla-classe-backend.vercel.app";
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
-
-//const BACKEND_ADDRESS = "http://192.168.1.30:3000"; //-------> url Backend
-//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
-
-
 //Lien pour dl menu
 const fileUri = `${FileSystem.documentDirectory}menu.jpg`;
 

@@ -34,7 +34,10 @@ export default function ChatScreen({ navigation }) {
   console.log("teacher:", teacher);
   console.log("username:", username);
   console.log("userType:", userType);
-
+  const scrollToBottom = () => { // Fonction pour défiler jusqu'en bas
+    scrollViewRef.current?.scrollToEnd({ animated: true }); // Défiler jusqu'en bas
+  };
+  
   useEffect(() => {
     if (username) { // Si le nom d'utilisateur est défini
       const fetchMessages = async () => {
@@ -100,16 +103,20 @@ export default function ChatScreen({ navigation }) {
     fetch(`${BACKEND_ADDRESS}/messages/`, { // Requête POST vers la route /messages
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(payload), // Corps de la requête : le message à envoyer au format JSON 
+    }).then((response) => {
+      if (response.ok) { // Si la réponse est ok
+        setMessages((prevMessages) => [...prevMessages, payload]); // Mettre à jour les messages avec le nouveau message envoyé
+      } else {
+        console.error("Erreur lors de l'envoi du message :", response);
+      }
     });
 
     setMessageText(""); // Réinitialiser le champ de texte
    // scrollToBottom(); // Défiler jusqu'en bas
   };
 
-  // const scrollToBottom = () => { // Fonction pour défiler jusqu'en bas
-  //   scrollViewRef.current?.scrollToEnd({ animated: true }); // Défiler jusqu'en bas
-  // };
+  
 
   const formatDate = (dateString) => { // Fonction pour formater la date
     const date = new Date(dateString); // Créer une nouvelle date
@@ -123,13 +130,7 @@ export default function ChatScreen({ navigation }) {
     });
   };
 
-  if (!username) { 
-    return ( // Si le nom d'utilisateur n'est pas défini
-      <View style={globalStyles.centeredContainer}> 
-        <Text>Chargement des données...</Text> 
-      </View>
-    );
-  }
+
 
   return (
     <SafeAreaView style={[globalStyles.safeArea]}>

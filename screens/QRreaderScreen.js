@@ -8,7 +8,8 @@ import { login as loginParent } from "../reducers/parent";
 import { login as loginTeacher } from "../reducers/teacher";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const BACKEND_ADDRESS =  "https://blabla-classe-backend.vercel.app";
+
+const BACKEND_ADDRESS = 'https://blabla-classe-backend.vercel.app';
 
 export default function QRreaderScreen({ navigation }) 
 {
