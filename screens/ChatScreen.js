@@ -17,8 +17,9 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Pusher from "pusher-js/react-native";
 import { useSelector } from "react-redux";
 
-const pusher = new Pusher("62bd3eeee3b805e7b467", { cluster: "eu" });
 const BACKEND_ADDRESS = "https://blabla-classe-backend.vercel.app";
+const pusher = new Pusher("62bd3eeee3b805e7b467", { cluster: "eu" });
+
 
 export default function ChatScreen({ navigation }) {
   const [messages, setMessages] = useState([]); // Tableau des messages
