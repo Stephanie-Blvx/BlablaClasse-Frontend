@@ -81,9 +81,9 @@ export default function ChatScreen({ navigation }) {
     }
   }, [username, userType]); // Déclenché à chaque changement de username ou userType
 
-  // useEffect(() => { // Effet déclenché à chaque changement de messages
-  //   scrollToBottom(); // Défile automatiquement chaque fois que `messages` change
-  // }, [messages]); // Déclenché à chaque changement de messages
+  useEffect(() => { // Effet déclenché à chaque changement de messages
+    scrollToBottom(); // Défile automatiquement chaque fois que `messages` change
+  }, [messages]); // Déclenché à chaque changement de messages
 
   const handleReceiveMessage = (data) => { // Fonction pour recevoir un message
     setMessages((prevMessages) => [...prevMessages, data]); // Ajouter le message reçu à la liste des messages
@@ -103,7 +103,13 @@ export default function ChatScreen({ navigation }) {
     fetch(`${BACKEND_ADDRESS}/messages/`, { // Requête POST vers la route /messages
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(payload), // Corps de la requête : le message à envoyer au format JSON 
+    }).then((response) => {
+      if (response.ok) { // Si la réponse est ok
+        setMessages((prevMessages) => [...prevMessages, payload]); // Mettre à jour les messages avec le nouveau message envoyé
+      } else {
+        console.error("Erreur lors de l'envoi du message :", response);
+      }
     });
 
     setMessageText(""); // Réinitialiser le champ de texte
@@ -124,13 +130,7 @@ export default function ChatScreen({ navigation }) {
     });
   };
 
-  if (!username) { 
-    return ( // Si le nom d'utilisateur n'est pas défini
-      <View style={globalStyles.centeredContainer}> 
-        <Text>Chargement des données...</Text> 
-      </View>
-    );
-  }
+
 
   return (
     <SafeAreaView style={[globalStyles.safeArea]}>

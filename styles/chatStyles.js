@@ -53,12 +53,16 @@ export const chatStyles = StyleSheet.create({
    // marginBottom: 20,
   },
   messageRecieved: {
-    alignSelf: "flex-end",
-    alignItems: "flex-end",
-  },
-  messageSent: {
+    // alignSelf: "flex-end",
+    // alignItems: "flex-end",
     alignSelf: "flex-start",
     alignItems: "flex-start",
+  },
+  messageSent: {
+    alignSelf: "flex-end",
+    alignItems: "flex-end",
+    // alignSelf: "flex-start",
+    // alignItems: "flex-start",
   },
   messageSentBg: {
     backgroundColor: "#C6D3B7",
