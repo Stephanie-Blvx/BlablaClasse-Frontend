@@ -28,14 +28,14 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "bcbda8d2-b0e9-48f1-8e60-eea6635919a8"
+        "projectId": "4bdac17b-2587-43e8-bda0-38b7415ae420"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/bcbda8d2-b0e9-48f1-8e60-eea6635919a8"
+      "url": "https://u.expo.dev/4bdac17b-2587-43e8-bda0-38b7415ae420"
     }
   }
 }

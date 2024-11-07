@@ -104,12 +104,12 @@ export default function ChatScreen({ navigation }) {
     });
 
     setMessageText(""); // Réinitialiser le champ de texte
-    scrollToBottom(); // Défiler jusqu'en bas
+   // scrollToBottom(); // Défiler jusqu'en bas
   };
 
-  const scrollToBottom = () => { // Fonction pour défiler jusqu'en bas
-    scrollViewRef.current?.scrollToEnd({ animated: true }); // Défiler jusqu'en bas
-  };
+  // const scrollToBottom = () => { // Fonction pour défiler jusqu'en bas
+  //   scrollViewRef.current?.scrollToEnd({ animated: true }); // Défiler jusqu'en bas
+  // };
 
   const formatDate = (dateString) => { // Fonction pour formater la date
     const date = new Date(dateString); // Créer une nouvelle date
