@@ -28,22 +28,14 @@
     ],
     "extra": {
       "eas": {
-<<<<<<< HEAD
         "projectId": "d89d79a1-f376-4e04-a632-d838c810a14c"
-=======
-        "projectId": "a056a0f0-d665-49fa-904f-c04b77c7434e"
->>>>>>> StagingFrontGabriel
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-<<<<<<< HEAD
       "url": "https://u.expo.dev/d89d79a1-f376-4e04-a632-d838c810a14c"
-=======
-      "url": "https://u.expo.dev/a056a0f0-d665-49fa-904f-c04b77c7434e"
->>>>>>> StagingFrontGabriel
     }
   }
 }
