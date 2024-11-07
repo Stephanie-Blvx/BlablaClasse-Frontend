@@ -18,8 +18,8 @@ import { globalStyles } from "../styles/globalStyles";
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
 
-const BACKEND_ADDRESS = 'http://localhost:3000'; //-------> url Backend
-//const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
+//const BACKEND_ADDRESS = "https://blabla-classe-backend.vercel.app"; //-------> url Backend
+const BACKEND_ADDRESS = "http://localhost:3000"; //-------> url Backend
 
 
 //Lien pour dl menu

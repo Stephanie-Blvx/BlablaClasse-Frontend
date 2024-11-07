@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import { buttonStyles } from "../styles/buttonStyles"; // Importation des styles pour les boutons
 import { globalStyles } from "../styles/globalStyles"; // Importation des styles globaux
-const BACKEND_ADDRESS = 'http://localhost:3000'; // URL Backend
+//const BACKEND_ADDRESS = "https://blabla-classe-backend.vercel.app"; // URL Backend
+const BACKEND_ADDRESS = "http://localhost:3000"; // URL Backend
 import { useDispatch, useSelector } from "react-redux";
 import { updateKidInfo } from "../reducers/parent"; // Assurez-vous d'importer l'action
 

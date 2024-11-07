@@ -23,8 +23,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../styles/globalStyles";
 import { homeStyles } from "../styles/homeStyles";
 
-const BACK_URL = 'http://localhost:3000';
-
+//const BACK_URL = "http://localhost:3000";
+const BACK_URL = "https://blabla-classe-backend.vercel.app";
 
 //const BACK_URL = "http://192.168.5.28:3000";
 

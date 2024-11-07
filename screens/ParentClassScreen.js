@@ -13,7 +13,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
-const BACK_URL = 'http://localhost:3000';
+//const BACK_URL = "https://blabla-classe-backend.vercel.app"
+const BACK_URL = "http://localhost:3000";
 import Checkbox from "expo-checkbox";
 
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
