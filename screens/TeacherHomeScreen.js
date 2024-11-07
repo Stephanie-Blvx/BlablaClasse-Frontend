@@ -48,7 +48,7 @@ export default function TeacherHomeScreen() {
 
   //USESELECTOR à utiliser pour teacher ADMIN TO DO !!!
   const teacher = useSelector((state) => state.teacher.value);
-  console.log("TEACHER ADMIN USE SELECTOR???", teacher);
+ // console.log("TEACHER ADMIN USE SELECTOR???", teacher);
   //-------------------------------------------------------------
 
   // Configuration Calendar en FR
@@ -112,7 +112,7 @@ export default function TeacherHomeScreen() {
         e.classe && e.classe.color
           ? { color: e.classe.color }
           : { color: "blue" };
-      console.log("DOTS", e);
+     // console.log("DOTS", e);
       // Initialiser la date si elle n'existe pas encore dans `dates`
       if (!dates[date]) {
         dates[date] = { marked: true, dots: [], events: [] };
@@ -121,7 +121,7 @@ export default function TeacherHomeScreen() {
       // Ajouter le dot et l'événement
       dates[date].dots.push(dot);
       dates[date].events.push(e);
-      console.log("DATES", dates);
+      //console.log("DATES", dates);
     });
 
     return dates;
@@ -334,22 +334,26 @@ export default function TeacherHomeScreen() {
       type: "image/jpeg",
     });
     const formData = new FormData();
+    console.log("FORMDATA", JSON.stringify(formData))
     console.log("MENU.URI", newMenu);
     formData.append("menuFromFront", {
       uri: newMenu.assets[0].uri,
       name: "menu.jpg",
       type: "image/jpeg",
     });
-
+   
     fetch(`${BACK_URL}/menus`, {
       method: "POST",
-      body: formData,
+      body: formData ,
     })
       .then((response) => response.json())
       .then((data) => {
+        
         if (data.result) {
-          //  console.log("DATA>>>>>>>>>>", data)
+        
+           console.log("DATA>>>>>>>>>>", data)
           Alert.alert("Info", "menu ajouté avec succès");
+          
         }
       });
   };
