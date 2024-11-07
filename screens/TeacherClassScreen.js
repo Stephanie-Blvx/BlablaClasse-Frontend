@@ -19,9 +19,9 @@ import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
 import { buttonStyles } from "../styles/buttonStyles";
 import { homeStyles } from "../styles/homeStyles";
+import * as FileSystem from "expo-file-system";
 
 const BACK_URL = "https://blabla-classe-backend.vercel.app";
-
 const Message = ({ post, postId, onDeletePost, onUpdatePost }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -214,77 +214,83 @@ export default function TeacherClassScreen({ navigation }) {
   };
 
   //----------------------  Ajouter un post avec ou sans Image ----------------------
-  const handleAddPost = () => {
+  const handleAddPost = async () => {
     if (newTitle.length > 40 || newContent.length > 180) {
-      alert(
-        "Le titre doit être limité à 40 caractères et le contenu à 180 caractères."
-      );
+      alert("Le titre doit être limité à 40 caractères et le contenu à 180 caractères.");
       return;
     }
-    console.log("Image sélectionnée avant ajout :", selectedImage); // pour débogage
 
     const formData = new FormData();
     formData.append("title", newTitle);
     formData.append("content", newContent);
-    formData.append(
-      "author",
-      JSON.stringify({
-        id: teacher.id,
-        username: teacher.username,
-        firstname: teacher.firstname,
-      })
-    );
+    formData.append("author", JSON.stringify({
+      token: teacher.token,
+      username: teacher.username,
+      firstname: teacher.firstname,
+    }));
 
-    // Ajout de l'image au formData si elle existe
+
     if (selectedImage) {
-      console.log("Image sélectionnée :", selectedImage);
+      try {
+        // Log de l'image sélectionnée
+        console.log("Image sélectionnée:", selectedImage);
 
-      // Convertir l'URI de l'image en Blob
-      const base64Data = selectedImage.split(",")[1]; // Enlève le préfixe
-      const imageBlob = new Blob(
-        [
-          new Uint8Array( //crée un tableau binaire pour initialiser le blob
-            atob(base64Data) //décode les donnees en base 64 et transforme en chaine de caracteres binaire
-              .split("") //sépare chaque caractère pour la lecture
-              .map((c) => c.charCodeAt(0)) //transforme chque caractère en son code ASP2
-          ),
-        ],
-        { type: "image/jpeg" } //permet de reconnaîre le blob comme une image jpeg
-      );
+        const file = {
+          uri: selectedImage,
+          name: 'image.jpeg', // ou autre extension selon l'image
+          type: 'image/jpeg', // Type MIME de l'image
+        };
 
-      formData.append("photoFromFront", imageBlob, "upload.jpg");
-    } else {
-      console.log("Aucune image sélectionnée.");
+        // Ajouter le fichier image dans le FormData
+        formData.append("photoFromFront", file);
+
+        // Log pour vérifier le contenu du formData
+        console.log("FormData après ajout de l'image:", formData);
+
+      } catch (error) {
+        console.error("Erreur lors de la conversion de l'image:", error);
+        alert("Erreur lors de la conversion de l'image.");
+        return;
+      }
     }
 
+    // Envoi de la requête au serveur
     fetch(`${BACK_URL}/posts`, {
       method: "POST",
       body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data', // Envoi de données multipart/form-data
+      },
     })
       .then((response) => {
-        console.log("Réponse du serveur :", response);
+        if (!response.ok) {
+          // Si la réponse n'est pas OK, afficher les erreurs
+          return response.json().then((errorResponse) => {
+            console.error("Erreur de la réponse du serveur:", errorResponse);
+            throw new Error(`Erreur HTTP ${response.status}: ${response.statusText} - ${errorResponse.error || errorResponse.message}`);
+          });
+        }
         return response.json();
       })
       .then((result) => {
-        if (result.success) {
-          const newPostWithId = {
-            ...result.post,
-            cloudinaryId: result.post.cloudinaryId,
-          };
-          setPosts([newPostWithId, ...posts]);
+        if (result) {
+          setPosts([result.post, ...posts]);
           setModalVisible(false);
           setNewTitle("");
           setNewContent("");
           setSelectedImage(null);
         } else {
           console.error("Erreur d'ajout :", result.error);
+          alert("Erreur d'ajout du post.");
         }
       })
       .catch((error) => {
         console.error("Erreur lors de l'ajout du post : ", error);
-        alert("Erreur lors de l'ajout du post.");
+        alert(`Erreur lors de l'ajout du post: ${error.message}`);
       });
   };
+
+
 
   //----------------------  Ouvrir la bibliothèque  pour ajouter une image au post ----------------------
   const pickImage = async () => {

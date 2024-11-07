@@ -13,8 +13,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { globalStyles } from "../styles/globalStyles";
 import { classeStyles } from "../styles/classeStyles";
-const BACK_URL = 'https://blabla-classe-backend.vercel.app';
 import Checkbox from "expo-checkbox";
+
+const BACK_URL = 'https://blabla-classe-backend.vercel.app';
 
 const MessageWithCheckbox = ({ post, postId, onToggleReadStatus }) => {
   const [isChecked, setIsChecked] = useState(post.isRead);
