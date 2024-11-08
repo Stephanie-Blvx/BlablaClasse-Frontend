@@ -19,9 +19,9 @@ export const homeStyles = StyleSheet.create({
     marginBottom: 10,
   },
   lastActuContent: {
-    color: "#69AFAC",
-    fontSize: 12,
-    fontWeight: "600",
+    color: "#121212",
+    fontSize: 14,
+    fontWeight: "400",
   },
 
   // Agenda teacher

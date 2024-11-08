@@ -113,7 +113,7 @@ export const buttonStyles = StyleSheet.create({
   },
   buttonDownloadText: {
     color: "#69AFAC",
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "600",
   },
 
