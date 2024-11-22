@@ -61,18 +61,6 @@ export default function LoginTeacherScreen({ navigation }) {
         else {
           console.log(dbData);
           dispatch( // dispatch pour appeler les actions du reducer
-            // login({
-            //   token: dbData.token,
-            //   email: dbData.email,
-            //   firstname: dbData.firstname,
-            //   lastname: dbData.lastname,
-            //   username: dbData.username,
-            //   classes: dbData.classes,
-            //   isAdmin: dbData.isAdmin,
-            //   id: dbData.id,
-            //   userType: dbData.userType,
-            //   isAdmin: dbData.isAdmin,
-            // })
             login(dbData)
           ); //si result = OK, MàJ reducer "teacher" avec toutes ses infos
           navigation.navigate("TeacherTabNavigator");
@@ -97,21 +85,6 @@ export default function LoginTeacherScreen({ navigation }) {
 
 
  {/* //-----------Lien QR Reader tranféré vers IdentificationScreen------------------------- */}
-            {/* <View style={buttonStyles.buttonContainer}>
-              <TouchableOpacity //champ cliquable renvoi vers QRCode scanner
-                style={buttonStyles.transparentButton}
-                onPress={() => navigation.navigate("QRreader")} //naviguer vers page QRCodeScanner
-              >
-                <Text style={buttonStyles.input}>Je scanne un QR Code</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={globalStyles.dividerContainer}>
-              <View style={globalStyles.line} />
-              <Text style={globalStyles.orText}>OU</Text>
-              <View style={globalStyles.line} />
-            </View> */}
-
             {!isValidEmail && (
               <Text style={globalStyles.errorMessage}>
                 Email ou mot de passe invalide, veuillez réessayer
