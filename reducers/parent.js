@@ -1,7 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: { token: null, email: null, firstname: null, lastname: null, username: null, id  : null, kids: [], userType: null, },
+  value: { token: null, 
+           email: null, 
+           firstname: null, 
+           lastname: null, 
+           username: null, 
+           id  : null, 
+           kids: [], 
+           userType: null, },
 };
 
 export const parentSlice = createSlice({

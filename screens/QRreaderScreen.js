@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Camera } from "expo-camera/legacy";
+import { Camera } from "expo-camera";
 import { buttonStyles } from "../styles/buttonStyles";
 import { globalStyles } from '../styles/globalStyles';
 import { useDispatch } from "react-redux";
