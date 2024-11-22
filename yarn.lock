@@ -109,6 +109,16 @@
     picocolors "^1.0.0"
 
 "@babel/compat-data@^7.22.6", "@babel/compat-data@^7.25.9":
+"@babel/code-frame@^7.24.7":
+  version "7.26.2"
+  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.26.2.tgz#4b5fab97d33338eff916235055f0ebc21e573a85"
+  integrity sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==
+  dependencies:
+    "@babel/helper-validator-identifier" "^7.25.9"
+    js-tokens "^4.0.0"
+    picocolors "^1.0.0"
+
+"@babel/compat-data@^7.22.6", "@babel/compat-data@^7.25.9":
   version "7.26.0"
   resolved "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.26.0.tgz"
   integrity sha512-qETICbZSLe7uXv9VE8T/RWOdIE5qqyTucOt4zLYMafj2MRO271VGgLd4RACJMeBO37UPWhXiKMBk7YlJ0fOzQA==
@@ -140,17 +150,6 @@
   integrity sha512-/AIkAmInnWwgEAJGQr9vY0c66Mj6kjkE2ZPB1PurTRaRAh3U+J45sAQMjQDJdh4WbR3l0x5xkimXBKyBXXAu2w==
   dependencies:
     "@babel/parser" "^7.26.0"
-    "@babel/types" "^7.26.0"
-    "@jridgewell/gen-mapping" "^0.3.5"
-    "@jridgewell/trace-mapping" "^0.3.25"
-    jsesc "^3.0.2"
-
-"@babel/generator@^7.25.0":
-  version "7.26.2"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.26.2.tgz#87b75813bec87916210e5e01939a4c823d6bb74f"
-  integrity sha512-zevQbhbau95nkoxSq3f/DC/SC+EEOUZd3DYqfSkMhY2/wfSeaHV1Ew4vk8e+x8lja31IbyuUa2uQ3JONqKbysw==
-  dependencies:
-    "@babel/parser" "^7.26.2"
     "@babel/types" "^7.26.0"
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.25"
@@ -244,7 +243,7 @@
   resolved "https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.25.9.tgz"
   integrity sha512-kSMlyUVdWe25rEsRGviIgOWnoT/nfABVWlqt9N19/dIPWViAOW2s9wznP5tURbs/IDuNk4gPy3YdYRgH3uxhBw==
 
-"@babel/helper-remap-async-to-generator@^7.25.9":
+"@babel/helper-remap-async-to-generator@^7.18.9", "@babel/helper-remap-async-to-generator@^7.25.9":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/helper-remap-async-to-generator/-/helper-remap-async-to-generator-7.25.9.tgz"
   integrity sha512-IZtukuUeBbhgOcaW2s06OXTzVNJR0ybm4W5xC1opWFFJMZbwRj5LCk+ByYH7WdZPZTt8KnFwA8pvjN2yqcPlgw==
@@ -327,14 +326,17 @@
   dependencies:
     "@babel/types" "^7.26.0"
 
-"@babel/parser@^7.25.3", "@babel/parser@^7.26.2":
-  version "7.26.2"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.26.2.tgz#fd7b6f487cfea09889557ef5d4eeb9ff9a5abd11"
-  integrity sha512-DWMCZH9WA4Maitz2q21SRKHo9QXZxkDsbNZoVD62gusNtNBBqDg9i7uOhASfTfIGNzW+O+r7+jAlM8dwphcJKQ==
+"@babel/plugin-proposal-async-generator-functions@^7.0.0":
+  version "7.20.7"
+  resolved "https://registry.npmjs.org/@babel/plugin-proposal-async-generator-functions/-/plugin-proposal-async-generator-functions-7.20.7.tgz"
+  integrity sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==
   dependencies:
-    "@babel/types" "^7.26.0"
+    "@babel/helper-environment-visitor" "^7.18.9"
+    "@babel/helper-plugin-utils" "^7.20.2"
+    "@babel/helper-remap-async-to-generator" "^7.18.9"
+    "@babel/plugin-syntax-async-generators" "^7.8.4"
 
-"@babel/plugin-proposal-class-properties@^7.13.0":
+"@babel/plugin-proposal-class-properties@^7.13.0", "@babel/plugin-proposal-class-properties@^7.18.0":
   version "7.18.6"
   resolved "https://registry.npmjs.org/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.18.6.tgz"
   integrity sha512-cumfXOF0+nzZrrN8Rf0t7M+tF6sZc7vhQwYQck9q1/5w2OExlD+b4v4RpMJFaV1Z7WcDRgO6FqvxqxGlwo+RHQ==
@@ -351,13 +353,14 @@
     "@babel/helper-plugin-utils" "^7.25.9"
     "@babel/plugin-syntax-decorators" "^7.25.9"
 
-"@babel/plugin-proposal-export-default-from@^7.24.7":
+"@babel/plugin-proposal-export-default-from@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-proposal-export-default-from/-/plugin-proposal-export-default-from-7.25.9.tgz"
   integrity sha512-ykqgwNfSnNOB+C8fV5X4mG3AVmvu+WVxcaU9xHHtBb7PCrPeweMmPjGsn8eMaeJg6SJuoUuZENeeSWaarWqonQ==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
+"@babel/plugin-proposal-nullish-coalescing-operator@^7.13.8":
 "@babel/plugin-proposal-nullish-coalescing-operator@^7.13.8":
   version "7.18.6"
   resolved "https://registry.npmjs.org/@babel/plugin-proposal-nullish-coalescing-operator/-/plugin-proposal-nullish-coalescing-operator-7.18.6.tgz"
@@ -366,6 +369,7 @@
     "@babel/helper-plugin-utils" "^7.18.6"
     "@babel/plugin-syntax-nullish-coalescing-operator" "^7.8.3"
 
+"@babel/plugin-proposal-optional-chaining@^7.13.12":
 "@babel/plugin-proposal-optional-chaining@^7.13.12":
   version "7.21.0"
   resolved "https://registry.npmjs.org/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.21.0.tgz"
@@ -417,14 +421,14 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-export-default-from@^7.24.7":
+"@babel/plugin-syntax-export-default-from@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-syntax-export-default-from/-/plugin-syntax-export-default-from-7.25.9.tgz"
   integrity sha512-9MhJ/SMTsVqsd69GyQg89lYR4o9T+oDGv5F6IsigxxqFVOyR/IflDLYP8WDI1l8fkhNGGktqkvL5qwNCtGEpgQ==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-syntax-flow@^7.12.1", "@babel/plugin-syntax-flow@^7.25.9":
+"@babel/plugin-syntax-flow@^7.12.1", "@babel/plugin-syntax-flow@^7.18.0", "@babel/plugin-syntax-flow@^7.25.9":
   version "7.26.0"
   resolved "https://registry.npmjs.org/@babel/plugin-syntax-flow/-/plugin-syntax-flow-7.26.0.tgz"
   integrity sha512-B+O2DnPc0iG+YXFqOxv2WNuNU97ToWjOomUQ78DouOENWUaM5sVrmet9mcomUGQFwpJd//gvUagXBSdzO1fRKg==
@@ -466,7 +470,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.4"
 
-"@babel/plugin-syntax-nullish-coalescing-operator@^7.8.3":
+"@babel/plugin-syntax-nullish-coalescing-operator@^7.0.0", "@babel/plugin-syntax-nullish-coalescing-operator@^7.8.3":
   version "7.8.3"
   resolved "https://registry.npmjs.org/@babel/plugin-syntax-nullish-coalescing-operator/-/plugin-syntax-nullish-coalescing-operator-7.8.3.tgz"
   integrity sha512-aSff4zPII1u2QD7y+F8oDsz19ew4IGEJg9SVW+bqwpwtfFleiQDMdzA/R+UlWDzfnHFCxxleFT0PMIrR36XLNQ==
@@ -494,7 +498,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-optional-chaining@^7.8.3":
+"@babel/plugin-syntax-optional-chaining@^7.0.0", "@babel/plugin-syntax-optional-chaining@^7.8.3":
   version "7.8.3"
   resolved "https://registry.npmjs.org/@babel/plugin-syntax-optional-chaining/-/plugin-syntax-optional-chaining-7.8.3.tgz"
   integrity sha512-KoK9ErH1MBlCPxV0VANkXW2/dw4vlbGDrFgz8bmUsBGYkFRcbRwMh6cIJubdPrkxRwuGdtCk0v/wPTKbQgBjkg==
@@ -522,23 +526,14 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-arrow-functions@^7.24.7":
+"@babel/plugin-transform-arrow-functions@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-arrow-functions/-/plugin-transform-arrow-functions-7.25.9.tgz"
   integrity sha512-6jmooXYIwn9ca5/RylZADJ+EnSxVUS5sjeJ9UPk6RWRzXCmOJCy6dqItPJFpw2cuCangPK4OYr5uhGKcmrm5Qg==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-async-generator-functions@^7.25.4":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-async-generator-functions/-/plugin-transform-async-generator-functions-7.25.9.tgz#1b18530b077d18a407c494eb3d1d72da505283a2"
-  integrity sha512-RXV6QAzTBbhDMO9fWwOmwwTuYaiPbggWQ9INdZqAYeSHyG7FzQ+nOZaUUjNwKv9pV3aE4WFqFm1Hnbci5tBCAw==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-    "@babel/helper-remap-async-to-generator" "^7.25.9"
-    "@babel/traverse" "^7.25.9"
-
-"@babel/plugin-transform-async-to-generator@^7.24.7":
+"@babel/plugin-transform-async-to-generator@^7.20.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-async-to-generator/-/plugin-transform-async-to-generator-7.25.9.tgz"
   integrity sha512-NT7Ejn7Z/LjUH0Gv5KsBCxh7BH3fbLTV0ptHvpeMvrt3cPThHfJfst9Wrb7S8EvJ7vRTFI7z+VAvFVEQn/m5zQ==
@@ -547,22 +542,14 @@
     "@babel/helper-plugin-utils" "^7.25.9"
     "@babel/helper-remap-async-to-generator" "^7.25.9"
 
-"@babel/plugin-transform-block-scoping@^7.25.0":
+"@babel/plugin-transform-block-scoping@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-block-scoping/-/plugin-transform-block-scoping-7.25.9.tgz"
   integrity sha512-1F05O7AYjymAtqbsFETboN1NvBdcnzMerO+zlMyJBEz6WkMdejvGWw9p05iTSjC85RLlBseHHQpYaM4gzJkBGg==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-class-properties@^7.25.4":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-class-properties/-/plugin-transform-class-properties-7.25.9.tgz#a8ce84fedb9ad512549984101fa84080a9f5f51f"
-  integrity sha512-bbMAII8GRSkcd0h0b4X+36GksxuheLFjP65ul9w6C3KgAamI3JqErNgSrosX6ZPj+Mpim5VvEbawXxJCyEUV3Q==
-  dependencies:
-    "@babel/helper-create-class-features-plugin" "^7.25.9"
-    "@babel/helper-plugin-utils" "^7.25.9"
-
-"@babel/plugin-transform-classes@^7.25.4":
+"@babel/plugin-transform-classes@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-classes/-/plugin-transform-classes-7.25.9.tgz"
   integrity sha512-mD8APIXmseE7oZvZgGABDyM34GUmK45Um2TXiBUt7PnuAxrgoSVf123qUzPxEr/+/BHrRn5NMZCdE2m/1F8DGg==
@@ -574,7 +561,7 @@
     "@babel/traverse" "^7.25.9"
     globals "^11.1.0"
 
-"@babel/plugin-transform-computed-properties@^7.24.7":
+"@babel/plugin-transform-computed-properties@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-computed-properties/-/plugin-transform-computed-properties-7.25.9.tgz"
   integrity sha512-HnBegGqXZR12xbcTHlJ9HGxw1OniltT26J5YpfruGqtUHlz/xKf/G2ak9e+t0rVqrjXa9WOhvYPz1ERfMj23AA==
@@ -596,7 +583,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-flow-strip-types@^7.25.2", "@babel/plugin-transform-flow-strip-types@^7.25.9":
+"@babel/plugin-transform-flow-strip-types@^7.20.0", "@babel/plugin-transform-flow-strip-types@^7.25.9":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-flow-strip-types/-/plugin-transform-flow-strip-types-7.25.9.tgz"
   integrity sha512-/VVukELzPDdci7UUsWQaSkhgnjIWXnIyRpM02ldxaVoFK96c41So8JcKT3m0gYjyv7j5FNPGS5vfELrWalkbDA==
@@ -604,15 +591,7 @@
     "@babel/helper-plugin-utils" "^7.25.9"
     "@babel/plugin-syntax-flow" "^7.25.9"
 
-"@babel/plugin-transform-for-of@^7.24.7":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-for-of/-/plugin-transform-for-of-7.25.9.tgz#4bdc7d42a213397905d89f02350c5267866d5755"
-  integrity sha512-LqHxduHoaGELJl2uhImHwRQudhCM50pT46rIBNvtT/Oql3nqiS3wOwP+5ten7NpYSXrrVLgtZU3DZmPtWZo16A==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-    "@babel/helper-skip-transparent-expression-wrappers" "^7.25.9"
-
-"@babel/plugin-transform-function-name@^7.25.1":
+"@babel/plugin-transform-function-name@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-function-name/-/plugin-transform-function-name-7.25.9.tgz"
   integrity sha512-8lP+Yxjv14Vc5MuWBpJsoUCd3hD6V9DgBon2FVYL4jJgbnVQ9fTgYmonchzZJOVNgzEgbxp4OwAf6xz6M/14XA==
@@ -621,21 +600,14 @@
     "@babel/helper-plugin-utils" "^7.25.9"
     "@babel/traverse" "^7.25.9"
 
-"@babel/plugin-transform-literals@^7.25.2":
+"@babel/plugin-transform-literals@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-literals/-/plugin-transform-literals-7.25.9.tgz"
   integrity sha512-9N7+2lFziW8W9pBl2TzaNht3+pgMIRP74zizeCSrtnSKVdUl8mAjjOP2OOVQAfZ881P2cNjDj1uAMEdeD50nuQ==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-logical-assignment-operators@^7.24.7":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-logical-assignment-operators/-/plugin-transform-logical-assignment-operators-7.25.9.tgz#b19441a8c39a2fda0902900b306ea05ae1055db7"
-  integrity sha512-wI4wRAzGko551Y8eVf6iOY9EouIDTtPb0ByZx+ktDGHwv6bHFimrgJM/2T021txPZ2s4c7bqvHbd+vXG6K948Q==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-
-"@babel/plugin-transform-modules-commonjs@^7.13.8", "@babel/plugin-transform-modules-commonjs@^7.24.8", "@babel/plugin-transform-modules-commonjs@^7.25.9":
+"@babel/plugin-transform-modules-commonjs@^7.0.0", "@babel/plugin-transform-modules-commonjs@^7.13.8", "@babel/plugin-transform-modules-commonjs@^7.25.9":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.25.9.tgz"
   integrity sha512-dwh2Ol1jWwL2MgkCzUSOvfmKElqQcuswAZypBSUsScMXvgdT8Ekq5YA6TtqpTVWH+4903NmboMuH1o9i8Rxlyg==
@@ -644,7 +616,7 @@
     "@babel/helper-plugin-utils" "^7.25.9"
     "@babel/helper-simple-access" "^7.25.9"
 
-"@babel/plugin-transform-named-capturing-groups-regex@^7.24.7":
+"@babel/plugin-transform-named-capturing-groups-regex@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-named-capturing-groups-regex/-/plugin-transform-named-capturing-groups-regex-7.25.9.tgz"
   integrity sha512-oqB6WHdKTGl3q/ItQhpLSnWWOpjUJLsOCLVyeFgeTktkBSCiurvPOsyt93gibI9CmuKvTUEtWmG5VhZD+5T/KA==
@@ -652,21 +624,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.25.9"
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-nullish-coalescing-operator@^7.24.7":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-nullish-coalescing-operator/-/plugin-transform-nullish-coalescing-operator-7.25.9.tgz#bcb1b0d9e948168102d5f7104375ca21c3266949"
-  integrity sha512-ENfftpLZw5EItALAD4WsY/KUWvhUlZndm5GC7G3evUsVeSJB6p0pBeLQUnRnBCBx7zV0RKQjR9kCuwrsIrjWog==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-
-"@babel/plugin-transform-numeric-separator@^7.24.7":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-numeric-separator/-/plugin-transform-numeric-separator-7.25.9.tgz#bfed75866261a8b643468b0ccfd275f2033214a1"
-  integrity sha512-TlprrJ1GBZ3r6s96Yq8gEQv82s8/5HnCVHtEJScUj90thHQbwe+E5MLhi2bbNHBEJuzrvltXSru+BUxHDoog7Q==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-
-"@babel/plugin-transform-object-rest-spread@^7.12.13", "@babel/plugin-transform-object-rest-spread@^7.24.7":
+"@babel/plugin-transform-object-rest-spread@^7.12.13":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-object-rest-spread/-/plugin-transform-object-rest-spread-7.25.9.tgz"
   integrity sha512-fSaXafEE9CVHPweLYw4J0emp1t8zYTXyzN3UuG+lylqkvYd7RMrsOQ8TYx5RF231be0vqtFC6jnx3UmpJmKBYg==
@@ -675,29 +633,14 @@
     "@babel/helper-plugin-utils" "^7.25.9"
     "@babel/plugin-transform-parameters" "^7.25.9"
 
-"@babel/plugin-transform-optional-catch-binding@^7.24.7":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-optional-catch-binding/-/plugin-transform-optional-catch-binding-7.25.9.tgz#10e70d96d52bb1f10c5caaac59ac545ea2ba7ff3"
-  integrity sha512-qM/6m6hQZzDcZF3onzIhZeDHDO43bkNNlOX0i8n3lR6zLbu0GN2d8qfM/IERJZYauhAHSLHy39NF0Ctdvcid7g==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-
-"@babel/plugin-transform-optional-chaining@^7.24.8":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-optional-chaining/-/plugin-transform-optional-chaining-7.25.9.tgz#e142eb899d26ef715435f201ab6e139541eee7dd"
-  integrity sha512-6AvV0FsLULbpnXeBjrY4dmWF8F7gf8QnvTEoO/wX/5xm/xE1Xo8oPuD3MPS+KS9f9XBEAWN7X1aWr4z9HdOr7A==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-    "@babel/helper-skip-transparent-expression-wrappers" "^7.25.9"
-
-"@babel/plugin-transform-parameters@^7.22.15", "@babel/plugin-transform-parameters@^7.24.7", "@babel/plugin-transform-parameters@^7.25.9":
+"@babel/plugin-transform-parameters@^7.0.0", "@babel/plugin-transform-parameters@^7.20.7", "@babel/plugin-transform-parameters@^7.22.15", "@babel/plugin-transform-parameters@^7.25.9":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-parameters/-/plugin-transform-parameters-7.25.9.tgz"
   integrity sha512-wzz6MKwpnshBAiRmn4jR8LYz/g8Ksg0o80XmwZDlordjwEk9SxBzTWC7F5ef1jhbrbOW2DJ5J6ayRukrJmnr0g==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-private-methods@^7.24.7":
+"@babel/plugin-transform-private-methods@^7.22.5":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-private-methods/-/plugin-transform-private-methods-7.25.9.tgz"
   integrity sha512-D/JUozNpQLAPUVusvqMxyvjzllRaF8/nSrP1s2YGQT/W4LHK4xxsMcHjhOGTS01mp9Hda8nswb+FblLdJornQw==
@@ -705,7 +648,7 @@
     "@babel/helper-create-class-features-plugin" "^7.25.9"
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-private-property-in-object@^7.24.7":
+"@babel/plugin-transform-private-property-in-object@^7.22.11":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-private-property-in-object/-/plugin-transform-private-property-in-object-7.25.9.tgz"
   integrity sha512-Evf3kcMqzXA3xfYJmZ9Pg1OvKdtqsDMSWBDzZOPLvHiTt36E75jLDQo5w1gtRU95Q4E5PDttrTf25Fw8d/uWLw==
@@ -714,7 +657,7 @@
     "@babel/helper-create-class-features-plugin" "^7.25.9"
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-react-display-name@^7.24.7", "@babel/plugin-transform-react-display-name@^7.25.9":
+"@babel/plugin-transform-react-display-name@^7.0.0", "@babel/plugin-transform-react-display-name@^7.25.9":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-react-display-name/-/plugin-transform-react-display-name-7.25.9.tgz"
   integrity sha512-KJfMlYIUxQB1CJfO3e0+h0ZHWOTLCPP115Awhaz8U0Zpq36Gl/cXlpoyMRnUWlhNUBAzldnCiAZNvCDj7CrKxQ==
@@ -728,21 +671,21 @@
   dependencies:
     "@babel/plugin-transform-react-jsx" "^7.25.9"
 
-"@babel/plugin-transform-react-jsx-self@^7.24.7":
+"@babel/plugin-transform-react-jsx-self@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-react-jsx-self/-/plugin-transform-react-jsx-self-7.25.9.tgz"
   integrity sha512-y8quW6p0WHkEhmErnfe58r7x0A70uKphQm8Sp8cV7tjNQwK56sNVK0M73LK3WuYmsuyrftut4xAkjjgU0twaMg==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-react-jsx-source@^7.24.7":
+"@babel/plugin-transform-react-jsx-source@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-react-jsx-source/-/plugin-transform-react-jsx-source-7.25.9.tgz"
   integrity sha512-+iqjT8xmXhhYv4/uiYd8FNQsraMFZIfxVSqxxVSZP0WbbSAWvBXAul0m/zu+7Vv4O/3WtApy9pmaTMiumEZgfg==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-react-jsx@^7.25.2", "@babel/plugin-transform-react-jsx@^7.25.9":
+"@babel/plugin-transform-react-jsx@^7.0.0", "@babel/plugin-transform-react-jsx@^7.25.9":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-react-jsx/-/plugin-transform-react-jsx-7.25.9.tgz"
   integrity sha512-s5XwpQYCqGerXl+Pu6VDL3x0j2d82eiV77UJ8a2mDHAW7j9SWRqQ2y1fNo1Z74CdcYipl5Z41zvjj4Nfzq36rw==
@@ -761,15 +704,7 @@
     "@babel/helper-annotate-as-pure" "^7.25.9"
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-regenerator@^7.24.7":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-regenerator/-/plugin-transform-regenerator-7.25.9.tgz#03a8a4670d6cebae95305ac6defac81ece77740b"
-  integrity sha512-vwDcDNsgMPDGP0nMqzahDWE5/MLcX8sv96+wfX7as7LoF/kr97Bo/7fI00lXY4wUXYfVmwIIyG80fGZ1uvt2qg==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-    regenerator-transform "^0.15.2"
-
-"@babel/plugin-transform-runtime@^7.24.7":
+"@babel/plugin-transform-runtime@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.25.9.tgz"
   integrity sha512-nZp7GlEl+yULJrClz0SwHPqir3lc0zsPrDHQUcxGspSL7AKrexNSEfTbfqnDNJUO13bgKyfuOLMF8Xqtu8j3YQ==
@@ -781,14 +716,14 @@
     babel-plugin-polyfill-regenerator "^0.6.1"
     semver "^6.3.1"
 
-"@babel/plugin-transform-shorthand-properties@^7.24.7":
+"@babel/plugin-transform-shorthand-properties@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-shorthand-properties/-/plugin-transform-shorthand-properties-7.25.9.tgz"
   integrity sha512-MUv6t0FhO5qHnS/W8XCbHmiRWOphNufpE1IVxhK5kuN3Td9FT1x4rx4K42s3RYdMXCXpfWkGSbCSd0Z64xA7Ng==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-spread@^7.24.7":
+"@babel/plugin-transform-spread@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-spread/-/plugin-transform-spread-7.25.9.tgz"
   integrity sha512-oNknIB0TbURU5pqJFVbOOFspVlrpVwo2H1+HUIsVDvp5VauGGDP1ZEvO8Nn5xyMEs3dakajOxlmkNW7kNgSm6A==
@@ -796,14 +731,14 @@
     "@babel/helper-plugin-utils" "^7.25.9"
     "@babel/helper-skip-transparent-expression-wrappers" "^7.25.9"
 
-"@babel/plugin-transform-sticky-regex@^7.24.7":
+"@babel/plugin-transform-sticky-regex@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-sticky-regex/-/plugin-transform-sticky-regex-7.25.9.tgz"
   integrity sha512-WqBUSgeVwucYDP9U/xNRQam7xV8W5Zf+6Eo7T2SRVUFlhRiMNFdFz58u0KZmCVVqs2i7SHgpRnAhzRNmKfi2uA==
   dependencies:
     "@babel/helper-plugin-utils" "^7.25.9"
 
-"@babel/plugin-transform-typescript@^7.25.2", "@babel/plugin-transform-typescript@^7.25.9":
+"@babel/plugin-transform-typescript@^7.25.9", "@babel/plugin-transform-typescript@^7.5.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.25.9.tgz"
   integrity sha512-7PbZQZP50tzv2KGGnhh82GSyMB01yKY9scIjf1a+GfZCtInOWqUH5+1EBU4t9fyR5Oykkkc9vFTs4OHrhHXljQ==
@@ -814,7 +749,7 @@
     "@babel/helper-skip-transparent-expression-wrappers" "^7.25.9"
     "@babel/plugin-syntax-typescript" "^7.25.9"
 
-"@babel/plugin-transform-unicode-regex@^7.24.7":
+"@babel/plugin-transform-unicode-regex@^7.0.0":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-unicode-regex/-/plugin-transform-unicode-regex-7.25.9.tgz"
   integrity sha512-yoxstj7Rg9dlNn9UQxzk4fcNivwv4nUYz7fYXBaKxvw/lnmPuOm/ikoELygbYq68Bls3D/D+NBPHiLwZdZZ4HA==
@@ -865,14 +800,14 @@
     pirates "^4.0.6"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.10.1", "@babel/runtime@^7.10.4", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.7", "@babel/runtime@^7.18.0", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.5", "@babel/runtime@^7.23.2", "@babel/runtime@^7.23.6", "@babel/runtime@^7.23.9", "@babel/runtime@^7.24.4", "@babel/runtime@^7.24.7", "@babel/runtime@^7.24.8", "@babel/runtime@^7.25.0", "@babel/runtime@^7.25.6", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.10.1", "@babel/runtime@^7.10.4", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.7", "@babel/runtime@^7.18.0", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.5", "@babel/runtime@^7.23.2", "@babel/runtime@^7.23.6", "@babel/runtime@^7.23.9", "@babel/runtime@^7.24.4", "@babel/runtime@^7.24.7", "@babel/runtime@^7.24.8", "@babel/runtime@^7.25.0", "@babel/runtime@^7.25.6":
   version "7.26.0"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.26.0.tgz"
   integrity sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@babel/template@^7.25.0", "@babel/template@^7.25.9", "@babel/template@^7.3.3":
+"@babel/template@^7.0.0", "@babel/template@^7.25.9", "@babel/template@^7.3.3":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.25.9.tgz"
   integrity sha512-9DGttpmPvIxBb/2uwpVo3dqJ+O6RooAFOS+lB+xDqoE2PVCE8nfoHMdZLpfCQRLwvohzXISPZcgxt80xLfsuwg==
@@ -881,20 +816,7 @@
     "@babel/parser" "^7.25.9"
     "@babel/types" "^7.25.9"
 
-"@babel/traverse--for-generate-function-map@npm:@babel/traverse@^7.25.3":
-  version "7.25.9"
-  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.25.9.tgz#a50f8fe49e7f69f53de5bea7e413cd35c5e13c84"
-  integrity sha512-ZCuvfwOwlz/bawvAuvcj8rrithP2/N55Tzz342AkTvq4qaWbGfmCk/tKhNaV2cthijKrPAA8SRJV5WWe7IBMJw==
-  dependencies:
-    "@babel/code-frame" "^7.25.9"
-    "@babel/generator" "^7.25.9"
-    "@babel/parser" "^7.25.9"
-    "@babel/template" "^7.25.9"
-    "@babel/types" "^7.25.9"
-    debug "^4.3.1"
-    globals "^11.1.0"
-
-"@babel/traverse@^7.25.3", "@babel/traverse@^7.25.9":
+"@babel/traverse@^7.20.0", "@babel/traverse@^7.25.9":
   version "7.25.9"
   resolved "https://registry.npmjs.org/@babel/traverse/-/traverse-7.25.9.tgz"
   integrity sha512-ZCuvfwOwlz/bawvAuvcj8rrithP2/N55Tzz342AkTvq4qaWbGfmCk/tKhNaV2cthijKrPAA8SRJV5WWe7IBMJw==
@@ -907,7 +829,7 @@
     debug "^4.3.1"
     globals "^11.1.0"
 
-"@babel/types@^7.0.0", "@babel/types@^7.20.0", "@babel/types@^7.20.7", "@babel/types@^7.25.2", "@babel/types@^7.25.9", "@babel/types@^7.26.0", "@babel/types@^7.3.3":
+"@babel/types@^7.0.0", "@babel/types@^7.19.0", "@babel/types@^7.2.0", "@babel/types@^7.20.0", "@babel/types@^7.20.7", "@babel/types@^7.24.7", "@babel/types@^7.25.9", "@babel/types@^7.26.0", "@babel/types@^7.3.3":
   version "7.26.0"
   resolved "https://registry.npmjs.org/@babel/types/-/types-7.26.0.tgz"
   integrity sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==
@@ -952,50 +874,52 @@
   dependencies:
     uuid "^8.0.0"
 
-"@expo/cli@0.21.5":
-  version "0.21.5"
-  resolved "https://registry.yarnpkg.com/@expo/cli/-/cli-0.21.5.tgz#5b69244c77a83a9025cdd611719c3d79ad5c740d"
-  integrity sha512-hd0pC5ntZxon7IijOsqp5wPOMGtaQNvTPOc74EQc+WS+Cldd7cMNSKKVUI2X7Lrn2Zcje9ne/WgGCnMTjdcVgA==
+"@expo/cli@0.18.30":
+  version "0.18.30"
+  resolved "https://registry.npmjs.org/@expo/cli/-/cli-0.18.30.tgz"
+  integrity sha512-V90TUJh9Ly8stYo8nwqIqNWCsYjE28GlVFWEhAFCUOp99foiQr8HSTpiiX5GIrprcPoWmlGoY+J5fQA29R4lFg==
   dependencies:
-    "@0no-co/graphql.web" "^1.0.8"
     "@babel/runtime" "^7.20.0"
-    "@expo/code-signing-certificates" "^0.0.5"
-    "@expo/config" "~10.0.4"
-    "@expo/config-plugins" "~9.0.3"
-    "@expo/devcert" "^1.1.2"
-    "@expo/env" "~0.4.0"
-    "@expo/image-utils" "^0.6.0"
-    "@expo/json-file" "^9.0.0"
-    "@expo/metro-config" "~0.19.0"
+    "@expo/code-signing-certificates" "0.0.5"
+    "@expo/config" "~9.0.0-beta.0"
+    "@expo/config-plugins" "~8.0.8"
+    "@expo/devcert" "^1.0.0"
+    "@expo/env" "~0.3.0"
+    "@expo/image-utils" "^0.5.0"
+    "@expo/json-file" "^8.3.0"
+    "@expo/metro-config" "0.18.11"
     "@expo/osascript" "^2.0.31"
     "@expo/package-manager" "^1.5.0"
-    "@expo/plist" "^0.2.0"
-    "@expo/prebuild-config" "^8.0.16"
-    "@expo/rudder-sdk-node" "^1.1.1"
+    "@expo/plist" "^0.1.0"
+    "@expo/prebuild-config" "7.0.9"
+    "@expo/rudder-sdk-node" "1.1.1"
     "@expo/spawn-async" "^1.7.2"
     "@expo/xcpretty" "^4.3.0"
-    "@react-native/dev-middleware" "0.76.2"
-    "@urql/core" "^5.0.6"
-    "@urql/exchange-retry" "^1.3.0"
+    "@react-native/dev-middleware" "0.74.85"
+    "@urql/core" "2.3.6"
+    "@urql/exchange-retry" "0.3.0"
     accepts "^1.3.8"
-    arg "^5.0.2"
+    arg "5.0.2"
     better-opn "~3.0.2"
     bplist-creator "0.0.7"
     bplist-parser "^0.3.1"
     cacache "^18.0.2"
     chalk "^4.0.0"
     ci-info "^3.3.0"
-    compression "^1.7.4"
     connect "^3.7.0"
     debug "^4.3.4"
     env-editor "^0.4.1"
     fast-glob "^3.3.2"
+    find-yarn-workspace-root "~2.0.0"
     form-data "^3.0.1"
-    freeport-async "^2.0.0"
+    freeport-async "2.0.0"
     fs-extra "~8.1.0"
     getenv "^1.0.0"
-    glob "^10.4.2"
-    internal-ip "^4.3.0"
+    glob "^7.1.7"
+    graphql "15.8.0"
+    graphql-tag "^2.10.1"
+    https-proxy-agent "^5.0.1"
+    internal-ip "4.3.0"
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
     lodash.debounce "^4.0.8"
@@ -3640,10 +3564,10 @@ expo-asset@~11.0.1:
     invariant "^2.2.4"
     md5-file "^3.2.3"
 
-expo-camera@~16.0.5:
-  version "16.0.5"
-  resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-16.0.5.tgz#e99fe00e06f7fd9c11af9bc57c2ceff4c4141c3f"
-  integrity sha512-GmsqBl+to5oEy01kUXu2Ul5Z38ugSLlA7sd3f+2PVJHNFv1Gou0nbkGTx6k5JZrSiP/vxuP6QKPIg8rIJoeWGA==
+expo-camera@~15.0.16:
+  version "15.0.16"
+  resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-15.0.16.tgz#149f25304ae7d76ae55653ca16f947e9f437c782"
+  integrity sha512-FLE02DMqkjwsb7IugKAqQvBe6s+TCQeb5LupO1+r//wAhBwmHncOrc6zV95ZEC2f9PTPK34nFH/s8CDGiVzIAA==
   dependencies:
     invariant "^2.2.4"
 
@@ -3665,22 +3589,24 @@ expo-document-picker@~13.0.1:
   resolved "https://registry.yarnpkg.com/expo-document-picker/-/expo-document-picker-13.0.1.tgz#f8c70d11cd59d7e57d5065667893c277b1a8869e"
   integrity sha512-M3O3SDqubsRbVyY+Xu6V45K0/G1S1IqEdmVAnPkOiUU2eIEFfF5oP4KON4CsvEhO9IIunnpRr/oq9NQxb3SrEA==
 
-expo-eas-client@~0.13.0:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/expo-eas-client/-/expo-eas-client-0.13.1.tgz#ebca627f3f58a54906394eb3f5d22f41a1822618"
-  integrity sha512-IyeDiM6YSJG0c45kbuEo0qt76z0KTEZtisEFEtle+b+vfn9I3N+r3jbPscaI4yS3P6gpuoDyHv81YDVC6Dmkhw==
+expo-eas-client@~0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/expo-eas-client/-/expo-eas-client-0.12.0.tgz#e8b6f7d33873e6f630f37f7bfc41646ae7b0b2a9"
+  integrity sha512-Jkww9Cwpv0z7DdLYiRX0r4fqBEcI9cKqTn7cHx63S09JaZ2rcwEE4zYHgrXwjahO+tU2VW8zqH+AJl6RhhW4zA==
 
-expo-file-system@~18.0.3:
-  version "18.0.3"
-  resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-18.0.3.tgz#907f058f4f2e2bbbdb970280edf9be735e85c0de"
-  integrity sha512-HKe0dGW3FWYFi1F3THVnTRueTG7j0onmEpUJKRB4UbjeHD2723cn/EutcG216wvrJeebe8w3+00F8Z4xk+9Jrw==
-  dependencies:
-    web-streams-polyfill "^3.3.2"
+<<<<<<< HEAD
+expo-file-system@^17.0.1, expo-file-system@~17.0.1:
+=======
+expo-file-system@~17.0.1:
+>>>>>>> StagingFrontGabriel
+  version "17.0.1"
+  resolved "https://registry.npmjs.org/expo-file-system/-/expo-file-system-17.0.1.tgz"
+  integrity sha512-dYpnZJqTGj6HCYJyXAgpFkQWsiCH3HY1ek2cFZVHFoEc5tLz9gmdEgTF6nFHurvmvfmXqxi7a5CXyVm0aFYJBw==
 
-expo-font@~13.0.1:
-  version "13.0.1"
-  resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-13.0.1.tgz#3a7eed7a4238a352fc74a425fd8c020c5f122382"
-  integrity sha512-8JE47B+6cLeKWr5ql8gU6YsPHjhrz1vMrTqYMm72No/8iW8Sb/uL4Oc0dpmbjq3hLLXBY0xPBQOgU7FQ6Y04Vg==
+expo-font@~12.0.10:
+  version "12.0.10"
+  resolved "https://registry.npmjs.org/expo-font/-/expo-font-12.0.10.tgz"
+  integrity sha512-Q1i2NuYri3jy32zdnBaHHCya1wH1yMAsI+3CCmj9zlQzlhsS9Bdwcj2W3c5eU5FvH2hsNQy4O+O1NnM6o/pDaQ==
   dependencies:
     fontfaceobserver "^2.1.0"
 
@@ -3706,10 +3632,10 @@ expo-keep-awake@~14.0.1:
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-14.0.1.tgz#77c38feefa95c494aa167e6df5a6eacd17af2358"
   integrity sha512-c5mGCAIk2YM+Vsdy90BlEJ4ZX+KG5Au9EkJUIxXWlpnuKmDAJ3N+5nEZ7EUO1ZTheqoSBeAo4jJ8rTWPU+JXdw==
 
-expo-linking@~7.0.2:
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/expo-linking/-/expo-linking-7.0.2.tgz#0be1ec08a203f4f14e28252b4f8d7176579fed6f"
-  integrity sha512-bNm7LLfDwbgfs5wysK0ZhsL5gTJyYzBmK/E1IozcSpxezjXpIMDCVnkjDSfgcayGveOOGepMZk7x9zU2feYDMA==
+expo-linking@~6.3.1:
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/expo-linking/-/expo-linking-6.3.1.tgz#05aef8a42bd310391d0b00644be40d80ece038d9"
+  integrity sha512-xuZCntSBGWCD/95iZ+mTUGTwHdy8Sx+immCqbUBxdvZ2TN61P02kKg7SaLS8A4a/hLrSCwrg5tMMwu5wfKr35g==
   dependencies:
     expo-constants "~17.0.0"
     invariant "^2.2.4"
@@ -3721,10 +3647,10 @@ expo-local-authentication@~15.0.1:
   dependencies:
     invariant "^2.2.4"
 
-expo-manifests@~0.15.0:
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/expo-manifests/-/expo-manifests-0.15.3.tgz#61b9923c983b1f8ab3a65ba0a147b01a09ded6da"
-  integrity sha512-yXP7/AN9gRvnCMyGn2esaaDtY3RwiALMJThmGKqaHjlv9cLtiL23aCw5EiNddyI0eZnuHlotGf68Yagz+UZD/Q==
+expo-manifests@~0.14.0:
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/expo-manifests/-/expo-manifests-0.14.3.tgz#17854c45c8c9ced4a07031ae0838c38ac3115fbc"
+  integrity sha512-L3b5/qocBPiQjbW0cpOHfnqdKZbTJS7sA3mgeDJT+mWga/xYsdpma1EfNmsuvrOzjLGjStr1k1fceM9Bl49aqQ==
   dependencies:
     "@expo/config" "~10.0.4"
     expo-json-utils "~0.14.0"
@@ -3748,10 +3674,10 @@ expo-modules-autolinking@2.0.2:
     require-from-string "^2.0.2"
     resolve-from "^5.0.0"
 
-expo-modules-core@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-2.0.3.tgz#9e2750159891c3c3baa28bd2532bbb1147fc09f6"
-  integrity sha512-S/Ozg6NhLkMc7k+qSLzOtjCexuimkYXHM/PCZtbn53nkuNYyaLpfVfrsJsRWxLIMe8ftbm6cDrKlN5mJ6lNODg==
+expo-modules-core@1.12.26:
+  version "1.12.26"
+  resolved "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-1.12.26.tgz"
+  integrity sha512-y8yDWjOi+rQRdO+HY+LnUlz8qzHerUaw/LUjKPU/mX8PRXP4UUPEEp5fjAwBU44xjNmYSHWZDwet4IBBE+yQUA==
   dependencies:
     invariant "^2.2.4"
 
@@ -3815,26 +3741,24 @@ expo-updates@~0.26.7:
     ignore "^5.3.1"
     resolve-from "^5.0.0"
 
-expo@52:
-  version "52.0.7"
-  resolved "https://registry.yarnpkg.com/expo/-/expo-52.0.7.tgz#8e734de7b314657bf09812c0f66987523d0ed582"
-  integrity sha512-AXN+FmYF8jR+IUJCuETO9iuMZ2DdGpL175kvHveBM/cS4MQsF7oe1MTnCRLyXQ92BDUZlqjWqWTX1sY3ysPoZw==
+expo@^51.0.38:
+  version "51.0.38"
+  resolved "https://registry.yarnpkg.com/expo/-/expo-51.0.38.tgz#e4127b230454a34a507cfb9f1a2e4b3855cb0579"
+  integrity sha512-/B9npFkOPmv6WMIhdjQXEY0Z9k/67UZIVkodW8JxGIXwKUZAGHL+z1R5hTtWimpIrvVhyHUFU3f8uhfEKYhHNQ==
   dependencies:
     "@babel/runtime" "^7.20.0"
-    "@expo/cli" "0.21.5"
-    "@expo/config" "~10.0.4"
-    "@expo/config-plugins" "9.0.9"
-    "@expo/fingerprint" "0.11.2"
-    "@expo/metro-config" "0.19.4"
-    "@expo/vector-icons" "^14.0.0"
-    babel-preset-expo "~12.0.1"
-    expo-asset "~11.0.1"
-    expo-constants "~17.0.3"
-    expo-file-system "~18.0.3"
-    expo-font "~13.0.1"
-    expo-keep-awake "~14.0.1"
-    expo-modules-autolinking "2.0.2"
-    expo-modules-core "2.0.3"
+    "@expo/cli" "0.18.30"
+    "@expo/config" "9.0.4"
+    "@expo/config-plugins" "8.0.10"
+    "@expo/metro-config" "0.18.11"
+    "@expo/vector-icons" "^14.0.3"
+    babel-preset-expo "~11.0.15"
+    expo-asset "~10.0.10"
+    expo-file-system "~17.0.1"
+    expo-font "~12.0.10"
+    expo-keep-awake "~13.0.2"
+    expo-modules-autolinking "1.11.3"
+    expo-modules-core "1.12.26"
     fbemitter "^3.0.0"
     web-streams-polyfill "^3.3.2"
     whatwg-url-without-unicode "8.0.0-3"

@@ -50,7 +50,7 @@ export default function QRreaderScreen({ navigation })
 		const userType = url.searchParams.get('userType'); // Isoler paramètre userType
 
 
-		if (!token || !email || !userType) {
+		if (!token || !email || !userType) { 
 			setIsValidInfo(false);
 			return;
 		}
@@ -73,31 +73,9 @@ export default function QRreaderScreen({ navigation })
 				console.log('dbDataOK');
 
 				if (userType === "parent") { // Si parent, MàJ reducer "parent" avec infos DB
-					// dispatch(loginParent({
-					// 	token: dbData.token,
-					// 	email: dbData.email,
-					// 	firstname: dbData.firstname,
-					// 	lastname: dbData.lastname,
-					// 	kids: dbData.kids,
-					// 	id: dbData.id,
-					// 	userType: dbData.userType,
-					// 	username:dbData.username,
-					// }));
 					dispatch(loginParent(dbData));
 					navigation.navigate("ParentTabNavigator");
 				} else { // Sinon, MàJ reducer "teacher" avec infos DB
-					// dispatch(loginTeacher({ 
-					// 	token: dbData.token,
-					// 	email: dbData.email,
-					// 	firstname: dbData.firstname,
-					// 	lastname: dbData.lastname,
-					// 	username: dbData.username,
-					// 	classes: dbData.classes,
-					// 	isAdmin: dbData.isAdmin,
-					// 	id: dbData.id,
-					// 	userType: dbData.userType,
-					// 	username:dbData.username,
-					// }));
 					dispatch(loginTeacher(dbData));
 					navigation.navigate("TeacherTabNavigator");
 				}
@@ -109,8 +87,6 @@ export default function QRreaderScreen({ navigation })
 		});
 	}
 
-		// console.log("reducer PARENT from page QRReader apres identification", parent);
-		// console.log("reducer TEACHER from page QRReader apres identification", teacher);
 
 		const handleReset = () => {setScannedInfo(null);} // Fonction callback bouton "Nouveau scan" = réinitialiser l'état scannedInfo
 	

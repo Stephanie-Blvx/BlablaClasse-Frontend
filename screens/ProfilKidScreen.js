@@ -140,16 +140,7 @@ export default function ProfilKidScreen({ navigation }) {
       >
         <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
           <View style={globalStyles.container}>
-            {/* Bouton de retour */}
-            {/* <TouchableOpacity
-              
-              onPress={() => navigation.navigate("Profil")}
-            >
-              <FontAwesome name="arrow-left" size={20} color="#4A7B59" solid />
-            </TouchableOpacity>
-
-            <Text style={globalStyles.title}>Profil enfant</Text> */}
-            {/* Titre de la page */}
+    
             {/* Champ de saisie pour le prénom de l'enfant */}
             <View style={buttonStyles.inputContainer}>
             <Text style={buttonStyles.label}>
@@ -248,55 +239,3 @@ export default function ProfilKidScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   header: {
-//     backgroundColor: '#67AFAC',
-//     height: 60,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     paddingHorizontal: 15,
-//     elevation: 4, // Ombre pour l'en-tête
-//     // borderBottomLeftRadius: 20, // Arrondi en bas à gauche
-//     // borderBottomRightRadius: 20, // Arrondi en bas à droite
-//   },
-//   backButton: {
-//     marginRight: 0,
-//   },
-//   backText: {
-//     color: '#fff',
-//     fontSize: 28,
-//   },
-//   headerTitle: {
-//     color: '#fff',
-//     fontSize: 30,
-//     fontWeight: 'bold',
-//     flex: 0.9, // Permet d'utiliser l'espace disponible pour centrer le texte
-//     textAlign: 'center', // Centre le texte dans l'espace disponible
-//   },
-//   button: {
-//     paddingVertical: 8,
-//     borderRadius: 8,
-//     alignItems: "center",
-//     marginHorizontal: 5,
-//     flexDirection: 'row',
-
-//   },
-//   textButton: {
-//     color: "#121212",
-//     fontSize: 18,
-//     fontWeight: "600",
-//     textAlign: 'center',
-//     padding: 3
-//   },
-//   buttonContainerlogout: {
-//     marginTop: 20,
-//     flexDirection: 'row',
-//   },
-//   Text: {
-//     fontSize: 18,
-//     fontWeight: "600",
-//     textAlign: 'center',
-//     padding: 3
-//   }
-// });
